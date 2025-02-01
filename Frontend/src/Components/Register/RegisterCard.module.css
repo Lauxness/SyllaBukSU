@@ -2,6 +2,7 @@
   background-image: linear-gradient(
     120deg,
     #69b7ff 10%,
+
     #ffffff 70%,
     #69b7ff 20%
   );
@@ -20,6 +21,7 @@
   justify-content: start;
   flex-direction: column;
 }
+
 .leftContainer > div {
   display: flex;
   width: 100%;
@@ -35,11 +37,15 @@
 }
 .registerButton {
   width: 100%;
-  color: #2121ff;
+
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+}
+.registerButton > p {
+  color: rgb(33, 33, 255);
+  font-size: 1.2em;
 }
 .registerButton > button {
   width: 200px;
@@ -48,7 +54,7 @@
   font-family: poppins;
   outline: none;
   border: 1px solid #2121ff6f;
-  color: #2121ff;
+  color: rgb(33, 33, 255);
   background-color: white;
   border-radius: 3px;
   transition: all 150ms;
@@ -61,12 +67,8 @@
   align-items: center;
   justify-content: center;
   background-color: white;
-  padding: 20px;
+  padding: 15px;
   height: 100%;
-}
-.registerButton > p {
-  color: rgb(33, 33, 255);
-  font-size: 1.2em;
 }
 .formContainer {
   display: flex;
@@ -77,7 +79,7 @@
   width: 100%;
   max-width: 90%;
   border: 1px solid var(--primaryColor);
-  gap: 10px;
+  gap: 5px;
   height: 100%;
   max-height: 95%;
 }
@@ -86,13 +88,12 @@
   font-weight: 500;
   width: 100%;
   text-align: center;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
 }
 .inputGroup {
   display: flex;
   flex-direction: column;
   width: 100%;
-
   gap: 5px;
 }
 .inputGroup input {
@@ -124,6 +125,7 @@
   align-items: center;
   justify-content: center;
   gap: 5px;
+  margin-top: 5px;
 }
 .extraContainer > div > input {
   transform: scale(1.4);
@@ -132,53 +134,13 @@
 .loginButton {
   width: 100%;
   background-color: var(--primaryColor);
-  height: 35px;
+  height: 40px;
   border: none;
   border-radius: 3px;
   font-size: 1em;
+  margin-top: 20px;
   font-family: poppins;
   font-weight: 500;
-  transition: all 150ms;
-  cursor: pointer;
-  margin-top: 10px;
-}
-.loginButton:hover {
-  opacity: 0.81;
-}
-.loginButton:active {
-  opacity: 1;
-}
-.break {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 10px 0;
-}
-.googleLogin {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  background-color: rgb(251, 251, 251);
-  border: 1px solid var(--primaryColor);
-  padding: 5px;
-  font-size: 0.9em;
-  gap: 10px;
-  border-radius: 3px;
-  cursor: pointer;
-  transition: all ease 150ms;
-}
-.googleLogin:hover {
-  background-color: #e8f2fb;
-}
-.createAccount {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  margin-top: 15px;
-  font-size: 0.9em;
 }
 a {
   color: black;

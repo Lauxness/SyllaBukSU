@@ -1,5 +1,5 @@
 import LoginCard from "../Components/Login/LoginCard";
-function LoginPage() {
+function LoginPage(props) {
   return (
     <div
       style={{
@@ -10,7 +10,7 @@ function LoginPage() {
         alignItems: "center",
       }}
     >
-      <LoginCard />
+      <LoginCard setIsAuthenticated={props.setIsAuthenticated} />
     </div>
   );
 }

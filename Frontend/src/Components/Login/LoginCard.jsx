@@ -1,24 +1,25 @@
 import styles from "./LoginCard.module.css";
-import GoogleLogo from "../../assets/Google Logo.png";
 import Logo from "../../assets/Logo.png";
-import Illustraion from "../../assets/Login Illustration.png";
+import LoginIllustration from "../../assets/LoginIllustration.png";
 import { useState } from "react";
 import { Login } from "../../api";
+import GoogleLogin from "./GoogleLogin";
 import { useNavigate } from "react-router-dom";
-function LoginCard() {
+import { GoogleOAuthProvider } from "@react-oauth/google";
+import Swal from "sweetalert2";
+function LoginCard(props) {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
   const handleEmailChange = (e) => {
     const input = e.target.value;
     setEmail(input);
-    console.log(input);
   };
 
   const handlePasswordChange = (e) => {
     const input = e.target.value;
     setPassword(input);
-    console.log(input);
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -29,22 +30,37 @@ function LoginCard() {
       const response = await Login(credentials);
 
       if (response.status === 200) {
-        console.log("Logged in");
+        console.log(response.data);
+        const userInfo = {
+          token: response.data.token,
+          name: response.data.userPayload.name,
+          email: response.data.userPayload.email,
+        };
+        localStorage.setItem("user-info", JSON.stringify(userInfo));
+        props.setIsAuthenticated(true);
         navigate("/home");
       }
     } catch (err) {
-      console.log(err);
+      Swal.fire({
+        icon: "error",
+        text: err.response.data.message,
+      });
     }
   };
+
   return (
     <>
       <div className={styles.container}>
         <div className={styles.leftContainer}>
-          <div>
-            <img src={Logo} alt="" height={100} />
+          <div className={styles.logoContainer}>
+            <img src={Logo} alt="" height={50} />
+            <p>SyllaBukSU Portal</p>
           </div>
-          <img src={Illustraion} alt="" height={300} />
-          <p>SyllaBukSU Portal</p>
+          <img src={LoginIllustration} alt="" height={300} />
+          <div className={styles.registerButton}>
+            <p>New here? Create an account now!</p>
+            <button onClick={() => navigate("/register")}>Register here</button>
+          </div>
         </div>
         <div className={styles.rightContainer}>
           <form onSubmit={handleSubmit} className={styles.formContainer}>
@@ -52,7 +68,7 @@ function LoginCard() {
             <div className={styles.inputGroup}>
               <label htmlFor="">Email Address</label>
               <input
-                type="text"
+                type="email"
                 required
                 onChange={(e) => handleEmailChange(e)}
               />
@@ -60,15 +76,23 @@ function LoginCard() {
             <div className={styles.inputGroup}>
               <label htmlFor="">Password</label>
               <input
-                type="password"
+                type={showPassword ? "text" : "password"}
                 required
                 onChange={(e) => handlePasswordChange(e)}
               />
             </div>
             <div className={styles.extraContainer}>
               <div>
-                <input type="checkbox" id="checkbox" />
-                <label htmlFor="checkbox">Remember me</label>
+                <input
+                  type="checkbox"
+                  id="checkbox"
+                  onChange={() => {
+                    showPassword
+                      ? setShowPassword(false)
+                      : setShowPassword(true);
+                  }}
+                />
+                <label htmlFor="checkbox">Show password</label>
               </div>
               <a href="#">Forgot password?</a>
             </div>
@@ -78,16 +102,9 @@ function LoginCard() {
             <div className={styles.break}>
               <p>or</p>
             </div>
-
-            <div className={styles.googleLogin}>
-              <img src={GoogleLogo} alt="" height={30} width={30} />
-              <p>Continue with google</p>
-            </div>
-            <div className={styles.createAccount}>
-              <p>
-                Dont have an account yet? <a href=""> Click here</a>
-              </p>
-            </div>
+            <GoogleOAuthProvider clientId="405000156933-unqq4gvbb5efen3bagbnq57d2q2r6l68.apps.googleusercontent.com">
+              <GoogleLogin setIsAuthenticated={props.setIsAuthenticated} />
+            </GoogleOAuthProvider>
           </form>
         </div>
       </div>
