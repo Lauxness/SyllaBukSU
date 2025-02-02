@@ -5,7 +5,9 @@ import SignupIllustration from "../../assets/SignupIllustration.png";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-import Register from "../../Pages/Register";
+import Loader from "../Modals/Loading/Loader";
+import { SendOTP } from "../../api";
+import { ToastContainer, toast } from "react-toastify";
 function LoginCard(props) {
   const [email, setEmail] = useState();
   const [name, setName] = useState();
@@ -13,10 +15,13 @@ function LoginCard(props) {
   const [confirmPassword, setConfirmPassword] = useState();
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
+  const [isSent, setIsSent] = useState(false);
   const [triggerOTP, setTriggerOTP] = useState(false);
   const [borderColor, setBorderColor] = useState("");
   const [seconds, setSeconds] = useState(59);
   const [minutes, setMinutes] = useState(1);
+  const [newAccount, setNewAccount] = useState();
+  const [isLoading, setIsLoading] = useState(false);
   const handleNameChange = (e) => {
     const input = e.target.value;
     setName(input);
@@ -25,6 +30,9 @@ function LoginCard(props) {
   const handleEmailChange = (e) => {
     const input = e.target.value;
     setEmail(input);
+    setIsSent(false);
+    setMinutes(1);
+    setSeconds(59);
     console.log(input);
   };
   const handlePasswordChange = (e) => {
@@ -41,20 +49,70 @@ function LoginCard(props) {
       setBorderColor("");
     }
   };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const account = {
+      name,
+      email,
+      password,
+    };
+
+    setNewAccount(account);
     if (password !== confirmPassword) {
       Swal.fire({
         icon: "error",
         text: "Password does not matched!",
       });
     } else {
-      setTriggerOTP(true);
+      try {
+        setIsLoading(true);
+        if (!isSent) {
+          const response = await SendOTP({ email });
+          if (response.status === 200) {
+            toast.success("Email sent", {
+              position: "top-center",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: false,
+              pauseOnHover: false,
+              draggable: true,
+              progress: undefined,
+              theme: "light",
+            });
+            setIsSent(true);
+            setTriggerOTP(true);
+          }
+        } else {
+          setTriggerOTP(true);
+        }
+      } catch (err) {
+        console.log(err);
+        Swal.fire({
+          icon: "error",
+          text: err.response.data.message,
+        });
+      } finally {
+        setIsLoading(false);
+      }
     }
   };
 
   return (
     <>
+      {isLoading ? <Loader /> : ""}
+      <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick={false}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
       {triggerOTP ? (
         <EmailVerificationModal
           setTriggerOTP={setTriggerOTP}
@@ -62,6 +120,8 @@ function LoginCard(props) {
           seconds={seconds}
           setMinutes={setMinutes}
           minutes={minutes}
+          sentIsSent={setIsSent}
+          newAccount={newAccount}
         />
       ) : (
         ""

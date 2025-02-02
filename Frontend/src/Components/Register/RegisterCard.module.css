@@ -44,7 +44,7 @@
   justify-content: center;
 }
 .registerButton > p {
-  color: rgb(33, 33, 255);
+  color: #2121ff;
   font-size: 1.2em;
 }
 .registerButton > button {
@@ -80,6 +80,7 @@
   max-width: 90%;
   border: 1px solid var(--primaryColor);
   gap: 5px;
+  border-radius: 5px;
   height: 100%;
   max-height: 95%;
 }

@@ -8,5 +8,6 @@ const api = axios.create({
 export const Login = (credentials) => api.post("/account/login", credentials);
 export const Register = (credentials) =>
   api.post("/account/register", credentials);
+export const SendOTP = (email) => api.post("/account/otp", email);
 export const GoogleLoginRequest = (code) =>
   api.post(`/account/login/google?code=${code}`);

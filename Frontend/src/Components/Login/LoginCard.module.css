@@ -79,6 +79,7 @@
   border: 1px solid var(--primaryColor);
   gap: 10px;
   height: 100%;
+  border-radius: 5px;
   max-height: 95%;
 }
 .loginText {
