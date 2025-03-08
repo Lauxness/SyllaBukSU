@@ -23,7 +23,7 @@ function GoogleLogin(props) {
 
       console.log("User Info:", userInfo);
       props.setIsAuthenticated(true);
-      navigate("/home");
+      navigate("/generate_description");
     } catch (error) {
       Swal.fire({
         icon: "error",

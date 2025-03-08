@@ -2,10 +2,8 @@ const Accounts = require("../model/accountsModel");
 const jwt = require("jsonwebtoken");
 const { oauth2Client } = require("../utils/GoogleClient");
 const axios = require("axios");
-const { SendEmail } = require("../utils/EmailSender");
-const random = require("random-string-alphanumeric-generator");
-const OTP = require("../model/otpModel");
 const { VerifyEmail } = require("../utils/EmailVerification");
+const { OTPHelper } = require("../utils/OTPHelper");
 const Login = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -80,7 +78,7 @@ const GoogleAuth = async (req, res) => {
     }
     const userPayload = {
       email: currentUser.email || email,
-      name: currentUser.email || name,
+      name: currentUser.name || name,
     };
     const token = jwt.sign(userPayload, process.env.JWT_KEY, {
       expiresIn: process.env.JWT_TIMEOUT,
@@ -99,33 +97,74 @@ const GoogleAuth = async (req, res) => {
 };
 const OneTimePinSender = async (req, res) => {
   const { email } = req.body;
-  console.log(email);
+  console.log(req.body);
   try {
     const account = await Accounts.findOne({ email });
     if (account) {
       return res.status(409).json({ message: "Email Address already exist!" });
     }
-    const emailTestRegex = new RegExp(process.env.EMAIL_TEST);
-    if (!(email && emailTestRegex.test(email))) {
-      console.log(!(email && emailTestRegex.test(email)));
-      return res.status(400).json({ message: "Email Address is not valid" });
-    }
-
-    const pin = random.randomAlphanumeric(6, "lowercase");
-    await OTP.deleteOne({ email });
-    console.log(pin);
-    const response = await SendEmail(email, pin);
-    const otpInfo = {
-      email,
-      otp: pin,
-      createdAt: Date.now(),
-      expiresAt: Date.now() + 600000,
-    };
-    const newOTP = await OTP.create(otpInfo);
-    return res.status(200).json(newOTP);
+    const newOTP = await OTPHelper(email);
+    return res
+      .status(200)
+      .json({ message: "OTP sent, Please check your email!" });
   } catch (err) {
     return res.status(500).json({ message: "Internal Server Error!" });
   }
 };
-
-module.exports = { Login, Register, GoogleAuth, OneTimePinSender };
+const FindAccount = async (req, res) => {
+  const { email } = req.body;
+  try {
+    const existingAccount = await Accounts.findOne({ email });
+    if (!existingAccount) {
+      return res.status(404).json({ message: "Account did not exist!" });
+    }
+    const newOTP = await OTPHelper(email);
+    return res
+      .status(200)
+      .json({ message: "OTP sent, Please check your email!" });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ message: "Internal Server Error!" });
+  }
+};
+const OTPVerification = async (req, res) => {
+  const { otpValue, email } = req.body;
+  if (!otpValue) {
+    return res.status(400).json({ message: "OTP is missing!" });
+  }
+  try {
+    const result = await VerifyEmail(email, otpValue);
+    if (!result.success) {
+      return res.status(400).json({ message: result.message });
+    }
+    return res.status(200).json({ message: "Email Verification Success!" });
+  } catch (err) {
+    console.log(err);
+  }
+};
+const UpdatePassword = async (req, res) => {
+  const { email, password } = req.body;
+  try {
+    const existingAccount = await Accounts.findOne({ email });
+    if (!existingAccount) {
+      return res.status(404).json({ message: "Account did not exist!" });
+    }
+    existingAccount.password = password;
+    await existingAccount.save();
+    return res
+      .status(200)
+      .json({ message: "Password has been successfully updated!" });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ message: "Internal Server Error!" });
+  }
+};
+module.exports = {
+  Login,
+  Register,
+  GoogleAuth,
+  OneTimePinSender,
+  FindAccount,
+  OTPVerification,
+  UpdatePassword,
+};

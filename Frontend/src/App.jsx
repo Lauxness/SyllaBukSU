@@ -4,6 +4,11 @@ import LoginPage from "./Pages/Login";
 import Home from "./Pages/Home";
 import { useState } from "react";
 import Register from "./Pages/Register";
+import LandingPage from "./Pages/LandingPage";
+import COPage from "./Pages/COPage";
+import DescPage from "./Pages/DescPage";
+import AllInOnePage from "./Pages/AllInOnePage";
+import SLOPage from "./Pages/SLOPage";
 import RefreshHandler from "./Handler/RefreshHandler";
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(true);
@@ -15,12 +20,29 @@ function App() {
     <BrowserRouter>
       <RefreshHandler setIsAuthenticated={setIsAuthenticated} />
       <Routes>
+        <Route path="/" element={<LandingPage />} />
         <Route
           path="/login"
           element={<LoginPage setIsAuthenticated={setIsAuthenticated} />}
         />
         <Route path="/register" element={<Register />} />
         <Route path="/home" element={<PrivateRoute element={<Home />} />} />
+        <Route
+          path="/generate_description"
+          element={<PrivateRoute element={<DescPage />} />}
+        />
+        <Route
+          path="/generate_cos"
+          element={<PrivateRoute element={<COPage />} />}
+        />
+        <Route
+          path="/generate_slos"
+          element={<PrivateRoute element={<SLOPage />} />}
+        />
+        <Route
+          path="/generate_all"
+          element={<PrivateRoute element={<AllInOnePage />} />}
+        />
       </Routes>
     </BrowserRouter>
   );

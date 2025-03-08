@@ -7,7 +7,13 @@
 }
 :root {
   --primaryColor: #addced;
+  --secondary-color: #69b7ff;
+  --line-border-empty: #e7f8ff;
+  --text-color: black;
 }
 body {
   font-family: poppins;
+  overflow-x: hidden;
+  position: relative;
+  background-color: white;
 }

@@ -7,10 +7,12 @@ import GoogleLogin from "./GoogleLogin";
 import { useNavigate } from "react-router-dom";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import Swal from "sweetalert2";
+import ForgotPassword from "../Modals/ForgotPassword/ForgotPassword";
 function LoginCard(props) {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const [showPassword, setShowPassword] = useState(false);
+  const [triggerForgotPassword, setTriggerForgotPassword] = useState(false);
   const navigate = useNavigate();
   const handleEmailChange = (e) => {
     const input = e.target.value;
@@ -38,7 +40,7 @@ function LoginCard(props) {
         };
         localStorage.setItem("user-info", JSON.stringify(userInfo));
         props.setIsAuthenticated(true);
-        navigate("/home");
+        navigate("/generate_description");
       }
     } catch (err) {
       Swal.fire({
@@ -50,6 +52,11 @@ function LoginCard(props) {
 
   return (
     <>
+      {triggerForgotPassword ? (
+        <ForgotPassword setTriggerForgotPassword={setTriggerForgotPassword} />
+      ) : (
+        ""
+      )}
       <div className={styles.container}>
         <div className={styles.leftContainer}>
           <div className={styles.logoContainer}>
@@ -94,7 +101,9 @@ function LoginCard(props) {
                 />
                 <label htmlFor="checkbox">Show password</label>
               </div>
-              <a href="#">Forgot password?</a>
+              <a href="#" onClick={() => setTriggerForgotPassword(true)}>
+                Forgot password?
+              </a>
             </div>
             <button className={styles.loginButton} type="submit">
               Login

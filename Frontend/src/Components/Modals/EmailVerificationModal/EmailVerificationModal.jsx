@@ -32,7 +32,10 @@ function EmailVerificationModal(props) {
         });
       }
     } catch (err) {
-      console.log(err);
+      Swal.fire({
+        icon: "error",
+        text: err.response.data.message || "Something went wrong",
+      });
     } finally {
       setIsLoading(false);
     }
@@ -88,7 +91,7 @@ function EmailVerificationModal(props) {
   }, [props.seconds]);
   return (
     <div className={styles.container}>
-      {isLoading ? <Loader /> : ""}
+      {isLoading ? <Loader backgroundColor="#0000001e" /> : ""}
       <div className={styles.innerContainer}>
         <div className={styles.heading}>
           <p>Email Verification</p>

@@ -100,7 +100,7 @@ function LoginCard(props) {
 
   return (
     <>
-      {isLoading ? <Loader /> : ""}
+      {isLoading ? <Loader backgroundColor="#0000001e" /> : ""}
       <ToastContainer
         position="top-center"
         autoClose={5000}

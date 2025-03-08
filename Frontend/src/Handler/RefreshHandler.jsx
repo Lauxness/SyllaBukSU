@@ -11,8 +11,12 @@ function RefreshHandler({ setIsAuthenticated }) {
     console.log(token);
     if (token) {
       setIsAuthenticated(true);
-      if (location.pathname === "/" || location.pathname === "/login") {
-        navigate("/home", { replace: true });
+      if (
+        location.pathname === "/" ||
+        location.pathname === "/login" ||
+        location.pathname === "/register"
+      ) {
+        navigate("/generate_description", { replace: true });
       }
     } else {
       setIsAuthenticated(false);

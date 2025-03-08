@@ -1,18 +1,27 @@
-import LoginCard from "../Components/Login/LoginCard";
+import SidebarComponent from "../Components/Sidebar/sideBar";
+import Header from "../Components/Header/Header";
+import CourseDescription from "../Components/CourseDescription/CourseDescription";
+import CourseOutcomes from "../Components/CouseOutcomes/CourseOutcomes";
+import SpecificLOs from "../Components/SpecificLOs/SpecificLOs";
+import Upperbar from "../Components/Upperbar/Upperbar";
 function LoginPage() {
   return (
-    <div
-      style={{
-        height: "100vh",
-        width: "100vw",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <h1>Hello Home</h1>
-    </div>
+    <>
+      <Header />
+      <Upperbar currentPage="Generate a course description" />
+      <div
+        style={{
+          height: "calc(100vh - 135px)",
+          width: "100vw",
+          display: "flex",
+          justifyContent: "start",
+          alignItems: "start",
+        }}
+      >
+        <SidebarComponent currentPage="home" collapsed={false} />
+        <SpecificLOs />
+      </div>
+    </>
   );
 }
-
 export default LoginPage;

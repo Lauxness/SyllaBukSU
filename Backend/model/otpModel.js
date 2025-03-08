@@ -10,6 +10,7 @@ const OTPSchema = new Schema({
     type: String,
     set: (value) => encrypt(value),
     get: (value) => decrypt(value),
+    required: true,
   },
   createdAt: Date,
   expiresAt: Date,

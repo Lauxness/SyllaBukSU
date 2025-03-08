@@ -1,11 +1,4 @@
 .container {
-  background-image: linear-gradient(
-    120deg,
-    #69b7ff 10%,
-
-    #ffffff 70%,
-    #69b7ff 20%
-  );
   display: grid;
   border: 1px solid var(--primaryColor);
   border-radius: 5px;
@@ -13,6 +6,7 @@
   width: 100%;
   max-width: 70%;
   height: 100%;
+  background-color: transparent;
   max-height: 70%;
 }
 .leftContainer {
@@ -20,6 +14,7 @@
   align-items: center;
   justify-content: start;
   flex-direction: column;
+  background-image: linear-gradient(120deg, #69b7ff, #ffffff00);
 }
 
 .leftContainer > div {
@@ -44,7 +39,7 @@
   justify-content: center;
 }
 .registerButton > p {
-  color: #2121ff;
+  color: #16648c;
   font-size: 1.2em;
 }
 .registerButton > button {
@@ -53,20 +48,22 @@
   font-size: 1em;
   font-family: poppins;
   outline: none;
-  border: 1px solid #2121ff6f;
-  color: rgb(33, 33, 255);
-  background-color: white;
+  border: none;
+  color: white;
+  background-color: #30aeec;
   border-radius: 3px;
+  cursor: pointer;
   transition: all 150ms;
 }
 .registerButton > button:hover {
-  background-color: #e2eeff;
+  opacity: 0.8;
 }
 .rightContainer {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: white;
+  background-color: transparent;
+  color: var(--text-color);
   padding: 15px;
   height: 100%;
 }
@@ -80,6 +77,8 @@
   max-width: 90%;
   border: 1px solid var(--primaryColor);
   gap: 5px;
+  color: var(--text-color);
+
   border-radius: 5px;
   height: 100%;
   max-height: 95%;
@@ -96,6 +95,7 @@
   flex-direction: column;
   width: 100%;
   gap: 5px;
+  color: var(--text-color);
 }
 .inputGroup input {
   height: 40px;
@@ -111,8 +111,8 @@
 }
 .inputGroup label {
   font-size: 0.8em;
+  color: var(--text-color);
   font-weight: 400;
-  color: rgb(28, 28, 28);
 }
 .extraContainer {
   display: flex;
@@ -141,6 +141,7 @@
   font-size: 1em;
   margin-top: 20px;
   font-family: poppins;
+  cursor: pointer;
   font-weight: 500;
 }
 a {
