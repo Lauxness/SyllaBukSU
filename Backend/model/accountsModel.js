@@ -17,6 +17,10 @@ const accountsModel = Schema(
       set: (value) => encrypt(value),
       get: (value) => decrypt(value),
     },
+    role: {
+      type: String,
+      required: true,
+    },
   },
   { timestamps: true }
 );

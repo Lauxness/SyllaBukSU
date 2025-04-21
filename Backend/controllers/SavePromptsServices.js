@@ -1,0 +1,79 @@
+const SavedPrompts = require("../model/savedPromptsModel");
+const Accounts = require("../model/accountsModel");
+
+const SavePrompt = async (req, res) => {
+  const userEmail = req.user.email;
+
+  const {
+    topic,
+    variant,
+    originalResult,
+    customizedResults,
+    chatPrompts,
+    currentResult,
+  } = req.body;
+  console.log(userEmail);
+
+  try {
+    const user = await Accounts.findOne({ email: userEmail });
+
+    const data = {
+      userId: user._id,
+      variant,
+      topic,
+      originalResult,
+      customizedResults,
+      chatPrompts,
+      currentResult,
+    };
+    const result = await SavedPrompts.create(data);
+    res.status(200).json({ message: "Prompts has been saved!" });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+const GetPrompts = async (req, res) => {
+  const { email } = req.user;
+  try {
+    const user = await Accounts.findOne({ email });
+    const prompts = await SavedPrompts.find({ userId: user._id });
+    res.status(200).json(prompts);
+  } catch (err) {
+    console.log(err);
+    err;
+  }
+};
+
+const GetPrompt = async (req, res) => {
+  const id = req.params.id;
+  try {
+    const prompts = await SavedPrompts.findById(id);
+
+    console.log(prompts);
+
+    res.status(200).json(prompts);
+  } catch (err) {
+    console.log(err);
+    err;
+  }
+};
+
+const DeletePrompt = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const deleted = await SavedPrompts.findByIdAndDelete(id);
+
+    if (!deleted) {
+      return res.status(404).json({ message: "Prompt not found" });
+    }
+
+    res.status(200).json({ message: "Prompt deleted successfully" });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ message: "Failed to delete prompt" });
+  }
+};
+
+module.exports = { SavePrompt, GetPrompts, GetPrompt, DeletePrompt };

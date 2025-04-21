@@ -5,6 +5,10 @@ const bodyParser = require("body-parser");
 const AuthenticationRoute = require("./routes/Authentication");
 const mongoose = require("mongoose");
 const GenerateRoute = require("./routes/Generate");
+const AdminRoute = require("./routes/Admin");
+const ChatBotRoute = require("./routes/ChatBot");
+const SavePromptRoute = require("./routes/SavePrompts");
+const { Middleware } = require("./utils/Middleware");
 const cors = require("cors");
 dotenv.config();
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -12,7 +16,10 @@ app.use(bodyParser.json());
 app.use(cors());
 
 app.use("/account", AuthenticationRoute);
-app.use("/generate", GenerateRoute);
+app.use("/generate", Middleware, GenerateRoute);
+app.use("/chat", Middleware, ChatBotRoute);
+app.use("/admin", Middleware, AdminRoute);
+app.use("/prompts", Middleware, SavePromptRoute);
 
 const PORT = process.env.PORT;
 

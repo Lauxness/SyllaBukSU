@@ -18,6 +18,7 @@ const Login = async (req, res) => {
     const userPayload = {
       name: account.name,
       email: account.email,
+      role: account.role,
     };
     const JWT_KEY = process.env.JWT_KEY;
     const token = jwt.sign(userPayload, JWT_KEY, {
@@ -31,18 +32,21 @@ const Login = async (req, res) => {
 };
 const Register = async (req, res) => {
   const newAccount = req.body;
+  console.log("asdjkfhajkshfajkshf");
   const { email, otpValue } = newAccount;
   try {
     const result = await VerifyEmail(email, otpValue);
     if (!result.success) {
       return res.status(400).json({ message: result.message });
     }
+    newAccount.role = "user";
     const createdAccount = await Accounts.create(newAccount);
     if (createdAccount) {
       return res.status(200).json({ message: "Account successfully created!" });
     }
   } catch (err) {
     console.log(err);
+    return res.status(500).json({ message: "Internal Server Error" });
   }
 };
 const GoogleAuth = async (req, res) => {
@@ -71,6 +75,7 @@ const GoogleAuth = async (req, res) => {
         return res.status(400).json({ message: "Email Address is not valid" });
       }
       const newAccount = { name: name, email: email, password: "123" };
+      newAccount.role = "user";
       const createdAccount = await Accounts.create(newAccount);
       if (!createdAccount) {
         return res.status(400).json({ message: "Account creation failed!" });
@@ -79,6 +84,7 @@ const GoogleAuth = async (req, res) => {
     const userPayload = {
       email: currentUser.email || email,
       name: currentUser.name || name,
+      role: currentUser.role,
     };
     const token = jwt.sign(userPayload, process.env.JWT_KEY, {
       expiresIn: process.env.JWT_TIMEOUT,
@@ -97,17 +103,19 @@ const GoogleAuth = async (req, res) => {
 };
 const OneTimePinSender = async (req, res) => {
   const { email } = req.body;
-  console.log(req.body);
+
   try {
     const account = await Accounts.findOne({ email });
     if (account) {
       return res.status(409).json({ message: "Email Address already exist!" });
     }
-    const newOTP = await OTPHelper(email);
+    const newOTP = await OTPHelper(email, res);
+
     return res
       .status(200)
       .json({ message: "OTP sent, Please check your email!" });
   } catch (err) {
+    console.log(err);
     return res.status(500).json({ message: "Internal Server Error!" });
   }
 };

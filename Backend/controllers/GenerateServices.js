@@ -1,40 +1,90 @@
 const axios = require("axios");
-
+const { capitalizeWords } = require("../utils/Capitalize");
+const TrafficModel = require("../model/trafficModel");
 const GenerateDescription = async (req, res) => {
+  const origin = req.path;
+  const requestName = "description";
+  const traffic = { origin, requestName };
+
   try {
     const { courseName } = req.body;
-    const prompt = `Generate: ${courseName}`;
+    if (!courseName) {
+      return res.status(400).json({ error: "Course name is required" });
+    }
 
-    const response = await axios.post("http://127.0.0.1:8000/generate", {
-      prompt: prompt,
-    });
-    return res.status(200).json({
-      result: response.data.generated_text,
-    });
+    const prompt = `Generate course description: ${capitalizeWords(
+      courseName
+    )}`;
+
+    const response = await axios.post(
+      "http://127.0.0.1:8000/generate/course_description",
+      { prompt }
+    );
+
+    if (!response.data?.generated_text) {
+      throw new Error("Invalid response from course description generator");
+    }
+
+    const prompt1 = `data: ${response.data.generated_text},
+    prompt: Enhance the sentence structure,
+    Rules: [1 paragraph only, no bold text, no extra message, keep the meaning intact]`;
+
+    const response1 = await axios.post(
+      "http://127.0.0.1:8000/chat/request/chatbot",
+      { prompt: prompt1 }
+    );
+
+    const generatedText = response1.data?.choices?.[0]?.message?.content || "";
+
+    if (!generatedText) {
+      throw new Error("Invalid response from chatbot");
+    }
+
+    await TrafficModel.create(traffic);
+
+    return res.status(200).json({ result: generatedText });
   } catch (error) {
     console.error("Error generating description:", error.message);
-    return res.status(500).json({ error: "Failed to generate text" });
+    return res
+      .status(500)
+      .json({ error: error.message || "Failed to generate text" });
   }
 };
 const GenerateCourseOutcomes = async (req, res) => {
   const number = req.body.number;
   const courseDescription = req.body.courseDescription;
+  const origin = req.path;
+  const requestName = "course_outcomes";
+  const traffic = { origin, requestName };
   const result = [];
   let samples = "";
-  const prompt = `Generate: ${courseDescription}`;
+  let prompt1 = "";
+  const prompt = `Generate course outcomes: ${courseDescription}`;
   for (let i = 0; i < number; i++) {
-    const response = await axios.post("http://127.0.0.1:8000/generate", {
-      prompt: prompt,
-    });
+    const response = await axios.post(
+      "http://127.0.0.1:8000/generate/course_outcomes",
+      {
+        prompt: prompt,
+      }
+    );
     samples = response.data.generated_text;
+    console.log(samples);
+    /*   prompt1 = `data: ${samples},prompt: remove redundant words but keep the meaning, Rules: [dont ,keep the length of the sentences, dont bold text,dont use double verb like (verb and verb) in the first words, do not response with explaination extra message, keep the meaning intact, be specific, lowercase all, dont do anything what is in the data just depend on the prompt]`;
+    const sample1 = await axios.post(
+      "http://127.0.0.1:8000/chat/request/chatbot",
+      { prompt: prompt1 }
+    ); */
+
     result.push(`${i + 1}.  ${samples}`);
   }
-
-  console.log(result);
+  await TrafficModel.create(traffic);
   return res.status(200).json({ result });
 };
 const GenerateLearningOutcomes = async (req, res) => {
   const number = req.body.number;
+  const origin = req.path;
+  const requestName = "learning_outcomes";
+  const traffic = { origin, requestName };
   const courseOutcomes = req.body.courseOutcomes;
   console.log(courseOutcomes);
   const result = [];
@@ -49,63 +99,61 @@ const GenerateLearningOutcomes = async (req, res) => {
     result.push(`${i + 1}.  ${samples}`);
   }
   console.log(result);
+  await TrafficModel.create(traffic);
   return res.status(200).json({ result });
 };
 const GenerateAll = async (req, res) => {
-  const { coNumber } = req.body.data;
-  const { sloNumber } = req.body.data;
+  const { coNumber, courseName, sloNumber } = req.body.data;
+  const origin = req.path;
+  const requestName = "all_in_one";
+  const traffic = { origin, requestName };
   console.log(req.body);
-  const courseDescription =
-    "This is the generated course description: Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae ducimus distinctio quisquam sint minima. Laudantium quas obcaecati, odit, minima dolore eum distinctio sapiente delectus quaerat. Tempora ea illo nam nulla qui officia nisi quis.";
-
-  // Course Outcomes List
-  const courseOutcomesSamples = [
-    "Demonstrate proficiency in software engineering principles, including agile methodologies and system design best practices.",
-    "Explain the fundamentals of artificial intelligence, including machine learning models and neural network architectures.",
-    "Apply cybersecurity practices such as ethical hacking, encryption, and risk management to enhance digital security.",
-    "Develop dynamic web applications using HTML, CSS, JavaScript, and modern frameworks like React and Vue.",
-    "Utilize Python for data analysis, visualization, and predictive modeling in real-world scenarios.",
-    "Design and manage optimized databases using SQL, including query writing, indexing, and performance tuning.",
-    "Implement cloud computing solutions using AWS, Azure, and Google Cloud for scalable and secure deployments.",
-    "Build cross-platform mobile applications using Flutter, React Native, or Swift with seamless backend integration.",
-    "Create interactive game experiences using Unity and Unreal Engine, utilizing C# and Blueprint programming.",
-    "Manage software development projects effectively using Agile, Scrum, and Kanban methodologies.",
-  ];
-
-  // Specific Learning Outcomes List
-  const specificLearningOutcomesSamples = [
-    "Demonstrate a deep understanding of software engineering principles, including agile methodologies and system design best practices.",
-    "Apply artificial intelligence and machine learning models to solve real-world problems using neural networks and deep learning techniques.",
-    "Implement cybersecurity strategies such as ethical hacking, encryption techniques, and risk management to protect digital assets.",
-    "Build responsive and interactive web applications using HTML, CSS, JavaScript, and modern frameworks like React and Vue.",
-    "Analyze and visualize data effectively using Python, leveraging libraries like Pandas, Matplotlib, and Scikit-learn for predictive modeling.",
-    "Construct optimized and scalable databases using SQL, including query writing, indexing, and performance tuning.",
-    "Deploy and manage cloud-based solutions using AWS, Azure, and Google Cloud, ensuring security and scalability in cloud computing environments.",
-    "Develop fully functional mobile applications using Flutter, React Native, or Swift, integrating frontend and backend services seamlessly.",
-    "Design and develop interactive game environments using Unity and Unreal Engine, incorporating C# scripting and Blueprint programming.",
-    "Apply Agile, Scrum, and Kanban methodologies to manage projects efficiently, ensuring effective collaboration and timely delivery.",
-  ];
-
-  // Generate Course Outcomes and Learning Outcomes based on the requested number
   const courseOutcomes = [];
   const learningOutcomes = [];
+  let samples = "";
+  const prompt = `Generate course description: ${capitalizeWords(courseName)}`;
 
+  const response1 = await axios.post(
+    "http://127.0.0.1:8000/generate/course_description",
+    { prompt: prompt }
+  );
+  const course_description = response1.data.generated_text;
+  const prompt4 = `data: ${course_description},
+  prompt: Enhance the sentence structure,
+  Rules: [1 paragraph only, no bold text, no extra message, keep the meaning intact]`;
+  const response2 = await axios.post(
+    "http://127.0.0.1:8000/chat/request/chatbot",
+    { prompt: prompt4 }
+  );
+  const courseDescription =
+    response2.data?.choices?.[0]?.message?.content || "";
+  console.log(courseDescription);
+
+  const prompt1 = `Generate course outcomes: ${courseDescription}`;
   for (let i = 0; i < coNumber; i++) {
-    const randomIndex = Math.floor(
-      Math.random() * courseOutcomesSamples.length
+    const response = await axios.post(
+      "http://127.0.0.1:8000/generate/course_outcomes",
+      {
+        prompt: prompt1,
+      }
     );
-    courseOutcomes.push(`${i + 1}. ${courseOutcomesSamples[randomIndex]}`);
+    samples = response.data.generated_text;
+    console.log(samples);
+
+    courseOutcomes.push(`${i + 1}.  ${samples}`);
+  }
+  for (let i = 0; i < coNumber; i++) {
+    learningOutcomes.push(`- ${courseOutcomes[i]}`);
+    const prompt2 = `Generate: ${courseOutcomes[i]}`;
+    for (let j = 0; j < sloNumber; j++) {
+      const response = await axios.post("http://127.0.0.1:8000/generate", {
+        prompt: prompt2,
+      });
+      samples = response.data.generated_text;
+      learningOutcomes.push(`${j + 1}.  ${samples}`);
+    }
   }
 
-  // Generate Specific Learning Outcomes
-  for (let i = 0; i < sloNumber; i++) {
-    const randomIndex = Math.floor(
-      Math.random() * specificLearningOutcomesSamples.length
-    );
-    learningOutcomes.push(
-      `${i + 1}. ${specificLearningOutcomesSamples[randomIndex]}`
-    );
-  }
   const result = {
     description: courseDescription,
     courseOutcomes: courseOutcomes,
@@ -113,6 +161,7 @@ const GenerateAll = async (req, res) => {
   };
 
   console.log(result);
+  await TrafficModel.create(traffic);
   return res.status(200).json({ result });
 };
 
