@@ -53,6 +53,8 @@ export const StepTwo = (props) => {
     } catch (err) {
       Swal.fire({
         icon: "error",
+        background: "#202020",
+        color: "white",
         text: err.response.data.message || "Something went wrong",
       });
     } finally {
@@ -65,6 +67,8 @@ export const StepTwo = (props) => {
     if (!email) {
       Swal.fire({
         icon: "error",
+        background: "#202020",
+        color: "white",
         text: "Email address is Missing!",
       });
       return;
@@ -76,9 +80,10 @@ export const StepTwo = (props) => {
         props.handleNext();
       }
     } catch (err) {
-      console.log("asdjkfjhaksdfjk");
       Swal.fire({
         icon: "error",
+        background: "#202020",
+        color: "white",
         text: err.response.data.message,
       });
     } finally {

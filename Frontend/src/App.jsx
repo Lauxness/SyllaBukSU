@@ -10,6 +10,8 @@ import DescPage from "./Pages/DescPage";
 import AllInOnePage from "./Pages/AllInOnePage";
 import SLOPage from "./Pages/SLOPage";
 import RefreshHandler from "./Handler/RefreshHandler";
+import DashboardPage from "./Pages/DashboardPage";
+
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(true);
   const PrivateRoute = ({ element }) => {
@@ -32,7 +34,15 @@ function App() {
           element={<PrivateRoute element={<DescPage />} />}
         />
         <Route
+          path="/generate_description/:id"
+          element={<PrivateRoute element={<DescPage />} />}
+        />
+        <Route
           path="/generate_cos"
+          element={<PrivateRoute element={<COPage />} />}
+        />
+        <Route
+          path="/generate_cos/:id"
           element={<PrivateRoute element={<COPage />} />}
         />
         <Route
@@ -40,8 +50,20 @@ function App() {
           element={<PrivateRoute element={<SLOPage />} />}
         />
         <Route
+          path="/generate_slos/:id"
+          element={<PrivateRoute element={<SLOPage />} />}
+        />
+        <Route
           path="/generate_all"
           element={<PrivateRoute element={<AllInOnePage />} />}
+        />
+        <Route
+          path="/generate_all/:id"
+          element={<PrivateRoute element={<AllInOnePage />} />}
+        />
+        <Route
+          path="/dashboard"
+          element={<PrivateRoute element={<DashboardPage />} />}
         />
       </Routes>
     </BrowserRouter>

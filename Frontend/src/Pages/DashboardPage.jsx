@@ -1,24 +1,30 @@
 import SidebarComponent from "../Components/Sidebar/sideBar";
-import AllInOne from "../Components/AllInOne/AllInOne";
 import Upperbar from "../Components/Upperbar/Upperbar";
-import Proflle from "../Components/Profile/Proflle";
+import Dashboard from "../Components/Dashboard/Dashboard";
 import { useEffect, useState } from "react";
 import Aos from "aos";
 import "aos/dist/aos.css";
-function AllInOnePage() {
+import Proflle from "../Components/Profile/Proflle";
+function DashboardPage() {
   const savedState = localStorage.getItem("sidebarCollapsed");
   const [triggerProfile, setTriggerProfile] = useState(false);
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(
     JSON.parse(savedState) || false
   );
+
   useEffect(() => {
+    if (savedState !== null) {
+      setIsSidebarCollapsed(JSON.parse(savedState));
+    } else {
+      setIsSidebarCollapsed(false);
+    }
     Aos.init();
-  });
+  }, []);
   return (
     <>
       {triggerProfile && <Proflle setTriggerProfile={setTriggerProfile} />}
       <Upperbar
-        currentPage="Generate all in one prompt"
+        currentPage="Generate course outcomes"
         setIsSidebarCollapsed={setIsSidebarCollapsed}
         setTriggerProfile={setTriggerProfile}
       />
@@ -28,7 +34,6 @@ function AllInOnePage() {
           width: "100vw",
           display: "flex",
           justifyContent: "start",
-          position: "relative",
           alignItems: "start",
         }}
       >
@@ -73,12 +78,12 @@ function AllInOnePage() {
           ></div>
         </div>
         <SidebarComponent
-          currentPage="allinone"
+          currentPage="dashboard"
           collapsed={isSidebarCollapsed}
         />
-        <AllInOne />
+        <Dashboard />
       </div>
     </>
   );
 }
-export default AllInOnePage;
+export default DashboardPage;

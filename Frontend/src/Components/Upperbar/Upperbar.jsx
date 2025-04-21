@@ -3,25 +3,28 @@ import ProfileSample from "../../assets/pfpTest.webp";
 function Upperbar(props) {
   const data = localStorage.getItem("user-info");
   const userInfo = JSON.parse(data);
-  console.log("SDJKHFJKDSHFKJSDHFJKDS", userInfo.email);
   const collapseHandler = () => {
-    console.log("asdhfkjahsfkjsadfj");
-    if (props.collapsed) {
-      props.setIsCollapsed(false);
+    const savedState = localStorage.getItem("sidebarCollapsed");
+    console.log(savedState);
+    if (!savedState || savedState === null || savedState === "false") {
+      localStorage.setItem("sidebarCollapsed", true);
+      props.setIsSidebarCollapsed(true);
     } else {
-      props.setIsCollapsed(true);
+      localStorage.setItem("sidebarCollapsed", false);
+      props.setIsSidebarCollapsed(false);
+      console.log("sadkhfjaksdf");
     }
   };
   return (
     <div
       style={{
-        borderBottom: "1px solid #ababab",
+        borderBottom: "1px solid rgba(38, 99, 255, 0.3)",
         display: "flex",
         width: "100%",
         justifyContent: "space-between",
         alignItems: "center",
-        padding: " 5px",
-        marginBottom: "5px",
+        padding: " 10px 8px",
+        marginBottom: "2px",
       }}
     >
       <div
@@ -36,13 +39,14 @@ function Upperbar(props) {
       >
         <MdMenu
           fontSize="30px"
-          color="#2d55fb"
+          color="var(--text-color)"
           onClick={collapseHandler}
           cursor="pointer"
         />
         <p
           style={{
             fontSize: "20px",
+            color: "var(--text-color)",
             fontWeight: "500",
           }}
         >
@@ -60,17 +64,25 @@ function Upperbar(props) {
           paddingBottom: "6px",
         }}
       >
-        <div style={{ textAlign: "end", fontSize: "12px" }}>
+        <div
+          style={{
+            textAlign: "end",
+            fontSize: "12px",
+            color: "var(--text-color)",
+          }}
+        >
           <p style={{ textTransform: "capitalize" }}>
             <span style={{ fontWeight: "bold" }}>
-              {" "}
               {userInfo?.role || "Guest"}
-            </span>{" "}
+            </span>
             , {userInfo?.name || "Guest"}
           </p>
           <p>{userInfo?.email || "No email available"}</p>
         </div>
-        <div style={{ padding: "0", height: "35px" }}>
+        <div
+          style={{ padding: "0", height: "35px", cursor: "pointer" }}
+          onClick={() => props.setTriggerProfile(true)}
+        >
           <img
             src={userInfo?.profilePicture || ProfileSample}
             alt=""

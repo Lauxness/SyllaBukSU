@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-export const TypingEffect = ({ text, speed = 10 }) => {
+export const TypingEffect = ({ text, speed }) => {
   const [displayedText, setDisplayedText] = useState("");
   const [index, setIndex] = useState(0);
 

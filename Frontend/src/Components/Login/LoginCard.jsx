@@ -45,6 +45,8 @@ function LoginCard(props) {
     } catch (err) {
       Swal.fire({
         icon: "error",
+        background: "#202020",
+        color: "white",
         text: err.response.data.message,
       });
     }
@@ -57,9 +59,14 @@ function LoginCard(props) {
       ) : (
         ""
       )}
-      <div className={styles.container}>
+      <div
+        className={styles.container}
+        data-aos="fade-up"
+        data-aos-anchor-placement="top-center"
+        data-aos-duration="500"
+      >
         <div className={styles.leftContainer}>
-          <div className={styles.logoContainer}>
+          <div className={styles.logoContainer} onClick={() => navigate("/")}>
             <img src={Logo} alt="" height={50} />
             <p>SyllaBukSU Portal</p>
           </div>

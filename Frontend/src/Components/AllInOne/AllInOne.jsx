@@ -1,18 +1,28 @@
 import styles from "./style.module.css";
 import { TypingEffect } from "../../../Utilities/TypingEffect";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
-import { GenerateAll, GenerateDescription } from "../../api";
+import { useNavigate, useParams } from "react-router-dom";
+import { GenerateAll, GetPrompt, SavePrompt } from "../../api";
+import { MdArrowForward, MdSettings, MdCopyAll, MdCheck } from "react-icons/md";
+import Loader from "../Modals/Loading/Loader";
+
 function AllInOne() {
   const [courseName, setCourseName] = useState("");
   const [coNumber, setCONumber] = useState();
   const [sloNumber, setSLONumber] = useState();
   const [result, setResult] = useState();
+  const { id } = useParams();
+  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
+  const [copied, setCopied] = useState({ type: null, index: null });
   const handleGenerate = async () => {
     if (!courseName || courseName.length < 5) {
       return Swal.fire({
         icon: "error",
         title: "Invalid input",
+        background: "#202020",
+        color: "white",
         text: "Please make sure the input is valid.",
       });
     }
@@ -20,6 +30,8 @@ function AllInOne() {
       return Swal.fire({
         icon: "error",
         title: "Invalid input",
+        background: "#202020",
+        color: "white",
         text: "Please make sure the input is valid.",
       });
     }
@@ -27,12 +39,15 @@ function AllInOne() {
       return Swal.fire({
         icon: "error",
         title: "Invalid input",
+        background: "#202020",
+        color: "white",
         text: "Please make sure the input is valid.",
       });
     }
     setResult(null);
     const data = { coNumber, sloNumber, courseName };
     try {
+      setIsLoading(true);
       const response = await GenerateAll({ data });
       if (response.status === 200) {
         const text = response.data.result;
@@ -41,11 +56,81 @@ function AllInOne() {
       }
     } catch (err) {
       console.log(err);
+      if (err.response.status === 401) {
+        RequestLogout();
+      }
+    } finally {
+      setIsLoading(false);
     }
   };
+  useEffect(() => {
+    if (id) {
+      handleGetPrompt(id);
+    } else {
+      setResult();
+      setCourseName("");
+    }
+  }, [id]);
+  const handleGetPrompt = async () => {
+    try {
+      const response = await GetPrompt(id);
 
+      if (response.status === 200) {
+        const data = response.data;
+
+        setResult(data.originalResult);
+        setCourseName(data.topic);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  const RequestLogout = () => {
+    Swal.fire({
+      icon: "error",
+      title: "Unauthorized",
+      background: "#202020",
+      color: "white",
+      text: "Your Session Expired. Please Login again",
+    }).then(() => {
+      localStorage.removeItem("user-info");
+      navigate("/");
+    });
+  };
+  const handleCopy = (text, type, index = null) => {
+    navigator.clipboard
+      .writeText(text)
+      .then(() => {
+        setCopied({ type, index });
+        setTimeout(() => setCopied({ type: null, index: null }), 2000);
+      })
+      .catch((err) => {
+        console.error("Failed to copy: ", err);
+      });
+  };
+  const HandleSavePrompt = async () => {
+    const variant = "All in One";
+    try {
+      const response = await SavePrompt({
+        variant,
+        topic: courseName,
+        originalResult: result,
+        currentResult: result,
+      });
+      if (response.status === 200) {
+        Swal.fire("Success", "Prompt has been saved successfuly", "success");
+      }
+    } catch (err) {
+      Swal.fire("Error", "Failed to saved Prompt", "error");
+    }
+  };
   return (
-    <div className={styles.container}>
+    <div
+      className={styles.container}
+      data-aos="fade-up"
+      data-aos-anchor-placement="top-center"
+      data-aos-duration="500"
+    >
       <div className={styles.contentContainer}>
         <div className={styles.inputGroup}>
           <label htmlFor="">
@@ -83,7 +168,12 @@ function AllInOne() {
           Generate
         </button>
         <div id="generatedContent" className={styles.generatedContent}>
-          {result ? (
+          {isLoading ? (
+            <div className={styles.loaderContainer}>
+              <Loader />
+            </div>
+          ) : null}
+          {result && (
             <>
               <p
                 style={{
@@ -94,7 +184,18 @@ function AllInOne() {
               >
                 ❖ Course Description
               </p>
-              <div>
+              <div className={styles.resultContainer}>
+                <div
+                  className={styles.copyToClipBoard}
+                  onClick={() => handleCopy(result.description, "description")}
+                  style={{ cursor: "pointer" }}
+                >
+                  {copied.type === "description" ? (
+                    <MdCheck fontSize="20px" color="green" />
+                  ) : (
+                    <MdCopyAll fontSize="20px" />
+                  )}
+                </div>
                 <TypingEffect text={result.description} />
               </div>
               <p
@@ -107,7 +208,20 @@ function AllInOne() {
               >
                 ❖ Course Outcomes
               </p>
-              <div>
+              <div className={styles.resultContainer}>
+                <div
+                  className={styles.copyToClipBoard}
+                  onClick={() =>
+                    handleCopy(result.courseOutcomes, "courseOutcomes")
+                  }
+                  style={{ cursor: "pointer" }}
+                >
+                  {copied.type === "courseOutcomes" ? (
+                    <MdCheck fontSize="20px" color="green" />
+                  ) : (
+                    <MdCopyAll fontSize="20px" />
+                  )}
+                </div>
                 <TypingEffect text={result.courseOutcomes?.join("\n")} />
               </div>
               <p
@@ -120,12 +234,28 @@ function AllInOne() {
               >
                 ❖ Specific Learning Outcomes
               </p>
-              <div>
+              <div className={styles.resultContainer}>
+                <div
+                  className={styles.copyToClipBoard}
+                  onClick={() =>
+                    handleCopy(result.learningOutcomes, "learningOutcomes")
+                  }
+                  style={{ cursor: "pointer" }}
+                >
+                  {copied.type === "learningOutcomes" ? (
+                    <MdCheck fontSize="20px" color="green" />
+                  ) : (
+                    <MdCopyAll fontSize="20px" />
+                  )}
+                </div>
                 <TypingEffect text={result.learningOutcomes?.join("\n")} />
               </div>
             </>
-          ) : (
-            ""
+          )}
+          {result && (
+            <div className={styles.buttonContainer}>
+              <button onClick={() => HandleSavePrompt()}>Save</button>
+            </div>
           )}
         </div>
       </div>

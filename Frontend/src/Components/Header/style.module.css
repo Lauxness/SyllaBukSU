@@ -7,7 +7,7 @@
   z-index: 5;
   transition: 0.5s;
   right: 0;
-  background-color: #2d55fb;
+  background-color: #2d56fb60;
 }
 .projectName {
   display: flex;
@@ -18,7 +18,7 @@
 .projectName p {
   font-size: 1.3em;
   font-weight: 500;
-  color: white;
+  color: var(--text-color);
 }
 
 @media (max-width: 700px) {

@@ -27,6 +27,7 @@
 }
 .logoContainer {
   font-size: 1.2em;
+  cursor: pointer;
   color: white;
   font-weight: 500;
 }
@@ -39,7 +40,7 @@
   justify-content: center;
 }
 .registerButton > p {
-  color: #16648c;
+  color: var(--text-color);
   font-size: 1.2em;
 }
 .registerButton > button {

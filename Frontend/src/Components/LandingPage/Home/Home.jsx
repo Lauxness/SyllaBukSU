@@ -1,10 +1,11 @@
 import styles from "./style.module.css";
 import Logo from "../../../assets/Logo.png";
-import LogoBlack from "../../../assets/Logo Black.png";
 import LandingIllustration from "../../../assets/LandingIllustration.png";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+
 function Home() {
   const [navBar, setNavBar] = useState(false);
+
   const changeBackground = () => {
     if (window.scrollY >= 70) {
       setNavBar(true);
@@ -22,7 +23,7 @@ function Home() {
           }
         >
           <div className={styles.logoContainer}>
-            <img src={LogoBlack} alt="" width={50} />
+            <img src={Logo} alt="" width={50} />
             <p>SyllaBukSU</p>
           </div>
           <div className={styles.navigations}>
@@ -33,7 +34,12 @@ function Home() {
             <a href="/login">Login</a>
           </div>
         </div>
-        <div className={styles.contentContainer}>
+        <div
+          className={styles.contentContainer}
+          data-aos="fade-up"
+          data-aos-anchor-placement="top-center"
+          data-aos-duration="500"
+        >
           <div className={styles.content}>
             <p>Effortless Syllabus Content Creation</p>
             <div className={styles.imageContainer}>

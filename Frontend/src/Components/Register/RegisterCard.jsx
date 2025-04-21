@@ -8,7 +8,7 @@ import Swal from "sweetalert2";
 import Loader from "../Modals/Loading/Loader";
 import { SendOTP } from "../../api";
 import { ToastContainer, toast } from "react-toastify";
-function LoginCard(props) {
+function RegisterCard(props) {
   const [email, setEmail] = useState();
   const [name, setName] = useState();
   const [password, setPassword] = useState();
@@ -126,9 +126,14 @@ function LoginCard(props) {
       ) : (
         ""
       )}
-      <div className={styles.container}>
+      <div
+        className={styles.container}
+        data-aos="fade-up"
+        data-aos-anchor-placement="top-center"
+        data-aos-duration="500"
+      >
         <div className={styles.leftContainer}>
-          <div className={styles.logoContainer}>
+          <div className={styles.logoContainer} onClick={() => navigate("/")}>
             <img src={Logo} alt="" height={50} />
             <p>SyllaBukSU Portal</p>
           </div>
@@ -198,4 +203,4 @@ function LoginCard(props) {
     </>
   );
 }
-export default LoginCard;
+export default RegisterCard;

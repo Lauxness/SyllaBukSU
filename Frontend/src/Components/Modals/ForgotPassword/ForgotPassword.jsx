@@ -51,6 +51,8 @@ function ForgotPassword(props) {
           } catch (err) {
             Swal.fire({
               icon: "error",
+              background: "#202020",
+              color: "white",
               text: err.response.data.message,
             });
           } finally {
@@ -59,6 +61,8 @@ function ForgotPassword(props) {
         } else {
           Swal.fire({
             icon: "error",
+            background: "#202020",
+            color: "white",
             text: "Invalid Email address!",
           });
         }
@@ -73,6 +77,8 @@ function ForgotPassword(props) {
     if (newPassword.current.value != confirmPassword.current.value) {
       Swal.fire({
         icon: "error",
+        background: "#202020",
+        color: "white",
         text: "Passwords did not match!",
       });
       return;
@@ -80,6 +86,8 @@ function ForgotPassword(props) {
     if (newPassword.current.value === "") {
       Swal.fire({
         icon: "error",
+        background: "#202020",
+        color: "white",
         text: "Please complete the form!",
       });
       return;
@@ -91,6 +99,8 @@ function ForgotPassword(props) {
       if (response.status === 200) {
         Swal.fire({
           icon: "success",
+          background: "#202020",
+          color: "white",
           title: "Congratulations",
           text: response.data.message,
         }).then(() => {
@@ -102,6 +112,8 @@ function ForgotPassword(props) {
       console.log(err);
       Swal.fire({
         icon: "error",
+        background: "#202020",
+        color: "white",
         text: err.response.data.message,
       });
     }

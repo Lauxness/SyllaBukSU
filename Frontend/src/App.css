@@ -7,13 +7,13 @@
 }
 :root {
   --primaryColor: #addced;
-  --secondary-color: #69b7ff;
+  --secondary-color: #2663ff;
   --line-border-empty: #e7f8ff;
-  --text-color: black;
+  --text-color: rgb(231, 231, 231);
 }
 body {
   font-family: poppins;
-  overflow-x: hidden;
+  overflow: hidden;
   position: relative;
-  background-color: white;
+  background-color: #202020;
 }

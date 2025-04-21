@@ -34,6 +34,8 @@ function EmailVerificationModal(props) {
     } catch (err) {
       Swal.fire({
         icon: "error",
+        background: "#202020",
+        color: "white",
         text: err.response.data.message || "Something went wrong",
       });
     } finally {
@@ -56,6 +58,8 @@ function EmailVerificationModal(props) {
         Swal.fire({
           icon: "success",
           title: "Congratulations!",
+          background: "#202020",
+          color: "white",
           text: response.data.message,
         }).then(() => {
           navigate("/login");
@@ -65,6 +69,8 @@ function EmailVerificationModal(props) {
       console.log(err);
       Swal.fire({
         icon: "error",
+        background: "#202020",
+        color: "white",
         text: err.response.data.message,
       });
     } finally {

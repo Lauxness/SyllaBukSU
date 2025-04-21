@@ -1,6 +1,12 @@
+import { useEffect } from "react";
 import Home from "../Components/LandingPage/Home/Home";
 import Services from "../Components/LandingPage/Services/Services";
+import Aos from "aos";
+import "aos/dist/aos.css";
 function LandingPage() {
+  useEffect(() => {
+    Aos.init();
+  }, []);
   return (
     <div
       style={{

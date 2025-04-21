@@ -26,6 +26,7 @@
 .logoContainer {
   font-size: 1.2em;
   color: white;
+  cursor: pointer;
   font-weight: 500;
 }
 .registerButton {
@@ -62,7 +63,7 @@
   height: 100%;
 }
 .registerButton > p {
-  color: #16648c;
+  color: var(--text-color);
   font-size: 1.2em;
 }
 .formContainer {
@@ -125,6 +126,9 @@
 .extraContainer > div > input {
   transform: scale(1.4);
   margin-left: 2px;
+}
+.extraContainer > a {
+  color: var(--text-color);
 }
 .loginButton {
   width: 100%;

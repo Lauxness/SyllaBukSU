@@ -5,6 +5,19 @@ const api = axios.create({
     "Content-Type": "application/json",
   },
 });
+api.interceptors.request.use(
+  (config) => {
+    const userInfo = JSON.parse(localStorage.getItem("user-info"));
+    const token = userInfo?.token;
+    if (token) {
+      config.headers.Authorization = `Bearer ${token} `;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
 export const Login = (credentials) => api.post("/account/login", credentials);
 export const Register = (credentials) =>
   api.post("/account/register", credentials);
@@ -24,3 +37,9 @@ export const GenerateLearningOutcomes = (body) =>
   api.post("/generate/generate_slos", body);
 export const GenerateAll = (body) =>
   api.post("/generate/generate_allinone", body);
+export const ChatBot = (body) => api.post("/chat/chatbot", body);
+export const GetDashboard = () => api.get("/admin/dashboard");
+export const SavePrompt = (body) => api.post("/prompts/save", body);
+export const GetPrompts = () => api.get("/prompts/save");
+export const GetPrompt = (id) => api.get(`/prompts/save/${id}`);
+export const DeletePrompt = (id) => api.delete(`/prompts/delete/${id}`);

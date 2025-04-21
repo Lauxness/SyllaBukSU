@@ -16,6 +16,7 @@ function GoogleLogin(props) {
       const userInfo = {
         token: response.data.token,
         name: response.data.userPayload.name,
+        role: response.data.userPayload.role,
         email: response.data.userPayload.email,
       };
       console.log(userInfo);
@@ -23,10 +24,16 @@ function GoogleLogin(props) {
 
       console.log("User Info:", userInfo);
       props.setIsAuthenticated(true);
-      navigate("/generate_description");
+      if (response.data.userPayload.role === "admin") {
+        navigate("/dashboard");
+      } else {
+        navigate("/generate_description");
+      }
     } catch (error) {
       Swal.fire({
         icon: "error",
+        background: "#202020",
+        color: "white",
         text: error.response.data.message,
       });
     }
