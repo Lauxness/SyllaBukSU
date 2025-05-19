@@ -24,7 +24,13 @@ function CourseOutcomes() {
   const { id } = useParams();
   const [chatLoading, setChatLoading] = useState(false);
   const [copied, setCopied] = useState({ type: null, index: null });
+  const [speed, setSpeed] = useState(10);
+  const [disableGenerate, setDisableGenerate] = useState(false);
   const handleGenerate = async () => {
+    if (disableGenerate) {
+      return;
+    }
+
     if (courseDescription.length < 10) {
       return Swal.fire({
         icon: "error",
@@ -118,6 +124,7 @@ function CourseOutcomes() {
   };
   useEffect(() => {
     if (id) {
+      setDisableGenerate(true);
       handleGetPrompt(id);
     } else {
       setCurrentResult("");
@@ -125,6 +132,7 @@ function CourseOutcomes() {
       setAllUserPrompts([]);
       setCourseDescription("");
       setChatResponses([]);
+      setDisableGenerate(false);
     }
   }, [id]);
   const handleGetPrompt = async () => {
@@ -138,6 +146,7 @@ function CourseOutcomes() {
         setAllUserPrompts(data.chatPrompts);
         setCourseDescription(data.topic);
         setChatResponses(data?.customizedResults || []);
+        setSpeed(0);
       }
     } catch (err) {
       console.log(err);
@@ -155,6 +164,7 @@ function CourseOutcomes() {
 
       setAllUserPrompts((prevPrompts) => [...prevPrompts, userPrompt]);
       setUserPrompt("");
+      setSpeed(10);
     } catch (err) {
       console.log(err);
       if (err.response.status === 401) {
@@ -189,8 +199,6 @@ function CourseOutcomes() {
           <label htmlFor="">❖ Specify the number of course outcomes.</label>
           <select onChange={(e) => setNumber(e.target.value)}>
             <option value="">-</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
             <option value="3">3</option>
             <option value="4">4</option>
             <option value="5">5</option>
@@ -207,7 +215,7 @@ function CourseOutcomes() {
           ) : null}
           {result && (
             <>
-              <p>❖ Course Outcomes</p>
+              <p>❖ Suggested Course Outcomes</p>
               <div className={styles.resultContainer}>
                 <div
                   className={styles.copyToClipBoard}
@@ -220,14 +228,18 @@ function CourseOutcomes() {
                     <MdCopyAll fontSize="20px" />
                   )}
                 </div>
-                <TypingEffect text={result.join("\n")} key={result} />
+                <TypingEffect
+                  text={result.join("\n")}
+                  key={result}
+                  speed={speed}
+                />
               </div>
             </>
           )}
         </div>
         {chatResponses.map((chatResponse, index) => (
           <div key={index} className={styles.generatedContent}>
-            <p>❖ Customized Course Outcomes {index + 1}</p>
+            <p>❖ Customized Suggested Course Outcomes {index + 1}</p>
             <div className={styles.resultContainer}>
               <div
                 className={styles.copyToClipBoard}
@@ -243,6 +255,7 @@ function CourseOutcomes() {
               <TypingEffect
                 key={`chat-${index}`}
                 text={splitByNumbers(chatResponse).join("\n").trim()}
+                speed={speed}
               />
             </div>
           </div>

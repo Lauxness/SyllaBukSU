@@ -16,7 +16,12 @@ function AllInOne() {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const [copied, setCopied] = useState({ type: null, index: null });
+  const [disableGenerate, setDisableGenerate] = useState(false);
+  const [speed, setSpeed] = useState(10);
   const handleGenerate = async () => {
+    if (disableGenerate) {
+      return;
+    }
     if (!courseName || courseName.length < 5) {
       return Swal.fire({
         icon: "error",
@@ -66,9 +71,11 @@ function AllInOne() {
   useEffect(() => {
     if (id) {
       handleGetPrompt(id);
+      setDisableGenerate(true);
     } else {
       setResult();
       setCourseName("");
+      setDisableGenerate(false);
     }
   }, [id]);
   const handleGetPrompt = async () => {
@@ -148,9 +155,9 @@ function AllInOne() {
           <label htmlFor="">❖ Specify the number of course outcomes.</label>
           <select onChange={(e) => setCONumber(e.target.value)}>
             <option value="">-</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
             <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
           </select>
         </div>
         <div className={styles.inputGroup}>
@@ -159,9 +166,9 @@ function AllInOne() {
           </label>
           <select onChange={(e) => setSLONumber(e.target.value)}>
             <option value="">-</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
             <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
           </select>
         </div>
         <button className={styles.generateButton} onClick={handleGenerate}>
@@ -182,7 +189,7 @@ function AllInOne() {
                   marginBottom: "0.5rem",
                 }}
               >
-                ❖ Course Description
+                ❖ Suggested Course Description
               </p>
               <div className={styles.resultContainer}>
                 <div
@@ -196,7 +203,7 @@ function AllInOne() {
                     <MdCopyAll fontSize="20px" />
                   )}
                 </div>
-                <TypingEffect text={result.description} />
+                <TypingEffect text={result.description} speed={speed} />
               </div>
               <p
                 style={{
@@ -206,7 +213,7 @@ function AllInOne() {
                   marginBottom: "0.5rem",
                 }}
               >
-                ❖ Course Outcomes
+                ❖ Suggested Course Outcomes
               </p>
               <div className={styles.resultContainer}>
                 <div
@@ -222,7 +229,10 @@ function AllInOne() {
                     <MdCopyAll fontSize="20px" />
                   )}
                 </div>
-                <TypingEffect text={result.courseOutcomes?.join("\n")} />
+                <TypingEffect
+                  text={result.courseOutcomes?.join("\n")}
+                  speed={speed}
+                />
               </div>
               <p
                 style={{
@@ -232,7 +242,7 @@ function AllInOne() {
                   marginBottom: "0.5rem",
                 }}
               >
-                ❖ Specific Learning Outcomes
+                ❖ Suggested Specific Learning Outcomes
               </p>
               <div className={styles.resultContainer}>
                 <div
@@ -248,7 +258,10 @@ function AllInOne() {
                     <MdCopyAll fontSize="20px" />
                   )}
                 </div>
-                <TypingEffect text={result.learningOutcomes?.join("\n")} />
+                <TypingEffect
+                  text={result.learningOutcomes?.join("\n")}
+                  speed={speed}
+                />
               </div>
             </>
           )}

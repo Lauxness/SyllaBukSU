@@ -71,14 +71,26 @@ async def generate_text(request: TextRequest):
 async def testing(request: TextRequest):
     url = "https://openrouter.ai/api/v1/chat/completions"
     headers = {
-        "Authorization": "Bearer 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",
+        "Authorization": "Bearer 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",
         "Content-Type": "application/json",
     }
     data = {
         "model": "deepseek/deepseek-r1:free",
-        "messages": [{"role": "user", "content":request.prompt }]
+        "messages": [{"role": "user", "content": request.prompt}]
     }
-    async with httpx.AsyncClient() as client:
-        response = await client.post(url, headers=headers, json=data)
-    return response.json()
-#"This is an introductory course in programming that cultivates skills and notions vital to good programming practice and problem-solving using a C program. It covers fundamental programming notions such as algorithms and flowcharts, basic data types, simple I/O, conditional statements, and functions. It also includes the use of testing and debugging methods. Key to software development practice remains the capacity to develop programs that employ fitting constructs aside from attainment into solving computing problems. This course serves as supplemental material for intermediate programming. By the end of the course, students are expected, i want to change the languge to Java, Ps. direct answer, 1 paragraph only, dont put bold text,no extra message"
+
+    try:
+        async with httpx.AsyncClient() as client:
+            response = await client.post(url, headers=headers, json=data)
+
+        if response.status_code == 200:
+            return response.json()
+        else:
+            print(f" OpenRouter API error: {response.status_code} - {response.text}")
+            return {"error": "Failed to get response from OpenRouter"}
+    except httpx.RequestError as e:
+        print(f" Network error occurred: {e}")
+        return {"error": "Network error occurred"}
+    except Exception as e:
+        print(f"🚨 Unexpected error: {e}")
+        return {"error": "Unexpected error occurred"}

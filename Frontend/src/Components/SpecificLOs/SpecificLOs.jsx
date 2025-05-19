@@ -21,10 +21,15 @@ function SpecificLOs() {
   const [isLoading, setIsLoading] = useState(false);
   const [chatResponses, setChatResponses] = useState([]);
   const [chatLoading, setChatLoading] = useState(false);
+  const [speed, setSpeed] = useState(10);
   const navigate = useNavigate();
   const { id } = useParams();
   const [copied, setCopied] = useState({ type: null, index: null });
+  const [disableGenerate, setDisableGenerate] = useState(false);
   const handleGenerate = async () => {
+    if (disableGenerate) {
+      return;
+    }
     if (courseOutcomes.length < 10) {
       return Swal.fire({
         icon: "error",
@@ -131,6 +136,7 @@ function SpecificLOs() {
 
       setAllUserPrompts((prevPrompts) => [...prevPrompts, userPrompt]);
       setUserPrompt("");
+      setSpeed(10);
     } catch (err) {
       console.log(err);
       if (err.response.status === 401) {
@@ -144,12 +150,14 @@ function SpecificLOs() {
   useEffect(() => {
     if (id) {
       handleGetPrompt(id);
+      setDisableGenerate(true);
     } else {
       setCurrentResult("");
       setResult("");
       setAllUserPrompts([]);
       setCourseOutcomes("");
       setChatResponses([]);
+      setDisableGenerate(false);
     }
   }, [id]);
   const handleGetPrompt = async () => {
@@ -163,6 +171,7 @@ function SpecificLOs() {
         setAllUserPrompts(data.chatPrompts);
         setCourseOutcomes(data.topic);
         setChatResponses(data?.customizedResults || []);
+        setSpeed(0);
       }
     } catch (err) {
       console.log(err);
@@ -191,9 +200,9 @@ function SpecificLOs() {
           </label>
           <select onChange={(e) => setNumber(e.target.value)}>
             <option value="">-</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
             <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
           </select>
         </div>
         <button className={styles.generateButton} onClick={handleGenerate}>
@@ -207,7 +216,7 @@ function SpecificLOs() {
           ) : null}
           {result && (
             <>
-              <p>❖ Course Outcomes</p>
+              <p>❖ Suggested Specific Learning Outcomes</p>
               <div className={styles.resultContainer}>
                 <div
                   className={styles.copyToClipBoard}
@@ -220,14 +229,18 @@ function SpecificLOs() {
                     <MdCopyAll fontSize="20px" />
                   )}
                 </div>
-                <TypingEffect text={result.join("\n")} key={result} />
+                <TypingEffect
+                  text={result.join("\n")}
+                  key={result}
+                  speed={speed}
+                />
               </div>
             </>
           )}
         </div>
         {chatResponses.map((chatResponse, index) => (
           <div key={index} className={styles.generatedContent}>
-            <p>❖ Customized Course Outcomes {index + 1}</p>
+            <p>❖ Customized Suggested Specific Learning Outcomes {index + 1}</p>
             <div className={styles.resultContainer}>
               <div
                 className={styles.copyToClipBoard}
@@ -243,6 +256,7 @@ function SpecificLOs() {
               <TypingEffect
                 key={`chat-${index}`}
                 text={splitByNumbers(chatResponse).join("\n").trim()}
+                speed={speed}
               />
             </div>
           </div>

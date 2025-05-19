@@ -20,9 +20,13 @@ function CourseDescription() {
   const [copied, setCopied] = useState({ type: null, index: null });
   const [useTypingEffect, setUseTypingEffect] = useState(true);
   const [speed, setSpeed] = useState(10);
+  const [disableGenerate, setDisableGenerate] = useState(false);
 
   const { id } = useParams();
   const handleGenerate = async () => {
+    if (disableGenerate) {
+      return;
+    }
     if (!courseName || courseName.length < 5) {
       return Swal.fire({
         icon: "error",
@@ -122,12 +126,14 @@ function CourseDescription() {
   useEffect(() => {
     if (id) {
       handleGetPrompt(id);
+      setDisableGenerate(true);
     } else {
       setCurrentResult("");
       setResult("");
       setAllUserPrompts([]);
       setCourseName("");
       setChatResponses([]);
+      setDisableGenerate(false);
     }
   }, [id]);
   const handleGetPrompt = async () => {
@@ -180,7 +186,7 @@ function CourseDescription() {
           ) : null}
           {result && (
             <>
-              <p>❖ Course Description</p>
+              <p>❖ Suggested Course Description</p>
               <div className={styles.resultContainer}>
                 <div
                   className={styles.copyToClipBoard}
@@ -194,25 +200,13 @@ function CourseDescription() {
                   )}
                 </div>
                 <TypingEffect text={result} key={result} speed={speed} />
-                {/*  {useTypingEffect ? (
-                  <TypingEffect text={result} key={result} />
-                ) : (
-                  <p
-                    style={{ fontSize: "1.1em", whiteSpace: "pre-line" }}
-                    dangerouslySetInnerHTML={{
-                      __html: result
-                        .replace(/^(\d+)\./gm, "<strong>$1.</strong>") // Bold numbers
-                        .replace(/\n/g, "<br /><br />"), // Ensure double line breaks for better spacing
-                    }}
-                  />
-                )} */}
               </div>
             </>
           )}
         </div>
         {chatResponses.map((chatResponse, index) => (
           <div key={index} className={styles.generatedContent}>
-            <p>❖ Customized Course Description {index + 1}</p>
+            <p>❖ Customized Suggested Course Description {index + 1}</p>
             <div className={styles.resultContainer}>
               <div
                 className={styles.copyToClipBoard}

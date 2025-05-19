@@ -175,7 +175,7 @@ function Dashboard() {
           data-aos-anchor-placement="top-center"
           data-aos-duration="300"
         >
-          <p>Total Request Traffic per Variant</p>
+          <p>Total Request Traffic per Components</p>
           {isLoading ? (
             ""
           ) : (
@@ -196,7 +196,7 @@ function Dashboard() {
           data-aos-anchor-placement="top-center"
           data-aos-duration="300"
         >
-          <p>Total Saved Prompts per Variants</p>
+          <p>Total Saved Prompts per Components</p>
           {isLoading ? (
             ""
           ) : (

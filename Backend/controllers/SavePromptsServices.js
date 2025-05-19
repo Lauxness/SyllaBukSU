@@ -12,12 +12,25 @@ const SavePrompt = async (req, res) => {
     chatPrompts,
     currentResult,
   } = req.body;
-  console.log(userEmail);
 
   try {
     const user = await Accounts.findOne({ email: userEmail });
 
-    const data = {
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    const promptCount = await SavedPrompts.countDocuments({ userId: user._id });
+    if (promptCount >= 10) {
+      const oldestPrompt = await SavedPrompts.findOne({
+        userId: user._id,
+      }).sort({ createdAt: 1 });
+      if (oldestPrompt) {
+        await SavedPrompts.findByIdAndDelete(oldestPrompt._id);
+      }
+    }
+
+    const newPrompt = {
       userId: user._id,
       variant,
       topic,
@@ -26,10 +39,13 @@ const SavePrompt = async (req, res) => {
       chatPrompts,
       currentResult,
     };
-    const result = await SavedPrompts.create(data);
-    res.status(200).json({ message: "Prompts has been saved!" });
+
+    await SavedPrompts.create(newPrompt);
+
+    res.status(200).json({ message: "Prompt has been saved!" });
   } catch (err) {
     console.log(err);
+    res.status(500).json({ message: "Failed to save prompt" });
   }
 };
 
