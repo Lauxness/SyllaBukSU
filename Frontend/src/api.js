@@ -43,3 +43,4 @@ export const SavePrompt = (body) => api.post("/prompts/save", body);
 export const GetPrompts = () => api.get("/prompts/save");
 export const GetPrompt = (id) => api.get(`/prompts/save/${id}`);
 export const DeletePrompt = (id) => api.delete(`/prompts/delete/${id}`);
+export const ExportToDocx = () => api.get(`/export`);

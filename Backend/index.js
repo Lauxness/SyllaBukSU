@@ -1,3 +1,16 @@
+const {
+  Document,
+  Packer,
+  Paragraph,
+  TextRun,
+  Table,
+  TableRow,
+  TableCell,
+  WidthType,
+} = require("docx");
+const fs = require("fs");
+const SavedPrompts = require("./model/savedPromptsModel");
+
 const express = require("express");
 const app = express();
 const dotenv = require("dotenv");
@@ -20,7 +33,71 @@ app.use("/generate", Middleware, GenerateRoute);
 app.use("/chat", Middleware, ChatBotRoute);
 app.use("/admin", Middleware, AdminRoute);
 app.use("/prompts", Middleware, SavePromptRoute);
+app.get("/export", async (req, res) => {
+  const courseOutcome = await SavedPrompts.findOne();
 
+  const doc = new Document({
+    sections: [
+      {
+        properties: {},
+        children: [
+          new Paragraph({
+            children: [
+              new TextRun("Hello World"),
+              new TextRun({
+                text: "Foo Bar",
+                bold: true,
+              }),
+              new TextRun({
+                text: "\tGithub is the best",
+                bold: true,
+              }),
+            ],
+          }),
+          new Table({
+            rows: [
+              new TableRow({
+                children: [
+                  new TableCell({
+                    children: [
+                      new Paragraph({
+                        children: [
+                          new TextRun({
+                            text: courseOutcome.currentResult.toString(),
+                          }),
+                        ],
+                      }),
+                    ],
+                  }),
+                  new TableCell({
+                    children: [
+                      new Paragraph({
+                        children: [
+                          new TextRun({
+                            text: "Column 2",
+                          }),
+                        ],
+                      }),
+                    ],
+                  }),
+                ],
+              }),
+            ],
+          }),
+        ],
+      },
+    ],
+  });
+
+  const buffer = await Packer.toBuffer(doc);
+
+  res.setHeader(
+    "Content-Type",
+    "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+  );
+  res.setHeader("Content-Disposition", "attachment; filename=MyDocument.docx");
+  res.send(buffer);
+});
 const PORT = process.env.PORT;
 
 mongoose

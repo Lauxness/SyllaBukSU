@@ -11,6 +11,7 @@ import AllInOnePage from "./Pages/AllInOnePage";
 import SLOPage from "./Pages/SLOPage";
 import RefreshHandler from "./Handler/RefreshHandler";
 import DashboardPage from "./Pages/DashboardPage";
+import TestPage from "./Pages/TestPage";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(true);
@@ -23,6 +24,7 @@ function App() {
       <RefreshHandler setIsAuthenticated={setIsAuthenticated} />
       <Routes>
         <Route path="/" element={<LandingPage />} />
+        <Route path="/test" element={<TestPage />} />
         <Route
           path="/login"
           element={<LoginPage setIsAuthenticated={setIsAuthenticated} />}
