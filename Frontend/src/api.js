@@ -43,3 +43,10 @@ export const SavePrompt = (body) => api.post("/prompts/save", body);
 export const GetPrompts = () => api.get("/prompts/save");
 export const GetPrompt = (id) => api.get(`/prompts/save/${id}`);
 export const DeletePrompt = (id) => api.delete(`/prompts/delete/${id}`);
+export const AddAnnouncement = (body) =>
+  api.post("/announcement/announcements", body);
+export const GetAnnouncement = () => api.get("/announcement/announcements");
+export const GetOneAnnouncement = (id) =>
+  api.get(`/announcement/announcements/${id}`);
+export const DeleteAnnouncement = (id) =>
+  api.delete(`/announcement/announcements/${id}`);

@@ -1,0 +1,110 @@
+.mainContainer {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.538);
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation-name: easeIn;
+  animation-duration: 150ms;
+}
+@keyframes easeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.container {
+  border: 1px solid rgba(13, 40, 158, 0.307);
+  background-color: #111111;
+  border-radius: 3px;
+  border-radius: 3px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: start;
+  width: 40%;
+  gap: 10px;
+}
+.header {
+  height: 45px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 1.2em;
+  padding-top: 20px;
+  font-weight: 500;
+  padding: 30px 25px;
+
+  color: white;
+  border-bottom: 1px solid rgba(38, 99, 255, 0.13);
+}
+.title {
+  color: white;
+  font-weight: 500;
+  text-transform: capitalize;
+  width: 100%;
+  font-size: 1.4em;
+  padding: 0px 25px;
+  margin-top: 10px;
+}
+.body {
+  color: white;
+  font-size: 1em;
+
+  width: 100%;
+  padding: 10px 25px;
+}
+.body > p {
+  word-wrap: break-word;
+
+  overflow-wrap: break-word;
+  white-space: normal;
+}
+.info {
+  display: flex;
+
+  border-bottom: 1px solid rgba(38, 99, 255, 0.13);
+
+  border-top: 1px solid rgba(38, 99, 255, 0.13);
+  margin-top: 20px;
+  width: 100%;
+  padding: 20px 25px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: rgba(255, 255, 255, 0.711);
+  font-size: 0.9em;
+}
+.buttonContainer {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 10px 25px;
+  justify-content: space-between;
+  padding-bottom: 20px;
+}
+.buttonContainer > button {
+  flex: 1;
+  height: 35px;
+  font-family: poppins;
+  font-weight: 500;
+  background-color: var(--secondary-color);
+  border: none;
+  display: flex;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  border-radius: 3px;
+  color: white;
+}
+.buttonContainer > button:nth-child(2) {
+  background-color: rgba(189, 3, 3, 0.773);
+}

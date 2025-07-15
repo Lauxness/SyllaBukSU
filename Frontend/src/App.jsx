@@ -11,6 +11,7 @@ import AllInOnePage from "./Pages/AllInOnePage";
 import SLOPage from "./Pages/SLOPage";
 import RefreshHandler from "./Handler/RefreshHandler";
 import DashboardPage from "./Pages/DashboardPage";
+import AnnouncementPage from "./Pages/AnnouncementPage";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(true);
@@ -64,6 +65,10 @@ function App() {
         <Route
           path="/dashboard"
           element={<PrivateRoute element={<DashboardPage />} />}
+        />
+        <Route
+          path="/announcements"
+          element={<PrivateRoute element={<AnnouncementPage />} />}
         />
       </Routes>
     </BrowserRouter>

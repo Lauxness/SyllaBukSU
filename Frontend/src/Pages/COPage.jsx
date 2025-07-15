@@ -6,13 +6,38 @@ import Proflle from "../Components/Profile/Proflle";
 import { useEffect, useState } from "react";
 import Aos from "aos";
 import "aos/dist/aos.css";
+
+import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
+import { GetAnnouncement } from "../api";
 function COPage() {
+  const navigate = useNavigate();
   const savedState = localStorage.getItem("sidebarCollapsed");
   const [triggerProfile, setTriggerProfile] = useState(false);
+  const [annoucements, setAnnouncements] = useState([]);
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(
     JSON.parse(savedState) || false
   );
 
+  const handleGetAnnoucements = async () => {
+    try {
+      const response = await GetAnnouncement();
+
+      if (response.status === 200) {
+        setAnnouncements(response.data);
+        console.log(response.data);
+      }
+    } catch (err) {
+      Swal.fire({
+        title: "Failed to fetch",
+        text: err.response.data.message,
+        background: "#202020",
+        icon: "error",
+        color: "white",
+      });
+      console.log(err);
+    }
+  };
   useEffect(() => {
     if (savedState !== null) {
       setIsSidebarCollapsed(JSON.parse(savedState));
@@ -20,6 +45,7 @@ function COPage() {
       setIsSidebarCollapsed(false);
     }
     Aos.init();
+    handleGetAnnoucements();
   }, []);
   return (
     <>
@@ -79,7 +105,33 @@ function COPage() {
           ></div>
         </div>
         <SidebarComponent currentPage="cos" collapsed={isSidebarCollapsed} />
-        <CourseOutcomes />
+        <div style={{ width: "100%", height: "100%" }}>
+          {annoucements.length > 0 && (
+            <div
+              style={{
+                marginTop: "10px",
+                padding: "0px 20px",
+                gap: "5px",
+                display: "flex",
+                alignItems: "center",
+                cursor: "pointer",
+              }}
+              onClick={() => navigate("/announcements")}
+            >
+              <div style={{ fontSize: "20px" }}>📢</div>
+              <marquee
+                behavior="scroll"
+                direction="left"
+                style={{ color: "white", width: "100%" }}
+              >
+                {`${annoucements[annoucements.length - 1].title}: ${
+                  annoucements[annoucements.length - 1].body
+                }`}
+              </marquee>
+            </div>
+          )}
+          <CourseOutcomes />
+        </div>
       </div>
     </>
   );

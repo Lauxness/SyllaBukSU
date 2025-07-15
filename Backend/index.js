@@ -7,7 +7,9 @@ const mongoose = require("mongoose");
 const GenerateRoute = require("./routes/Generate");
 const AdminRoute = require("./routes/Admin");
 const ChatBotRoute = require("./routes/ChatBot");
+const DocxsRoute = require("./routes/DownloadDocxs");
 const SavePromptRoute = require("./routes/SavePrompts");
+const Announcement = require("./routes/Announcement");
 const { Middleware } = require("./utils/Middleware");
 const cors = require("cors");
 dotenv.config();
@@ -20,6 +22,8 @@ app.use("/generate", Middleware, GenerateRoute);
 app.use("/chat", Middleware, ChatBotRoute);
 app.use("/admin", Middleware, AdminRoute);
 app.use("/prompts", Middleware, SavePromptRoute);
+app.use("/docx", DocxsRoute);
+app.use("/announcement", Announcement);
 
 const PORT = process.env.PORT;
 

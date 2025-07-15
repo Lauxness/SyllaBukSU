@@ -167,6 +167,28 @@ const UpdatePassword = async (req, res) => {
     return res.status(500).json({ message: "Internal Server Error!" });
   }
 };
+
+const SetProgram = async (req, res) => {
+  const accountId = req.user._id;
+  const { program } = req.body;
+
+  try {
+    const account = await Accounts.findById(accountId);
+
+    if (!account) {
+      return res.status(404).json({ message: "Account not found." });
+    }
+    account.program = program;
+
+    const result = await account.save();
+
+    return res.status(200).json({ message: "Program successfully set!" });
+  } catch (err) {
+    console.error("Error setting program:", err);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+};
+
 module.exports = {
   Login,
   Register,
@@ -175,4 +197,5 @@ module.exports = {
   FindAccount,
   OTPVerification,
   UpdatePassword,
+  SetProgram,
 };

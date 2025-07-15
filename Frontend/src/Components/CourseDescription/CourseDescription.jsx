@@ -194,18 +194,6 @@ function CourseDescription() {
                   )}
                 </div>
                 <TypingEffect text={result} key={result} speed={speed} />
-                {/*  {useTypingEffect ? (
-                  <TypingEffect text={result} key={result} />
-                ) : (
-                  <p
-                    style={{ fontSize: "1.1em", whiteSpace: "pre-line" }}
-                    dangerouslySetInnerHTML={{
-                      __html: result
-                        .replace(/^(\d+)\./gm, "<strong>$1.</strong>") // Bold numbers
-                        .replace(/\n/g, "<br /><br />"), // Ensure double line breaks for better spacing
-                    }}
-                  />
-                )} */}
               </div>
             </>
           )}
@@ -230,18 +218,6 @@ function CourseDescription() {
                 key={chatResponse}
                 speed={speed}
               />
-              {/*   {useTypingEffect ? (
-                <TypingEffect text={chatResponse} key={chatResponse} />
-              ) : (
-                <p
-                  style={{ fontSize: "1.1em", whiteSpace: "pre-line" }}
-                  dangerouslySetInnerHTML={{
-                    __html: chatResponse
-                      .replace(/^(\d+)\./gm, "<strong>$1.</strong>") // Bold numbers
-                      .replace(/\n/g, "<br /><br />"), // Ensure double line breaks for better spacing
-                  }}
-                />
-              )} */}
             </div>
           </div>
         ))}

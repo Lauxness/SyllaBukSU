@@ -1,26 +1,33 @@
+const mongoose = require("mongoose");
 
-const mongoose = require('mongoose');
+const announcementSchema = new mongoose.Schema(
+  {
+    title: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    body: {
+      type: String,
+      required: true,
+    },
+    publishedAt: {
+      type: Date,
+      default: Date.now,
+    },
+    isActive: {
+      type: Boolean,
+      default: true,
+    },
 
-const announcementSchema = new mongoose.Schema({
-  title: {
-    type: String,
-    required: true,
-    trim: true
+    views: {
+      type: Number,
+      default: 0,
+    },
   },
-  body: {
-    type: String,
-    required: true
-  },
-  publishedAt: {
-    type: Date,
-    default: Date.now
-  },
-  isActive: {
-    type: Boolean,
-    default: true
+  {
+    timestamps: true,
   }
-}, {
-  timestamps: true
-});
+);
 
-module.exports = mongoose.model('announcement', announcementSchema);
+module.exports = mongoose.model("announcement", announcementSchema);

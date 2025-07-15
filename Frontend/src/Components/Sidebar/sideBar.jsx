@@ -7,8 +7,11 @@ import {
   MdDescription,
   MdSettingsInputComponent,
   MdPsychology,
+  MdAnnouncement,
   MdGridView,
   MdDashboard,
+  MdChecklist,
+  MdHelp,
 } from "react-icons/md";
 import Swal from "sweetalert2";
 function SidebarComponent(props) {
@@ -118,6 +121,30 @@ function SidebarComponent(props) {
           icon={<MdGridView color="var(--text-color)" fontSize="20px" />}
         >
           Generate all in one
+        </MenuItem>
+        <MenuItem
+          style={{ color: "var(--text-color)" }}
+          active={props.currentPage === "announcements"}
+          component={<Link to="/announcements" />}
+          icon={<MdAnnouncement color="var(--text-color)" fontSize="20px" />}
+        >
+          Annoucements
+        </MenuItem>
+        <MenuItem
+          style={{ color: "var(--text-color)" }}
+          active={props.currentPage === "allinone"}
+          component={<Link to="/generate_all" />}
+          icon={<MdChecklist color="var(--text-color)" fontSize="20px" />}
+        >
+          Checklist
+        </MenuItem>
+        <MenuItem
+          style={{ color: "var(--text-color)" }}
+          active={props.currentPage === "allinone"}
+          component={<Link to="/generate_all" />}
+          icon={<MdHelp color="var(--text-color)" fontSize="20px" />}
+        >
+          Guides
         </MenuItem>
 
         <MenuItem

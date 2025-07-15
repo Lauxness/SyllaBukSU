@@ -126,7 +126,24 @@ function Dashboard() {
             <img src={TotalUsersPic} alt="" />
           </div>
           <div className={styles.detailContainer}>
-            <p> Total users </p>
+            <p>Users </p>
+            <p style={{ fontSize: "1.6em", fontWeight: 500 }}>
+              {users ? Object.keys(users).length : 0}
+            </p>
+          </div>
+        </div>
+        <div
+          style={{ width: "100%", height: "100px", padding: "20px" }}
+          className={styles.summaryContainer}
+          data-aos="fade-up"
+          data-aos-anchor-placement="top-center"
+          data-aos-duration="300"
+        >
+          <div className={styles.imageContainer}>
+            <img src={TotalUsersPic} alt="" />
+          </div>
+          <div className={styles.detailContainer}>
+            <p>Active users</p>
             <p style={{ fontSize: "1.6em", fontWeight: 500 }}>
               {users ? Object.keys(users).length : 0}
             </p>
@@ -143,7 +160,7 @@ function Dashboard() {
             <img src={Folder} alt="" />
           </div>
           <div className={styles.detailContainer}>
-            <p> Total saved prompts </p>
+            <p> Saved prompts </p>
             <p style={{ fontSize: "1.6em", fontWeight: 500 }}>
               {savedPrompts ? Object.keys(savedPrompts).length : 0}
             </p>
@@ -175,7 +192,7 @@ function Dashboard() {
           data-aos-anchor-placement="top-center"
           data-aos-duration="300"
         >
-          <p>Total Request Traffic per Variant</p>
+          <p>Total Request Traffic per Component</p>
           {isLoading ? (
             ""
           ) : (
@@ -196,7 +213,7 @@ function Dashboard() {
           data-aos-anchor-placement="top-center"
           data-aos-duration="300"
         >
-          <p>Total Saved Prompts per Variants</p>
+          <p>Total Saved Prompts per Component</p>
           {isLoading ? (
             ""
           ) : (

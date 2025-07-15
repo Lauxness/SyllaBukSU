@@ -1,0 +1,53 @@
+.container {
+  width: 100%;
+  padding: 10px;
+}
+.cardContainer {
+  overflow-x: scroll;
+  height: calc(100vh - 150px);
+  padding: 0 10px;
+}
+.card {
+  border: 1px solid rgba(13, 40, 158, 0.307);
+  margin: 10px 0;
+  width: 100%;
+  padding: 15px;
+  background-color: rgba(13, 40, 158, 0.215);
+  transition: all 100ms ease-in-out;
+  cursor: pointer;
+}
+.card > p:nth-child(1) {
+  color: white;
+  font-size: 1.1em;
+  text-transform: capitalize;
+  font-weight: 500;
+}
+.card > div > p:nth-child(2) {
+  color: white;
+}
+.card > div {
+  display: flex;
+  color: rgba(255, 255, 255, 0.74);
+  font-size: 0.8em;
+  align-items: center;
+  justify-content: space-between;
+}
+.card:hover {
+  opacity: 0.7;
+}
+
+.button {
+  outline: none;
+  width: 200px;
+  background-color: var(--secondary-color);
+  border: none;
+  border-radius: 2px;
+  color: white;
+  font-family: poppins;
+  cursor: pointer;
+  height: 45px;
+  font-weight: 500;
+  margin-bottom: 10px;
+  margin-left: 10px;
+  font-size: 1em;
+}
