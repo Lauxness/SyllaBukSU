@@ -1,16 +1,24 @@
 import { useState } from "react";
-import { AddAnnouncement } from "../../../api";
+import { AddAnnouncement, UpdateAnnouncement } from "../../../api";
 import { MdOutlineClose, MdOutlinePostAdd } from "react-icons/md";
 import Swal from "sweetalert2";
 import styles from "./style.module.css";
 function PostAnnouncementModal(props) {
-  const [title, setTitle] = useState("");
-  const [body, setBody] = useState("");
+  const [title, setTitle] = useState(props.title || "");
+  const [body, setBody] = useState(props.body || "");
   const handlePost = async () => {
     const form = { title, body };
 
     try {
-      const response = await AddAnnouncement(form);
+      let response;
+      if (props.body) {
+        console.log(props.id);
+        response = await UpdateAnnouncement(props.id, form);
+        console.log(response);
+      } else {
+        response = await AddAnnouncement(form);
+      }
+
       if (response.status === 200) {
         Swal.fire({
           title: "Success",
@@ -41,14 +49,16 @@ function PostAnnouncementModal(props) {
         <div className={styles.inputGroup}>
           <label htmlFor="title">Title</label>
           <textarea
+            value={title}
             style={{ maxHeight: "40px" }}
             className={styles.textarea}
             onChange={(e) => setTitle(e.target.value)}
           />
         </div>
         <div className={styles.inputGroup}>
-          <label htmlFor="title">Body</label>
+          <label htmlFor="body">Body</label>
           <textarea
+            value={body}
             className={styles.textarea}
             onChange={(e) => setBody(e.target.value)}
           />
