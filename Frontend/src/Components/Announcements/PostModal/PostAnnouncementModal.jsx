@@ -7,22 +7,42 @@ function PostAnnouncementModal(props) {
   const [title, setTitle] = useState(props.title || "");
   const [body, setBody] = useState(props.body || "");
   const handlePost = async () => {
-    const form = { title, body };
+    let response;
+
+    const form = { title, body, isEmail: false };
 
     try {
-      let response;
       if (props.body) {
-        console.log(props.id);
         response = await UpdateAnnouncement(props.id, form);
-        console.log(response);
       } else {
-        response = await AddAnnouncement(form);
-      }
+        const action = await Swal.fire({
+          text: "Do you want to send this announcement to all users' email?",
+          icon: "question",
+          confirmButtonText: "Yes",
+          cancelButtonText: "No",
+          showCancelButton: true,
+          showCloseButton: true,
+          background: "#202020",
+          color: "white",
+        });
 
-      if (response.status === 200) {
+        if (action.isConfirmed) {
+          form.isEmail = true;
+          response = await AddAnnouncement(form);
+        } else if (action.dismiss === Swal.DismissReason.cancel) {
+          form.isEmail = false;
+          response = await AddAnnouncement(form);
+        } else {
+          console.log(
+            "Swal was closed or dismissed unexpectedly. No action taken."
+          );
+          return;
+        }
+      }
+      if (response?.status === 200) {
         Swal.fire({
           title: "Success",
-          text: response.data.message,
+          text: response.data.message || "Announcement saved!",
           background: "#202020",
           icon: "success",
           color: "white",
@@ -31,7 +51,14 @@ function PostAnnouncementModal(props) {
         });
       }
     } catch (err) {
-      console.log(err);
+      console.error(err);
+      Swal.fire({
+        title: "Error",
+        text: "Something Went Wrong!",
+        background: "#202020",
+        icon: "error",
+        color: "white",
+      });
     }
   };
 

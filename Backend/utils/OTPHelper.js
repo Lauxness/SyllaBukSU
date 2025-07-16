@@ -11,7 +11,7 @@ const OTPHelper = async (email, res) => {
   const pin = random.randomAlphanumeric(6, "lowercase");
   await OTP.deleteOne({ email });
   console.log(pin);
-  const response = await SendEmail(email, pin);
+  const response = await SendEmail(email, pin, "One Time Pin");
   const otpInfo = {
     email,
     otp: pin,

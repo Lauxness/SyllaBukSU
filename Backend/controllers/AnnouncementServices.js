@@ -1,5 +1,6 @@
 const Announcement = require("../model/announcement");
-
+const Account = require("../model/accountsModel");
+const { SendEmail } = require("../utils/EmailSender");
 const getAnnouncements = async (req, res) => {
   try {
     const announcements = await Announcement.find();
@@ -13,17 +14,34 @@ const getAnnouncements = async (req, res) => {
 
 const addAnnouncement = async (req, res) => {
   const data = req.body;
-  if (!data) {
+  const isEmail = data.isEmail;
+
+  if (!data || Object.keys(data).length === 0) {
     return res.status(400).json({ message: "The input data is missing!" });
   }
+
   try {
-    const result = await Announcement.create(data);
+    await Announcement.create(data);
+    if (isEmail) {
+      const accounts = await Account.find();
+
+      for (const acc of accounts) {
+        if (acc.email) {
+          const res = await SendEmail(acc.email, data.body, data.title);
+          console.log(res);
+        }
+      }
+      return res.status(200).json({
+        message: `New announcement has been posted, And ${accounts.length} email has been sent!`,
+      });
+    }
+
     return res
       .status(200)
-      .json({ message: "New Announcement has been posted!" });
+      .json({ message: "New announcement has been posted!" });
   } catch (err) {
-    console.log(err);
-    return res.status(500).json({ message: "Internale server error!" });
+    console.error(err);
+    return res.status(500).json({ message: "Internal server error!" });
   }
 };
 
