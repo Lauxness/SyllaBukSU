@@ -24,6 +24,10 @@ const accountsModel = Schema(
       type: String,
       required: true,
     },
+    activeUntil: {
+      type: Date,
+      default: null,
+    },
   },
   { timestamps: true }
 );

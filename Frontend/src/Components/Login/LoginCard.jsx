@@ -37,6 +37,9 @@ function LoginCard(props) {
           token: response.data.token,
           name: response.data.userPayload.name,
           email: response.data.userPayload.email,
+          ...(response.data.userPayload.program && {
+            program: response.data.userPayload.program,
+          }),
         };
         localStorage.setItem("user-info", JSON.stringify(userInfo));
         props.setIsAuthenticated(true);

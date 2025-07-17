@@ -15,10 +15,14 @@ const Login = async (req, res) => {
     if (password !== account.password) {
       return res.status(404).json({ message: "Invalid Email or Password" });
     }
+    const activeUntil = new Date(Date.now() + 12 * 60 * 60 * 1000);
+    account.activeUntil = activeUntil;
+    await account.save();
     const userPayload = {
       name: account.name,
       email: account.email,
       role: account.role,
+      ...(account.program && { program: account.program }),
     };
     const JWT_KEY = process.env.JWT_KEY;
     const token = jwt.sign(userPayload, JWT_KEY, {
@@ -81,10 +85,14 @@ const GoogleAuth = async (req, res) => {
         return res.status(400).json({ message: "Account creation failed!" });
       }
     }
+    const activeUntil = new Date(Date.now() + 12 * 60 * 60 * 1000);
+    currentUser.activeUntil = activeUntil;
+    await currentUser.save();
     const userPayload = {
       email: currentUser.email || email,
       name: currentUser.name || name,
       role: currentUser.role,
+      ...(currentUser.program && { program: currentUser.program }),
     };
     const token = jwt.sign(userPayload, process.env.JWT_KEY, {
       expiresIn: process.env.JWT_TIMEOUT,
@@ -169,18 +177,18 @@ const UpdatePassword = async (req, res) => {
 };
 
 const SetProgram = async (req, res) => {
-  const accountId = req.user._id;
+  const email = req.params.email;
   const { program } = req.body;
-
+  console.log(email);
   try {
-    const account = await Accounts.findById(accountId);
+    const account = await Accounts.findOne({ email });
 
     if (!account) {
       return res.status(404).json({ message: "Account not found." });
     }
     account.program = program;
-
-    const result = await account.save();
+    console.log(account);
+    await account.save();
 
     return res.status(200).json({ message: "Program successfully set!" });
   } catch (err) {

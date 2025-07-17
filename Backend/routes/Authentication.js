@@ -19,6 +19,6 @@ router.post("/otp", OneTimePinSender);
 router.post("/findAccount", FindAccount);
 router.post("/verify", OTPVerification);
 router.post("/updatepassword", UpdatePassword);
-router.post("/program", SetProgram);
+router.patch("/program/:email", SetProgram);
 
 module.exports = router;

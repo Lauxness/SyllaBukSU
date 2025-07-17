@@ -52,3 +52,5 @@ export const DeleteAnnouncement = (id) =>
   api.delete(`/announcement/announcements/${id}`);
 export const UpdateAnnouncement = (id, body) =>
   api.patch(`/announcement/announcements/${id}`, body);
+export const AddDepartment = (email, body) =>
+  api.patch(`/account/program/${email}`, body);

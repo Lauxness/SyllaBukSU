@@ -12,12 +12,14 @@ function GoogleLogin(props) {
     console.log(code);
     try {
       const response = await GoogleLoginRequest(code);
-
       const userInfo = {
         token: response.data.token,
         name: response.data.userPayload.name,
         role: response.data.userPayload.role,
         email: response.data.userPayload.email,
+        ...(response.data.userPayload.program && {
+          program: response.data.userPayload.program,
+        }),
       };
       console.log(userInfo);
       localStorage.setItem("user-info", JSON.stringify(userInfo));

@@ -145,7 +145,13 @@ function Dashboard() {
           <div className={styles.detailContainer}>
             <p>Active users</p>
             <p style={{ fontSize: "1.6em", fontWeight: 500 }}>
-              {users ? Object.keys(users).length : 0}
+              {users
+                ? users.filter(
+                    (user) =>
+                      user.activeUntil &&
+                      new Date(user.activeUntil) > new Date()
+                  ).length
+                : 0}
             </p>
           </div>
         </div>
