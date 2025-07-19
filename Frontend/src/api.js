@@ -54,3 +54,4 @@ export const UpdateAnnouncement = (id, body) =>
   api.patch(`/announcement/announcements/${id}`, body);
 export const AddDepartment = (email, body) =>
   api.patch(`/account/program/${email}`, body);
+export const GetUser = (id) => api.get(`/users/user/${id}`);

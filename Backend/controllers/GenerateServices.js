@@ -1,6 +1,8 @@
 const axios = require("axios");
 const { capitalizeWords } = require("../utils/Capitalize");
 const TrafficModel = require("../model/trafficModel");
+
+const Activity = require("../model/userActivityModel");
 const GenerateDescription = async (req, res) => {
   const origin = req.path;
   const requestName = "description";
@@ -41,6 +43,11 @@ const GenerateDescription = async (req, res) => {
     }
 
     await TrafficModel.create(traffic);
+    await Activity.create({
+      userId: user._id,
+      action: "Generate a course description",
+      component: "Course Description",
+    });
 
     return res.status(200).json({ result: generatedText });
   } catch (error) {
@@ -78,6 +85,11 @@ const GenerateCourseOutcomes = async (req, res) => {
     result.push(`${i + 1}.  ${samples}`);
   }
   await TrafficModel.create(traffic);
+  await Activity.create({
+    userId: user._id,
+    action: "Generate a course outcomes",
+    component: "Course Outcomes",
+  });
   return res.status(200).json({ result });
 };
 const GenerateLearningOutcomes = async (req, res) => {
@@ -100,6 +112,11 @@ const GenerateLearningOutcomes = async (req, res) => {
   }
   console.log(result);
   await TrafficModel.create(traffic);
+  await Activity.create({
+    userId: user._id,
+    action: "Generate a specific learning outcomes",
+    component: "Specific learning outcomes",
+  });
   return res.status(200).json({ result });
 };
 const GenerateAll = async (req, res) => {
@@ -162,6 +179,11 @@ const GenerateAll = async (req, res) => {
 
   console.log(result);
   await TrafficModel.create(traffic);
+  await Activity.create({
+    userId: user._id,
+    action: "Generate a all in one",
+    component: "All in one",
+  });
   return res.status(200).json({ result });
 };
 

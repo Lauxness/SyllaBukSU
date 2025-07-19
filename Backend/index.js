@@ -11,6 +11,7 @@ const DocxsRoute = require("./routes/DownloadDocxs");
 const SavePromptRoute = require("./routes/SavePrompts");
 const Announcement = require("./routes/Announcement");
 const { Middleware } = require("./utils/Middleware");
+const UserRoute = require("./routes/User");
 const cors = require("cors");
 dotenv.config();
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -24,6 +25,7 @@ app.use("/admin", Middleware, AdminRoute);
 app.use("/prompts", Middleware, SavePromptRoute);
 app.use("/docx", DocxsRoute);
 app.use("/announcement", Announcement);
+app.use("/users", UserRoute);
 
 const PORT = process.env.PORT;
 

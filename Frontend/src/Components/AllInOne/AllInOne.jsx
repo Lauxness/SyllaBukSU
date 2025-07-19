@@ -118,10 +118,22 @@ function AllInOne() {
         currentResult: result,
       });
       if (response.status === 200) {
-        Swal.fire("Success", "Prompt has been saved successfuly", "success");
+        Swal.fire({
+          text: "Prompt has been successfully saved.",
+          title: "Success",
+          icon: "success",
+          background: "#202020",
+          color: "white",
+        });
       }
     } catch (err) {
-      Swal.fire("Error", "Failed to saved Prompt", "error");
+      Swal.fire({
+        text: "Prompt failed to save!",
+        title: "Error",
+        icon: "error",
+        background: "#202020",
+        color: "white",
+      });
     }
   };
   return (

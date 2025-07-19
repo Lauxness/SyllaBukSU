@@ -20,6 +20,12 @@ const accountsModel = Schema(
     program: {
       type: String,
     },
+    department: {
+      type: String,
+    },
+    college: {
+      type: String,
+    },
     role: {
       type: String,
       required: true,

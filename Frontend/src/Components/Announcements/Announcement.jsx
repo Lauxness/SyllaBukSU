@@ -4,6 +4,7 @@ import Swal from "sweetalert2";
 import styles from "./style.module.css";
 import PostAnnouncementModal from "./PostModal/PostAnnouncementModal";
 import ViewAnnouncementModal from "./ViewModal/ViewAnnouncementModal";
+import { TiPlus } from "react-icons/ti";
 
 function Announcements() {
   const [annoucements, setAnnouncements] = useState([]);
@@ -78,6 +79,7 @@ function Announcements() {
       <div className={styles.container}>
         <div>
           <button onClick={() => handleTrigger()} className={styles.button}>
+            <TiPlus fontSize={15} />
             Post
           </button>
         </div>

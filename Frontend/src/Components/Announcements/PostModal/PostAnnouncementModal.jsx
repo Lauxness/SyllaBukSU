@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { AddAnnouncement, UpdateAnnouncement } from "../../../api";
-import { MdOutlineClose, MdOutlinePostAdd } from "react-icons/md";
+import { MdOutlineClose } from "react-icons/md";
 import Swal from "sweetalert2";
 import styles from "./style.module.css";
+import { TiPlus } from "react-icons/ti";
 function PostAnnouncementModal(props) {
   const [title, setTitle] = useState(props.title || "");
   const [body, setBody] = useState(props.body || "");
@@ -92,7 +93,7 @@ function PostAnnouncementModal(props) {
         </div>
         <div className={styles.buttonContainer}>
           <button onClick={handlePost} style={{ backgroundColor: "#2663ff" }}>
-            <MdOutlinePostAdd fontSize={15} />
+            <TiPlus fontSize={15} />
             Post
           </button>
         </div>

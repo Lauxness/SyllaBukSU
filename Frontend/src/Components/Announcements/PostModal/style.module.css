@@ -61,13 +61,15 @@
   max-width: 100%;
   min-width: 100%;
   max-height: 100px;
-  padding: 5px;
+  padding: 5px 10px;
   font-size: 16px;
   font-family: poppins;
+  background-color: #333;
   outline: none;
   border-radius: 3px;
   resize: horizontal;
-  overflow-x: auto; /* prevent text wrapping */
+  color: white;
+  overflow-x: auto;
 }
 .buttonContainer {
   width: 100%;

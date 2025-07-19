@@ -8,7 +8,10 @@ import BarChart from "./Charts/BarChart";
 import TotalUsersPic from "../../assets/TotalUsers.png";
 import TrafficPic from "../../assets/traffic.png";
 import Folder from "../../assets/folder1.webp";
-import SmoothLineChart from "./Charts/SmoothLineChart";
+import ActiveUsers from "./Modals/ActiveUsers/ActiveUsers";
+import PieChartProgram from "./Charts/PieChartProgram";
+import Users from "./Modals/Users/Users";
+import LoginFrequency from "./Charts/LoginFrequency";
 function Dashboard() {
   const [descriptionYearlyData, setDescriptionYearlyData] = useState([]);
   const [descriptionMonthlyData, seteDecriptionMonthlyData] = useState([]);
@@ -31,7 +34,53 @@ function Dashboard() {
   const [totalAIO, setTotalAIO] = useState();
   const [totalRequest, setTotalRequest] = useState();
   const [savedPrompts, setSavedPrompts] = useState();
+  const [totalBSIT, setTotalBSIT] = useState();
+  const [totalBSEMC, setTotalBSEMC] = useState();
+  const [isTriggeredActiveUsers, setIsTriggeredActiveUsers] = useState(false);
+  const [isTriggeredUsers, setIsTriggeredUsers] = useState(false);
+  const [loginFrequency, setLoginFrequency] = useState();
   const today = new Date();
+
+  const columns = [
+    {
+      name: "Name",
+      selector: (row) => row.name,
+      sortable: true,
+    },
+    {
+      name: "Email",
+      selector: (row) => row.email,
+      sortable: true,
+    },
+    {
+      name: "Program",
+      selector: (row) => row.program || "N/A",
+      sortable: true,
+    },
+    {
+      name: "Status",
+      selector: (row) =>
+        row.activeUntil && new Date(row.activeUntil) > new Date()
+          ? "Active"
+          : "Inactive",
+      sortable: true,
+    },
+  ];
+
+  const handleTriggerActiveUsers = () => {
+    if (isTriggeredActiveUsers) {
+      setIsTriggeredActiveUsers(false);
+    } else {
+      setIsTriggeredActiveUsers(true);
+    }
+  };
+  const handleTriggerUsers = () => {
+    if (isTriggeredUsers) {
+      setIsTriggeredUsers(false);
+    } else {
+      setIsTriggeredUsers(true);
+    }
+  };
 
   const last10Days = [];
   for (let i = 9; i >= 0; i--) {
@@ -71,7 +120,9 @@ function Dashboard() {
       const data = response.data;
       setTraffic(data);
       setUsers(data.users);
-      console.log(data.traffic);
+      console.log(data.programCounts);
+      setTotalBSIT(data.programCounts.bsit);
+      setTotalBSEMC(data.programCounts.bsemc);
       setDescriptionYearlyData(data.traffic.description.yearly);
       seteDecriptionMonthlyData(data.traffic.description.monthly);
       setDecriptionDailyData(data.traffic.description.daily);
@@ -88,6 +139,7 @@ function Dashboard() {
       setTotalCos(calculateTotal(data.traffic.course_outcomes));
       setTotalSLOs(calculateTotal(data.traffic.learning_outcomes));
       setTotalAIO(calculateTotal(data.traffic.all_in_one));
+      setLoginFrequency(data.loginFrequency);
       setTotalRequest(
         calculateTotal(data.traffic.description) +
           calculateTotal(data.traffic.course_outcomes) +
@@ -113,185 +165,215 @@ function Dashboard() {
   };
 
   return (
-    <div className={styles.trafficContainer}>
-      <div className={styles.twoCharts}>
-        <div
-          style={{ width: "100%", height: "100px", padding: "20px" }}
-          className={styles.summaryContainer}
-          data-aos="fade-up"
-          data-aos-anchor-placement="top-center"
-          data-aos-duration="300"
-        >
-          <div className={styles.imageContainer}>
-            <img src={TotalUsersPic} alt="" />
-          </div>
-          <div className={styles.detailContainer}>
-            <p>Users </p>
-            <p style={{ fontSize: "1.6em", fontWeight: 500 }}>
-              {users ? Object.keys(users).length : 0}
-            </p>
-          </div>
-        </div>
-        <div
-          style={{ width: "100%", height: "100px", padding: "20px" }}
-          className={styles.summaryContainer}
-          data-aos="fade-up"
-          data-aos-anchor-placement="top-center"
-          data-aos-duration="300"
-        >
-          <div className={styles.imageContainer}>
-            <img src={TotalUsersPic} alt="" />
-          </div>
-          <div className={styles.detailContainer}>
-            <p>Active users</p>
-            <p style={{ fontSize: "1.6em", fontWeight: 500 }}>
-              {users
-                ? users.filter(
-                    (user) =>
-                      user.activeUntil &&
-                      new Date(user.activeUntil) > new Date()
-                  ).length
-                : 0}
-            </p>
-          </div>
-        </div>
-        <div
-          style={{ width: "100%", height: "100px", padding: "20px" }}
-          className={styles.summaryContainer}
-          data-aos="fade-up"
-          data-aos-anchor-placement="top-center"
-          data-aos-duration="300"
-        >
-          <div className={styles.imageContainer}>
-            <img src={Folder} alt="" />
-          </div>
-          <div className={styles.detailContainer}>
-            <p> Saved prompts </p>
-            <p style={{ fontSize: "1.6em", fontWeight: 500 }}>
-              {savedPrompts ? Object.keys(savedPrompts).length : 0}
-            </p>
-          </div>
-        </div>
-        <div
-          style={{ width: "100%", height: "100px", padding: "20px" }}
-          className={styles.summaryContainer}
-          data-aos="fade-up"
-          data-aos-anchor-placement="top-center"
-          data-aos-duration="300"
-        >
-          <div className={styles.imageContainer}>
-            <img src={TrafficPic} alt="" />
-          </div>
-          <div className={styles.detailContainer}>
-            <p> Total Request </p>
-            <p style={{ fontSize: "1.6em", fontWeight: 500 }}>
-              {totalRequest ? totalRequest : 0}
-            </p>
-          </div>
-        </div>
-      </div>
-      <div className={styles.twoCharts}>
-        <div
-          style={{ width: "100%", height: "300px", padding: "20px" }}
-          className={styles.chartContainer}
-          data-aos="fade-up"
-          data-aos-anchor-placement="top-center"
-          data-aos-duration="300"
-        >
-          <p>Total Request Traffic per Component</p>
-          {isLoading ? (
-            ""
-          ) : (
-            <div style={{ width: "100%", height: "100%", padding: "20px" }}>
-              <PieChart
-                totalDescription={totalDescription}
-                totalCOs={totalCos}
-                totalSLOs={totalSLOs}
-                totalAIO={totalAIO}
-              />
+    <>
+      <div className={styles.trafficContainer}>
+        <div className={styles.twoCharts}>
+          <div
+            style={{ width: "100%", height: "100px", padding: "20px" }}
+            className={styles.summaryContainer}
+            onClick={handleTriggerUsers}
+          >
+            <div className={styles.imageContainer}>
+              <img src={TotalUsersPic} alt="" />
             </div>
-          )}
-        </div>
-        <div
-          style={{ width: "100%", height: "300px", padding: "20px" }}
-          className={styles.chartContainer}
-          data-aos="fade-up"
-          data-aos-anchor-placement="top-center"
-          data-aos-duration="300"
-        >
-          <p>Total Saved Prompts per Component</p>
-          {isLoading ? (
-            ""
-          ) : (
-            <div style={{ width: "100%", height: "100%", padding: "20px" }}>
-              <BarChart savedPrompts={savedPrompts} />
+            <div className={styles.detailContainer}>
+              <p>Users </p>
+              <p style={{ fontSize: "1.6em", fontWeight: 500 }}>
+                {users ? Object.keys(users).length : 0}
+              </p>
             </div>
-          )}
+          </div>
+          <div
+            style={{ width: "100%", height: "100px", padding: "20px" }}
+            className={styles.summaryContainer}
+            onClick={handleTriggerActiveUsers}
+          >
+            <div className={styles.imageContainer}>
+              <img src={TotalUsersPic} alt="" />
+            </div>
+            <div className={styles.detailContainer}>
+              <p>Active users</p>
+              <p style={{ fontSize: "1.6em", fontWeight: 500 }}>
+                {users
+                  ? users.filter(
+                      (user) =>
+                        user.activeUntil &&
+                        new Date(user.activeUntil) > new Date()
+                    ).length
+                  : 0}
+              </p>
+            </div>
+          </div>
+          <div
+            style={{ width: "100%", height: "100px", padding: "20px" }}
+            className={styles.summaryContainer}
+          >
+            <div className={styles.imageContainer}>
+              <img src={Folder} alt="" />
+            </div>
+            <div className={styles.detailContainer}>
+              <p> Saved prompts </p>
+              <p style={{ fontSize: "1.6em", fontWeight: 500 }}>
+                {savedPrompts ? Object.keys(savedPrompts).length : 0}
+              </p>
+            </div>
+          </div>
+          <div
+            style={{ width: "100%", height: "100px", padding: "20px" }}
+            className={styles.summaryContainer}
+          >
+            <div className={styles.imageContainer}>
+              <img src={TrafficPic} alt="" />
+            </div>
+            <div className={styles.detailContainer}>
+              <p> Total Request </p>
+              <p style={{ fontSize: "1.6em", fontWeight: 500 }}>
+                {totalRequest ? totalRequest : 0}
+              </p>
+            </div>
+          </div>
         </div>
-      </div>
-      <div className={styles.twoCharts}>
+        <div className={styles.twoCharts}>
+          <div
+            style={{ width: "100%", height: "300px", padding: "20px" }}
+            className={styles.chartContainer}
+          >
+            <p>Total User per Program</p>
+            {isLoading ? (
+              ""
+            ) : (
+              <div style={{ width: "100%", height: "100%", padding: "20px" }}>
+                <PieChartProgram
+                  totalBSIT={totalBSIT}
+                  totalBSEMC={totalBSEMC}
+                />
+              </div>
+            )}
+          </div>
+          <div
+            style={{ width: "100%", height: "300px", padding: "20px" }}
+            className={styles.chartContainer}
+          >
+            <p>Daily Login Frequency</p>
+            {isLoading ? (
+              ""
+            ) : (
+              <div style={{ width: "100%", height: "100%", padding: "20px" }}>
+                <LoginFrequency
+                  labels={last10Days}
+                  description={loginFrequency}
+                />
+              </div>
+            )}
+          </div>
+        </div>
+        <div className={styles.twoCharts}>
+          <div
+            style={{ width: "100%", height: "300px", padding: "20px" }}
+            className={styles.chartContainer}
+          >
+            <p>Total Request Traffic per Component</p>
+            {isLoading ? (
+              ""
+            ) : (
+              <div style={{ width: "100%", height: "100%", padding: "20px" }}>
+                <PieChart
+                  totalDescription={totalDescription}
+                  totalCOs={totalCos}
+                  totalSLOs={totalSLOs}
+                  totalAIO={totalAIO}
+                />
+              </div>
+            )}
+          </div>
+          <div
+            style={{ width: "100%", height: "300px", padding: "20px" }}
+            className={styles.chartContainer}
+          >
+            <p>Total Saved Prompts per Component</p>
+            {isLoading ? (
+              ""
+            ) : (
+              <div style={{ width: "100%", height: "100%", padding: "20px" }}>
+                <BarChart savedPrompts={savedPrompts} />
+              </div>
+            )}
+          </div>
+        </div>
+
+        <div className={styles.twoCharts}>
+          <div
+            style={{ width: "100%", height: "300px", padding: "20px" }}
+            className={styles.chartContainer}
+          >
+            <p>Monthly Request Traffic</p>
+            {isLoading ? (
+              ""
+            ) : (
+              <div style={{ width: "100%", height: "100%", padding: "20px" }}>
+                <Traffic
+                  labels={monthlyLabels}
+                  description={descriptionMonthlyData}
+                  courseOutcomes={COMonthlyData}
+                  learningOutcomes={SLOMonthlyData}
+                  allInOne={AIOMonthlyData}
+                />
+              </div>
+            )}
+          </div>
+          <div
+            style={{ width: "100%", height: "300px", padding: "20px" }}
+            className={styles.chartContainer}
+          >
+            <p>Daily Request Traffic</p>
+            {isLoading ? (
+              ""
+            ) : (
+              <div style={{ width: "100%", height: "100%", padding: "20px" }}>
+                <Traffic
+                  labels={last10Days}
+                  description={descriptionDailyData}
+                  courseOutcomes={CODailyData}
+                  learningOutcomes={SLODailyData}
+                  allInOne={AIODailyData}
+                />
+              </div>
+            )}
+          </div>
+        </div>
+
         <div
           style={{ width: "100%", height: "300px", padding: "20px" }}
           className={styles.chartContainer}
         >
-          <p>Monthly Request Traffic</p>
+          <p>Yearly Request Traffic</p>
           {isLoading ? (
             ""
           ) : (
             <div style={{ width: "100%", height: "100%", padding: "20px" }}>
               <Traffic
-                labels={monthlyLabels}
-                description={descriptionMonthlyData}
-                courseOutcomes={COMonthlyData}
-                learningOutcomes={SLOMonthlyData}
-                allInOne={AIOMonthlyData}
+                labels={last10Years}
+                description={descriptionYearlyData}
+                courseOutcomes={COYearlyData}
+                learningOutcomes={SLOYearlyData}
+                allInOne={AIOYearlyData}
               />
             </div>
           )}
         </div>
-        <div
-          style={{ width: "100%", height: "300px", padding: "20px" }}
-          className={styles.chartContainer}
-        >
-          <p>Daily Request Traffic</p>
-          {isLoading ? (
-            ""
-          ) : (
-            <div style={{ width: "100%", height: "100%", padding: "20px" }}>
-              <Traffic
-                labels={last10Days}
-                description={descriptionDailyData}
-                courseOutcomes={CODailyData}
-                learningOutcomes={SLODailyData}
-                allInOne={AIODailyData}
-              />
-            </div>
-          )}
+
+        <div className={styles.chartContainer}>
+          <UserTable users={users} title="User List" columns={columns} />
         </div>
       </div>
-      <div
-        style={{ width: "100%", height: "300px", padding: "20px" }}
-        className={styles.chartContainer}
-      >
-        <p>Yearly Request Traffic</p>
-        {isLoading ? (
-          ""
-        ) : (
-          <div style={{ width: "100%", height: "100%", padding: "20px" }}>
-            <Traffic
-              labels={last10Years}
-              description={descriptionYearlyData}
-              courseOutcomes={COYearlyData}
-              learningOutcomes={SLOYearlyData}
-              allInOne={AIOYearlyData}
-            />
-          </div>
-        )}
-      </div>
-      <div className={styles.chartContainer}>
-        <UserTable users={users} />
-      </div>
-    </div>
+
+      {isTriggeredActiveUsers && (
+        <ActiveUsers handleTrigger={handleTriggerActiveUsers} users={users} />
+      )}
+      {isTriggeredUsers && (
+        <Users handleTrigger={handleTriggerUsers} users={users} />
+      )}
+    </>
   );
 }
 

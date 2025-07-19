@@ -14,8 +14,6 @@ import { GetPrompts, DeletePrompt } from "../../api";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 
-// inside your component
-
 function Proflle({ setTriggerProfile }) {
   const data = localStorage.getItem("user-info");
   const userInfo = JSON.parse(data);

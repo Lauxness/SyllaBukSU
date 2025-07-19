@@ -44,6 +44,10 @@
   border-radius: 2px;
   color: white;
   font-family: poppins;
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
   height: 45px;
   font-weight: 500;

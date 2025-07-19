@@ -29,46 +29,16 @@ createTheme(
   },
   "dark"
 );
-const data = [
-  { name: "Rey ANthony Rojo", email: "qwerqwer@gmail.com", role: "admin" },
-  { name: "Rey ANthony Rojo", email: "qwerqwer@gmail.com", role: "admin" },
-  { name: "Rey ANthony Rojo", email: "qwerqwer@gmail.com", role: "admin" },
-  { name: "Rey ANthony Rojo", email: "qwerqwer@gmail.com", role: "admin" },
-  { name: "Rey ANthony Rojo", email: "qwerqwer@gmail.com", role: "admin" },
-  { name: "Rey ANthony Rojo", email: "qwerqwer@gmail.com", role: "admin" },
-  { name: "Rey ANthony Rojo", email: "qwerqwer@gmail.com", role: "admin" },
-  { name: "Rey ANthony Rojo", email: "qwerqwer@gmail.com", role: "admin" },
-  { name: "Rey ANthony Rojo", email: "qwerqwer@gmail.com", role: "admin" },
-  { name: "Rey ANthony Rojo", email: "qwerqwer@gmail.com", role: "admin" },
-  { name: "Rey ANthony Rojo", email: "qwerqwer@gmail.com", role: "admin" },
-];
 
-const columns = [
-  {
-    name: "Name",
-    selector: (row) => row.name,
-    sortable: true,
-  },
-  {
-    name: "Email",
-    selector: (row) => row.email,
-    sortable: true,
-  },
-  {
-    name: "Role",
-    selector: (row) => row.role,
-    sortable: true,
-  },
-];
-
-const UserTable = ({ users }) => (
+const UserTable = ({ users, title, columns }) => (
   <DataTable
-    title="User List"
+    title={title}
     columns={columns}
     data={users}
     theme="customTheme"
     selectableRows
     pagination
+    fixedHeaderScrollHeight="500px"
   />
 );
 

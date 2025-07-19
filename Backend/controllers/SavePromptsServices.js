@@ -1,6 +1,7 @@
 const SavedPrompts = require("../model/savedPromptsModel");
 const Accounts = require("../model/accountsModel");
 
+const Activity = require("../model/userActivityModel");
 const SavePrompt = async (req, res) => {
   const userEmail = req.user.email;
 
@@ -27,6 +28,11 @@ const SavePrompt = async (req, res) => {
       currentResult,
     };
     const result = await SavedPrompts.create(data);
+    await Activity.create({
+      userId: user._id,
+      action: "User has saved a prompt",
+      component: "Save prompt",
+    });
     res.status(200).json({ message: "Prompts has been saved!" });
   } catch (err) {
     console.log(err);

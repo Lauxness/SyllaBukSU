@@ -1,6 +1,8 @@
 const Accounts = require("../model/accountsModel");
 const jwt = require("jsonwebtoken");
 const { oauth2Client } = require("../utils/GoogleClient");
+const Activity = require("../model/userActivityModel");
+
 const axios = require("axios");
 const { VerifyEmail } = require("../utils/EmailVerification");
 const { OTPHelper } = require("../utils/OTPHelper");
@@ -27,6 +29,11 @@ const Login = async (req, res) => {
     const JWT_KEY = process.env.JWT_KEY;
     const token = jwt.sign(userPayload, JWT_KEY, {
       expiresIn: process.env.JWT_TIMEOUT,
+    });
+    await Activity.create({
+      userId: account._id,
+      action: "User has successfully logged in.",
+      component: "Login",
     });
     return res.status(200).json({ token, userPayload });
   } catch (err) {
@@ -97,7 +104,11 @@ const GoogleAuth = async (req, res) => {
     const token = jwt.sign(userPayload, process.env.JWT_KEY, {
       expiresIn: process.env.JWT_TIMEOUT,
     });
-
+    await Activity.create({
+      userId: currentUser._id,
+      action: "Logged in",
+      component: "Login",
+    });
     return res.status(200).json({
       token,
       userPayload,
@@ -178,7 +189,7 @@ const UpdatePassword = async (req, res) => {
 
 const SetProgram = async (req, res) => {
   const email = req.params.email;
-  const { program } = req.body;
+  const { program, department, college } = req.body;
   console.log(email);
   try {
     const account = await Accounts.findOne({ email });
@@ -187,6 +198,8 @@ const SetProgram = async (req, res) => {
       return res.status(404).json({ message: "Account not found." });
     }
     account.program = program;
+    account.department = department;
+    account.college = college;
     console.log(account);
     await account.save();
 
