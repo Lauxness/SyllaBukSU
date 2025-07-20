@@ -41,11 +41,9 @@ function Proflle({ setTriggerProfile }) {
   };
   useEffect(() => {
     getPrompts();
-    console.log(savedPrompts);
   }, []);
   const handleViewPrompt = (p) => {
     const variant = p.variant;
-    console.log(variant);
     let path = "";
 
     switch (variant) {

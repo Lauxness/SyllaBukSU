@@ -52,7 +52,6 @@ function AllInOne() {
       if (response.status === 200) {
         const text = response.data.result;
         setResult(text);
-        console.log(text);
       }
     } catch (err) {
       console.log(err);

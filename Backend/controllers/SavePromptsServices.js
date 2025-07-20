@@ -13,7 +13,6 @@ const SavePrompt = async (req, res) => {
     chatPrompts,
     currentResult,
   } = req.body;
-  console.log(userEmail);
 
   try {
     const user = await Accounts.findOne({ email: userEmail });
@@ -55,8 +54,6 @@ const GetPrompt = async (req, res) => {
   const id = req.params.id;
   try {
     const prompts = await SavedPrompts.findById(id);
-
-    console.log(prompts);
 
     res.status(200).json(prompts);
   } catch (err) {

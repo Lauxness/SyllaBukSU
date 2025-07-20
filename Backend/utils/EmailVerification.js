@@ -2,8 +2,6 @@ const OTP = require("../model/otpModel");
 const VerifyEmail = async (email, otp) => {
   const date = Date.now();
   const verifyOTP = await OTP.findOne({ email });
-  console.log("asdfhasdfkjasdf", otp);
-  console.log("aksjdhfjkashdfkdsaf", verifyOTP.otp);
   if (otp !== verifyOTP.otp) {
     return { success: false, message: "Incorrect pin!" };
   }

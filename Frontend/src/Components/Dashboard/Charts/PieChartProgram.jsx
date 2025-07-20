@@ -11,8 +11,15 @@ function PieChartProgram(props) {
     if (chartInstanceRef.current) {
       chartInstanceRef.current.destroy();
     }
-    const labels = ["BSIT", "BSEMC"];
-    const data = [props.totalBSIT, props.totalBSEMC];
+    const labels = ["COB", "CPAG", "COE", "CON", "CAS", "COT"];
+    const data = [
+      props.totalCOB,
+      props.totalCPAG,
+      props.totalCOB,
+      props.totalCON,
+      props.totalCAS,
+      props.totalCOT,
+    ];
 
     chartInstanceRef.current = new Chart(ctx, {
       type: "doughnut",
@@ -23,8 +30,12 @@ function PieChartProgram(props) {
             label: "Sample Data",
             data: data,
             backgroundColor: [
-              "rgba(43, 84, 138, 1)",
+              "rgba(211, 162, 2, 1)",
               "rgba(7, 168, 122, 0.61)",
+              "rgba(8, 109, 204, 0.61)",
+              "rgba(255, 43, 32, 0.61)",
+              "rgba(7, 168, 122, 0.61)",
+              "rgba(188, 76, 76, 0.61)",
             ],
             borderWidth: 0,
           },

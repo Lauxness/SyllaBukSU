@@ -16,7 +16,6 @@ import AnnouncementPage from "./Pages/AnnouncementPage";
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(true);
   const PrivateRoute = ({ element }) => {
-    console.log(isAuthenticated);
     return isAuthenticated ? element : <Navigate to="/login" />;
   };
   return (

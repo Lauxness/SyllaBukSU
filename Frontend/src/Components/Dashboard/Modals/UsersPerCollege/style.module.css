@@ -1,0 +1,90 @@
+.mainContainer {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.538);
+  z-index: 5;
+  display: flex;
+  align-items: start;
+  justify-content: center;
+  animation-name: easeIn;
+  animation-duration: 150ms;
+}
+@keyframes easeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.container {
+  border: 1px solid rgba(13, 40, 158, 0.307);
+  background-color: #111111;
+  border-radius: 3px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: start;
+  width: 95%;
+}
+.header {
+  height: 45px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 1.2em;
+  padding-top: 20px;
+  font-weight: 500;
+  padding: 30px 25px;
+
+  color: white;
+  border-bottom: 1px solid rgba(38, 99, 255, 0.13);
+}
+
+.chartsContainer {
+  width: 100%;
+  display: grid;
+  grid-template-areas:
+    "chart1 chart1 chart2 chart2 chart3 chart3"
+    "chart4 chart5 chart6 chart6 chart6 chart6";
+  grid-template-columns: 1fr 1fr 1fr 1fr fr 1fr;
+  gap: 20px;
+  padding: 20px;
+}
+.chartsContainer > .chartCanvas:nth-child(1) {
+  grid-area: chart1;
+}
+.chartsContainer > .chartCanvas:nth-child(2) {
+  grid-area: chart2;
+}
+.chartsContainer > .chartCanvas:nth-child(3) {
+  grid-area: chart3;
+}
+.chartsContainer > .chartCanvas:nth-child(4) {
+  grid-area: chart4;
+}
+.chartsContainer > .chartCanvas:nth-child(6) {
+  grid-area: chart6;
+}
+
+.chartsContainer > .chartCanvas:nth-child(5) {
+  grid-area: chart5;
+}
+.chartCanvas {
+  border: 1px solid rgba(45, 86, 251, 0.311);
+  background-color: rgba(45, 86, 251, 0.04);
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  height: 260px;
+  gap: 10px;
+}
+.chartCanvas > p {
+  font-weight: 500;
+  color: white;
+}
+.chart {
+  height: 100%;
+}

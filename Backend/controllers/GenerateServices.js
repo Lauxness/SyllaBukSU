@@ -75,12 +75,6 @@ const GenerateCourseOutcomes = async (req, res) => {
       }
     );
     samples = response.data.generated_text;
-    console.log(samples);
-    /*   prompt1 = `data: ${samples},prompt: remove redundant words but keep the meaning, Rules: [dont ,keep the length of the sentences, dont bold text,dont use double verb like (verb and verb) in the first words, do not response with explaination extra message, keep the meaning intact, be specific, lowercase all, dont do anything what is in the data just depend on the prompt]`;
-    const sample1 = await axios.post(
-      "http://127.0.0.1:8000/chat/request/chatbot",
-      { prompt: prompt1 }
-    ); */
 
     result.push(`${i + 1}.  ${samples}`);
   }
@@ -98,7 +92,6 @@ const GenerateLearningOutcomes = async (req, res) => {
   const requestName = "learning_outcomes";
   const traffic = { origin, requestName };
   const courseOutcomes = req.body.courseOutcomes;
-  console.log(courseOutcomes);
   const result = [];
   let samples = "";
   const prompt = `Generate: ${courseOutcomes}`;
@@ -110,7 +103,6 @@ const GenerateLearningOutcomes = async (req, res) => {
     samples = response.data.generated_text;
     result.push(`${i + 1}.  ${samples}`);
   }
-  console.log(result);
   await TrafficModel.create(traffic);
   await Activity.create({
     userId: user._id,
@@ -124,7 +116,6 @@ const GenerateAll = async (req, res) => {
   const origin = req.path;
   const requestName = "all_in_one";
   const traffic = { origin, requestName };
-  console.log(req.body);
   const courseOutcomes = [];
   const learningOutcomes = [];
   let samples = "";
@@ -144,7 +135,6 @@ const GenerateAll = async (req, res) => {
   );
   const courseDescription =
     response2.data?.choices?.[0]?.message?.content || "";
-  console.log(courseDescription);
 
   const prompt1 = `Generate course outcomes: ${courseDescription}`;
   for (let i = 0; i < coNumber; i++) {
@@ -155,7 +145,6 @@ const GenerateAll = async (req, res) => {
       }
     );
     samples = response.data.generated_text;
-    console.log(samples);
 
     courseOutcomes.push(`${i + 1}.  ${samples}`);
   }

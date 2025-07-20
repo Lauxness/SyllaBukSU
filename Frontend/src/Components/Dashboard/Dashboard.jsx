@@ -10,6 +10,7 @@ import TrafficPic from "../../assets/traffic.png";
 import Folder from "../../assets/folder1.webp";
 import ActiveUsers from "./Modals/ActiveUsers/ActiveUsers";
 import PieChartProgram from "./Charts/PieChartProgram";
+import UsersPerCollege from "./Modals/UsersPerCollege/UsersPerCollege";
 import Users from "./Modals/Users/Users";
 import LoginFrequency from "./Charts/LoginFrequency";
 function Dashboard() {
@@ -34,11 +35,17 @@ function Dashboard() {
   const [totalAIO, setTotalAIO] = useState();
   const [totalRequest, setTotalRequest] = useState();
   const [savedPrompts, setSavedPrompts] = useState();
-  const [totalBSIT, setTotalBSIT] = useState();
-  const [totalBSEMC, setTotalBSEMC] = useState();
+  const [totalCOE, setTotalCOE] = useState();
+  const [totalCON, setTotalCON] = useState();
+  const [totalCOT, setTotalCOT] = useState();
+  const [totalCPAG, setTotalCPAG] = useState();
+  const [totalCAS, setTotalCAS] = useState();
+  const [totalCOB, setTotalCOB] = useState();
   const [isTriggeredActiveUsers, setIsTriggeredActiveUsers] = useState(false);
   const [isTriggeredUsers, setIsTriggeredUsers] = useState(false);
+  const [isTriggerUsersPerCollege, setTriggerUsersPerCollege] = useState(false);
   const [loginFrequency, setLoginFrequency] = useState();
+  const [userCountsPerCollege, setUserCountsPerCollege] = useState([]);
   const today = new Date();
 
   const columns = [
@@ -67,6 +74,13 @@ function Dashboard() {
     },
   ];
 
+  const handleTriggerUsersPerCollege = () => {
+    if (isTriggerUsersPerCollege) {
+      setTriggerUsersPerCollege(false);
+    } else {
+      setTriggerUsersPerCollege(true);
+    }
+  };
   const handleTriggerActiveUsers = () => {
     if (isTriggeredActiveUsers) {
       setIsTriggeredActiveUsers(false);
@@ -120,9 +134,12 @@ function Dashboard() {
       const data = response.data;
       setTraffic(data);
       setUsers(data.users);
-      console.log(data.programCounts);
-      setTotalBSIT(data.programCounts.bsit);
-      setTotalBSEMC(data.programCounts.bsemc);
+      setTotalCAS(data.collegeCounts.cas);
+      setTotalCOB(data.collegeCounts.cob);
+      setTotalCON(data.collegeCounts.con);
+      setTotalCOT(data.collegeCounts.cot);
+      setTotalCOE(data.collegeCounts.coe);
+      setTotalCPAG(data.collegeCounts.cpag);
       setDescriptionYearlyData(data.traffic.description.yearly);
       seteDecriptionMonthlyData(data.traffic.description.monthly);
       setDecriptionDailyData(data.traffic.description.daily);
@@ -140,6 +157,8 @@ function Dashboard() {
       setTotalSLOs(calculateTotal(data.traffic.learning_outcomes));
       setTotalAIO(calculateTotal(data.traffic.all_in_one));
       setLoginFrequency(data.loginFrequency);
+      setUserCountsPerCollege(data.userPerCourse);
+      console.log(data);
       setTotalRequest(
         calculateTotal(data.traffic.description) +
           calculateTotal(data.traffic.course_outcomes) +
@@ -237,15 +256,20 @@ function Dashboard() {
           <div
             style={{ width: "100%", height: "300px", padding: "20px" }}
             className={styles.chartContainer}
+            onClick={handleTriggerUsersPerCollege}
           >
-            <p>Total User per Program</p>
+            <p>Total User per College</p>
             {isLoading ? (
               ""
             ) : (
               <div style={{ width: "100%", height: "100%", padding: "20px" }}>
                 <PieChartProgram
-                  totalBSIT={totalBSIT}
-                  totalBSEMC={totalBSEMC}
+                  totalCOE={totalCOE}
+                  totalCPAG={totalCPAG}
+                  totalCAS={totalCAS}
+                  totalCOB={totalCOB}
+                  totalCOT={totalCOT}
+                  totalCON={totalCON}
                 />
               </div>
             )}
@@ -373,6 +397,15 @@ function Dashboard() {
       {isTriggeredUsers && (
         <Users handleTrigger={handleTriggerUsers} users={users} />
       )}
+      {isTriggerUsersPerCollege &&
+        (isLoading ? (
+          ""
+        ) : (
+          <UsersPerCollege
+            userCountsPerCollege={userCountsPerCollege}
+            handleTriggerUsersPerCollege={handleTriggerUsersPerCollege}
+          />
+        ))}
     </>
   );
 }

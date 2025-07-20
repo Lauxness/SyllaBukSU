@@ -43,7 +43,6 @@ const Login = async (req, res) => {
 };
 const Register = async (req, res) => {
   const newAccount = req.body;
-  console.log("asdjkfhajkshfajkshf");
   const { email, otpValue } = newAccount;
   try {
     const result = await VerifyEmail(email, otpValue);
@@ -70,11 +69,9 @@ const GoogleAuth = async (req, res) => {
   try {
     const googleRes = await oauth2Client.getToken(code);
     oauth2Client.setCredentials(googleRes.tokens);
-    console.log(googleRes);
     const userRes = await axios.get(
       `https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=${googleRes.tokens.access_token}`
     );
-    console.log(userRes);
     const { email, name } = userRes.data;
     const currentUser = await Accounts.findOne({ email });
 
@@ -82,7 +79,6 @@ const GoogleAuth = async (req, res) => {
       const emailTestRegex = new RegExp(process.env.EMAIL_TEST);
 
       if (!(email && emailTestRegex.test(email))) {
-        console.log(!(email && emailTestRegex.test(email)));
         return res.status(400).json({ message: "Email Address is not valid" });
       }
       const newAccount = { name: name, email: email, password: "123" };
@@ -190,7 +186,6 @@ const UpdatePassword = async (req, res) => {
 const SetProgram = async (req, res) => {
   const email = req.params.email;
   const { program, department, college } = req.body;
-  console.log(email);
   try {
     const account = await Accounts.findOne({ email });
 
@@ -200,7 +195,6 @@ const SetProgram = async (req, res) => {
     account.program = program;
     account.department = department;
     account.college = college;
-    console.log(account);
     await account.save();
 
     return res.status(200).json({ message: "Program successfully set!" });

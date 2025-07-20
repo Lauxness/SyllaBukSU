@@ -2,10 +2,20 @@ import styles from "./style.module.css";
 import { AddDepartment } from "../../../api";
 import { useState } from "react";
 import Swal from "sweetalert2";
+import { GetCourse } from "../../../Values/Courses";
 function ProgramForm() {
   const [program, setProgram] = useState("");
   const [department, setDepartment] = useState("");
   const [college, setCollege] = useState("");
+  const [courses, setCourses] = useState([]);
+
+  const handleCollegeChange = (e) => {
+    const college = e.target.value;
+    setCollege(college);
+    const programs = GetCourse(college);
+    setCourses(programs);
+  };
+
   const handleAddProgram = async () => {
     const data = localStorage.getItem("user-info");
     const userInfo = JSON.parse(data);
@@ -59,7 +69,7 @@ function ProgramForm() {
         </div>
         <div className={styles.inputGroup}>
           <label htmlFor="college">College</label>
-          <select name="college" onChange={(e) => setCollege(e.target.value)}>
+          <select name="college" onChange={(e) => handleCollegeChange(e)}>
             <option value="">-</option>
             <option value="College of Technology">College of Technology</option>
             <option value="College of Business">College of Business</option>
@@ -67,9 +77,7 @@ function ProgramForm() {
               College of Public Administration and Governance
             </option>
             <option value="College of Nursing">College of Nursing</option>
-            <option value="College of Law">College of Law</option>
             <option value="College of Education">College of Education</option>
-            <option value="College of Business">College of Business</option>
             <option value="College of Arts and Sciences">
               College of Arts and Sciences
             </option>
@@ -90,9 +98,12 @@ function ProgramForm() {
         <div className={styles.inputGroup}>
           <label htmlFor="program">Program</label>
           <select name="program" onChange={(e) => setProgram(e.target.value)}>
-            <option value="">-</option>
-            <option value="BSIT">BSIT</option>
-            <option value="BSEMC">BSEMC</option>
+            <option value="">-</option>{" "}
+            {courses.map((program, index) => (
+              <option key={index} value={program}>
+                {program}
+              </option>
+            ))}
           </select>
         </div>
         <div className={styles.buttonContainer}>

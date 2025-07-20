@@ -3,25 +3,64 @@ const Accounts = require("../model/accountsModel");
 const SavedPrompts = require("../model/savedPromptsModel");
 const { GetTraffic } = require("../utils/GetTraffic");
 const { GetLoginFrequency } = require("../utils/GetLoginFrequency");
+const { GetCourse } = require("../utils/Courses");
 
 const GetDashboard = async (req, res) => {
+  const colleges = [
+    "College of Arts and Sciences",
+    "College of Business",
+    "College of Education",
+    "College of Nursing",
+    "College of Technology",
+    "College of Public Administration and Governance",
+  ];
+
   try {
     const traffic = await GetTraffic();
     const users = await Accounts.find();
 
-    const bsitCount = users.filter((user) => user.program === "BSIT").length;
-    const emcCount = users.filter((user) => user.program === "BSEMC").length;
+    const cobCount = users.filter(
+      (user) => user.college === "College of Business"
+    ).length;
+    const cotCount = users.filter(
+      (user) => user.college === "College of Technology"
+    ).length;
+    const cpagCount = users.filter(
+      (user) =>
+        user.program === "College of Public Administration and Governance"
+    ).length;
+    const casCount = users.filter(
+      (user) => user.college === "College of Arts and Sciences"
+    ).length;
+    const conCount = users.filter(
+      (user) => user.college === "College of Nursing"
+    ).length;
+    const coeCount = users.filter(
+      (user) => user.college === "College of Education"
+    ).length;
     const savedPrompts = await SavedPrompts.find();
     const loginFrequency = await GetLoginFrequency();
-
+    const userPerCourse = [];
+    colleges.forEach((college) => {
+      const courses = GetCourse(college);
+      const counts = courses.map(
+        (course) => users.filter((user) => user.program === course).length
+      );
+      userPerCourse.push(counts);
+    });
     const dashboardData = {
       loginFrequency,
       traffic,
       users,
       savedPrompts,
-      programCounts: {
-        bsit: bsitCount,
-        bsemc: emcCount,
+      userPerCourse,
+      collegeCounts: {
+        cob: cobCount || 0,
+        coe: coeCount || 0,
+        cas: casCount || 0,
+        cpag: cpagCount || 0,
+        cot: cotCount || 0,
+        con: conCount || 0,
       },
     };
 

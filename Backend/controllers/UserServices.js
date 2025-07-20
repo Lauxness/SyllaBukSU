@@ -3,7 +3,6 @@ const Activity = require("../model/userActivityModel");
 
 const GetUser = async (req, res) => {
   const userId = req.params.id;
-  console.log("user id: ", userId);
   try {
     const user = await Account.findById(userId);
 

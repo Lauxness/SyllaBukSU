@@ -13,7 +13,6 @@ function Upperbar(props) {
     } else {
       localStorage.setItem("sidebarCollapsed", false);
       props.setIsSidebarCollapsed(false);
-      console.log("sadkhfjaksdf");
     }
   };
   return (
@@ -94,7 +93,7 @@ function Upperbar(props) {
           </div>
         </div>
       </div>
-      {!userInfo?.college && <ProgramForm />}
+      {!userInfo?.program && <ProgramForm />}
     </>
   );
 }

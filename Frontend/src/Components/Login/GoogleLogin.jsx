@@ -21,10 +21,7 @@ function GoogleLogin(props) {
           program: response.data.userPayload.program,
         }),
       };
-      console.log(userInfo);
       localStorage.setItem("user-info", JSON.stringify(userInfo));
-
-      console.log("User Info:", userInfo);
       props.setIsAuthenticated(true);
       if (response.data.userPayload.role === "admin") {
         navigate("/dashboard");

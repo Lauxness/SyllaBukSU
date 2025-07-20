@@ -4,7 +4,6 @@ const OTP = require("../model/otpModel");
 const OTPHelper = async (email, res) => {
   const emailTestRegex = new RegExp(process.env.EMAIL_TEST);
   if (!(email && emailTestRegex.test(email))) {
-    console.log(!(email && emailTestRegex.test(email)));
     return res.status(400).json({ message: "Email Address is not valid" });
   }
 

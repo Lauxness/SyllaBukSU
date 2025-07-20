@@ -54,7 +54,6 @@ function CourseOutcomes() {
       const response = await GenerateCourseOutcomes(input);
 
       if (response.status === 200 && response.data.result) {
-        console.log(response.data.result);
         setResult(response.data.result);
         setCurrentResult(response.data.result);
       } else {
