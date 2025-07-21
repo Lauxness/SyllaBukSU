@@ -11,6 +11,8 @@ function Announcements() {
   const [isTriggered, setIsTriggered] = useState(false);
   const [isViewTriggered, setIsViewTriggered] = useState(false);
   const [currentAnnouncementView, setCurrentAnnouncementView] = useState({});
+  const data = localStorage.getItem("user-info");
+  const userInfo = JSON.parse(data);
 
   const handleTrigger = () => {
     if (isTriggered) {
@@ -77,12 +79,16 @@ function Announcements() {
       )}
 
       <div className={styles.container}>
-        <div>
-          <button onClick={() => handleTrigger()} className={styles.button}>
-            <TiPlus fontSize={15} />
-            Post
-          </button>
-        </div>
+        {userInfo.role === "admin" ? (
+          <div>
+            <button onClick={() => handleTrigger()} className={styles.button}>
+              <TiPlus fontSize={15} />
+              Post
+            </button>
+          </div>
+        ) : (
+          ""
+        )}
         <div className={styles.cardContainer}>
           {annoucements.length > 0 ? (
             annoucements.map((item, index) => (

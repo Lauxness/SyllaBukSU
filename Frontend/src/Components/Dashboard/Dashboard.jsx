@@ -13,6 +13,7 @@ import PieChartProgram from "./Charts/PieChartProgram";
 import UsersPerCollege from "./Modals/UsersPerCollege/UsersPerCollege";
 import Users from "./Modals/Users/Users";
 import LoginFrequency from "./Charts/LoginFrequency";
+import LoginFrequencyPerCollege from "./Modals/LoginFrequencyPerCollege/LoginFrequencyPerCollege";
 function Dashboard() {
   const [descriptionYearlyData, setDescriptionYearlyData] = useState([]);
   const [descriptionMonthlyData, seteDecriptionMonthlyData] = useState([]);
@@ -26,7 +27,7 @@ function Dashboard() {
   const [AIOYearlyData, setAIOYearlyData] = useState([]);
   const [AIOMonthlyData, seteAIOMonthlyData] = useState([]);
   const [AIODailyData, setAIODailyData] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [traffic, setTraffic] = useState();
   const [users, setUsers] = useState();
   const [totalDescription, setTotalDescription] = useState();
@@ -45,7 +46,10 @@ function Dashboard() {
   const [isTriggeredUsers, setIsTriggeredUsers] = useState(false);
   const [isTriggerUsersPerCollege, setTriggerUsersPerCollege] = useState(false);
   const [loginFrequency, setLoginFrequency] = useState();
+  const [activities, setActivities] = useState();
   const [userCountsPerCollege, setUserCountsPerCollege] = useState([]);
+  const [isTriggeredActiveLoginFrequency, setIsTriggeredActiveLoginFrequency] =
+    useState();
   const today = new Date();
 
   const columns = [
@@ -93,6 +97,13 @@ function Dashboard() {
       setIsTriggeredUsers(false);
     } else {
       setIsTriggeredUsers(true);
+    }
+  };
+  const handleTriggerActiveLoginFrequency = () => {
+    if (isTriggeredActiveLoginFrequency) {
+      setIsTriggeredActiveLoginFrequency(false);
+    } else {
+      setIsTriggeredActiveLoginFrequency(true);
     }
   };
 
@@ -158,7 +169,8 @@ function Dashboard() {
       setTotalAIO(calculateTotal(data.traffic.all_in_one));
       setLoginFrequency(data.loginFrequency);
       setUserCountsPerCollege(data.userPerCourse);
-      console.log(data);
+      setActivities(data.activities);
+      console.log(data.activities);
       setTotalRequest(
         calculateTotal(data.traffic.description) +
           calculateTotal(data.traffic.course_outcomes) +
@@ -277,6 +289,7 @@ function Dashboard() {
           <div
             style={{ width: "100%", height: "300px", padding: "20px" }}
             className={styles.chartContainer}
+            onClick={handleTriggerActiveLoginFrequency}
           >
             <p>Daily Login Frequency</p>
             {isLoading ? (
@@ -285,7 +298,7 @@ function Dashboard() {
               <div style={{ width: "100%", height: "100%", padding: "20px" }}>
                 <LoginFrequency
                   labels={last10Days}
-                  description={loginFrequency}
+                  loginFrequency={loginFrequency}
                 />
               </div>
             )}
@@ -404,6 +417,17 @@ function Dashboard() {
           <UsersPerCollege
             userCountsPerCollege={userCountsPerCollege}
             handleTriggerUsersPerCollege={handleTriggerUsersPerCollege}
+          />
+        ))}
+      {isTriggeredActiveLoginFrequency &&
+        (isLoading ? (
+          ""
+        ) : (
+          <LoginFrequencyPerCollege
+            activities={activities}
+            handleTriggerActiveLoginFrequency={
+              handleTriggerActiveLoginFrequency
+            }
           />
         ))}
     </>

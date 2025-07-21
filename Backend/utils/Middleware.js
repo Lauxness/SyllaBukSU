@@ -7,7 +7,6 @@ const Middleware = (req, res, next) => {
     const token = authHeader.split(" ")[1];
     jwt.verify(token, process.env.JWT_KEY, (err, decoded) => {
       if (err) {
-        console.log("Invalid token:", err.message);
         return res.status(401).json({
           message:
             err.name === "TokenExpiredError"

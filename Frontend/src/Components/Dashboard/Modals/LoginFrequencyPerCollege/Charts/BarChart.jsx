@@ -1,32 +1,42 @@
 import React, { useEffect, useRef } from "react";
 import Chart from "chart.js/auto";
 
-function LoginFrequency(props) {
+function BarChart(props) {
   const canvasRef = useRef(null);
   const chartInstanceRef = useRef(null);
 
   useEffect(() => {
     const ctx = canvasRef.current.getContext("2d");
+
     if (chartInstanceRef.current) {
       chartInstanceRef.current.destroy();
     }
 
+    const labels = ["COB", "CAS", "CON", "COT", "COE", "CPAG"];
+    const data = [
+      props.totalCOB,
+      props.totalCAS,
+      props.totalCON,
+      props.totalCOT,
+      props.totalCOE,
+      props.totalCPAG,
+    ];
+
     chartInstanceRef.current = new Chart(ctx, {
-      type: "line",
+      type: "bar",
       data: {
-        labels: props.labels,
+        labels: labels,
         datasets: [
           {
-            label: "Login Frequency",
-            data: props.loginFrequency
-              ? props.loginFrequency.map((item) => item.count)
-              : new Array(10).fill(0),
-
-            borderColor: "rgb(138, 43, 63)",
-            backgroundColor: "rgb(138, 43, 63)",
-            borderWidth: 2,
-            tension: 0.2,
-            fill: false,
+            data: data,
+            backgroundColor: [
+              "rgb(138, 43, 63)",
+              "rgb(7, 104, 168)",
+              "rgb(178, 145, 61)",
+              "rgb(26, 105, 105)",
+            ],
+            borderWidth: 0,
+            borderRadius: 5,
           },
         ],
       },
@@ -44,7 +54,7 @@ function LoginFrequency(props) {
           },
           y: {
             grid: {
-              color: "rgba(255, 255, 255, 0.04)", // Set grid color for y-axis
+              color: "rgba(255, 255, 255, 0.04)",
             },
             ticks: {
               color: "white",
@@ -53,20 +63,26 @@ function LoginFrequency(props) {
         },
         plugins: {
           legend: {
+            display: false,
             labels: {
               color: "white",
-              borderColor: "transparent",
+              padding: 20,
             },
           },
         },
       },
     });
 
-    // Cleanup function to destroy the chart when component unmounts
     return () => chartInstanceRef.current.destroy();
-  }, []);
-
-  return <canvas ref={canvasRef} style={{ width: "100%" }}></canvas>;
+  }, [
+    props.totalCOB,
+    props.totalCAS,
+    props.totalCON,
+    props.totalCOT,
+    props.totalCOE,
+    props.totalCPAG,
+  ]);
+  return <canvas ref={canvasRef} />;
 }
 
-export default LoginFrequency;
+export default BarChart;

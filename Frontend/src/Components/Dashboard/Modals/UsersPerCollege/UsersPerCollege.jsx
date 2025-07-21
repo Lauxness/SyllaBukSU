@@ -38,7 +38,7 @@ function UsersPerCollege(props) {
         </div>
         <div className={styles.chartsContainer}>
           <div className={styles.chartCanvas}>
-            <p>COB users</p>{" "}
+            <p>COB users</p>
             <div className={styles.chart}>
               <BarChart
                 savedPrompts={props.savedPrompts}
@@ -48,13 +48,13 @@ function UsersPerCollege(props) {
             </div>
           </div>
           <div className={styles.chartCanvas}>
-            <p>COT users</p>{" "}
+            <p>COT users</p>
             <div className={styles.chart}>
               <BarChart
                 savedPrompts={props.savedPrompts}
                 label={COT}
                 data={props.userCountsPerCollege[4]}
-              />{" "}
+              />
             </div>
           </div>
           <div className={styles.chartCanvas}>
@@ -68,7 +68,7 @@ function UsersPerCollege(props) {
             </div>
           </div>
           <div className={styles.chartCanvas}>
-            <p>CPAG users</p>{" "}
+            <p>CPAG users</p>
             <div className={styles.chart}>
               <BarChart
                 savedPrompts={props.savedPrompts}

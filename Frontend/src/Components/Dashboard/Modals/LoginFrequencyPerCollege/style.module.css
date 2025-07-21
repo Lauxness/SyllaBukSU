@@ -23,11 +23,11 @@
   background-color: #111111;
   border-radius: 3px;
   display: flex;
-  margin-top: 10px;
+  margin-top: 20px;
   flex-direction: column;
   align-items: center;
   justify-content: start;
-  width: 95%;
+  width: 70%;
 }
 .header {
   height: 45px;
@@ -43,35 +43,57 @@
   color: white;
   border-bottom: 1px solid rgba(38, 99, 255, 0.13);
 }
-
-.chartsContainer {
+.bottomContainer {
   width: 100%;
-  display: grid;
-  grid-template-areas:
-    "chart1 chart1 chart2 chart2 chart3 chart3"
-    "chart4 chart5 chart6 chart6 chart6 chart6";
-  grid-template-columns: 1fr 1fr 1fr 1fr fr 1fr;
+  display: flex;
+  flex-direction: column;
+}
+.heading {
+  padding: 20px;
+  width: 100%;
+  display: flex;
+  gap: 10px;
+  border-bottom: 1px solid rgba(38, 99, 255, 0.13);
+}
+.heading > input,
+.heading > select {
+  border: none;
+  height: 35px;
+  outline: none;
+  background-color: #333;
+  color: white;
+  font-family: poppins;
+  padding: 5px;
+  width: 150px;
+}
+.chartContainer {
+  height: 250px;
+  display: flex;
   gap: 20px;
+
+  border-bottom: 1px solid rgba(38, 99, 255, 0.13);
+
   padding: 20px;
 }
-.chartsContainer > .chartCanvas:nth-child(1) {
-  grid-area: chart1;
+.chart {
+  height: 100%;
 }
-.chartsContainer > .chartCanvas:nth-child(2) {
-  grid-area: chart2;
+.chartContainer > p {
+  flex: 1.5;
+  border: 1px solid rgba(45, 86, 251, 0.311);
+  background-color: rgba(45, 86, 251, 0.04);
+  display: flex;
+  flex-direction: column;
+  color: white;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 1.4em;
+  font-weight: 500;
 }
-.chartsContainer > .chartCanvas:nth-child(3) {
-  grid-area: chart3;
-}
-.chartsContainer > .chartCanvas:nth-child(4) {
-  grid-area: chart4;
-}
-.chartsContainer > .chartCanvas:nth-child(6) {
-  grid-area: chart6;
-}
-
-.chartsContainer > .chartCanvas:nth-child(5) {
-  grid-area: chart5;
+.chartContainer > p > span {
+  font-size: 1.7em;
+  font-weight: 600;
 }
 .chartCanvas {
   border: 1px solid rgba(45, 86, 251, 0.311);
@@ -79,14 +101,7 @@
   padding: 10px;
   display: flex;
   flex-direction: column;
-  height: 260px;
   gap: 10px;
   border-radius: 3px;
-}
-.chartCanvas > p {
-  font-weight: 500;
-  color: white;
-}
-.chart {
-  height: 100%;
+  flex: 6;
 }

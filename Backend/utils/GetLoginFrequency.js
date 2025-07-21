@@ -23,7 +23,6 @@ const GetLoginFrequency = async () => {
       $sort: { _id: 1 },
     },
   ]);
-  console.log(loginFrequency);
   const result = [];
   for (let i = 0; i < 10; i++) {
     const date = new Date(tenDaysAgo);

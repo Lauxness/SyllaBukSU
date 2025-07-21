@@ -21,11 +21,6 @@ function ActiveUsers(props) {
       selector: (row) => row.program || "N/A",
       sortable: true,
     },
-    {
-      name: "Action",
-      selector: (row) => "View",
-      sortable: true,
-    },
   ];
 
   console.log(props.users);

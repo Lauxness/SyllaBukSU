@@ -38,7 +38,7 @@ function ProgramForm() {
       });
 
       if (res.status === 200) {
-        userInfo.college = college;
+        userInfo.program = program;
         localStorage.setItem("user-info", JSON.stringify(userInfo));
         Swal.fire({
           title: "Success",

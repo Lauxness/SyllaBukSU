@@ -1,6 +1,7 @@
 const { response } = require("express");
 const Accounts = require("../model/accountsModel");
 const SavedPrompts = require("../model/savedPromptsModel");
+const UserActivities = require("../model/userActivityModel");
 const { GetTraffic } = require("../utils/GetTraffic");
 const { GetLoginFrequency } = require("../utils/GetLoginFrequency");
 const { GetCourse } = require("../utils/Courses");
@@ -27,7 +28,7 @@ const GetDashboard = async (req, res) => {
     ).length;
     const cpagCount = users.filter(
       (user) =>
-        user.program === "College of Public Administration and Governance"
+        user.college === "College of Public Administration and Governance"
     ).length;
     const casCount = users.filter(
       (user) => user.college === "College of Arts and Sciences"
@@ -40,6 +41,10 @@ const GetDashboard = async (req, res) => {
     ).length;
     const savedPrompts = await SavedPrompts.find();
     const loginFrequency = await GetLoginFrequency();
+    const activities = await UserActivities.find({
+      component: "Login",
+    }).populate("userId");
+    console.log(activities);
     const userPerCourse = [];
     colleges.forEach((college) => {
       const courses = GetCourse(college);
@@ -48,10 +53,12 @@ const GetDashboard = async (req, res) => {
       );
       userPerCourse.push(counts);
     });
+
     const dashboardData = {
       loginFrequency,
       traffic,
       users,
+      activities,
       savedPrompts,
       userPerCourse,
       collegeCounts: {
