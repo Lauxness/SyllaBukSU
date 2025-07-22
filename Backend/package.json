@@ -22,6 +22,7 @@
     "mongodb": "^6.12.0",
     "mongoose": "^8.9.5",
     "nodemailer": "^6.10.0",
+    "pdfkit": "^0.17.1",
     "random-string-alphanumeric-generator": "^0.12.2"
   },
   "devDependencies": {

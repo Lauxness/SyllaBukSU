@@ -1,5 +1,6 @@
 const axios = require("axios");
 const { capitalizeWords } = require("../utils/Capitalize");
+const Account = require("../model/accountsModel");
 const TrafficModel = require("../model/trafficModel");
 
 const Activity = require("../model/userActivityModel");
@@ -10,6 +11,7 @@ const GenerateDescription = async (req, res) => {
 
   try {
     const { courseName } = req.body;
+    const user = await Account.findOne({ email: req.user.email });
     if (!courseName) {
       return res.status(400).json({ error: "Course name is required" });
     }
@@ -61,6 +63,9 @@ const GenerateCourseOutcomes = async (req, res) => {
   const number = req.body.number;
   const courseDescription = req.body.courseDescription;
   const origin = req.path;
+
+  const user = await Account.findOne({ email: req.user.email });
+  console.log(user._id);
   const requestName = "course_outcomes";
   const traffic = { origin, requestName };
   const result = [];
@@ -95,6 +100,7 @@ const GenerateLearningOutcomes = async (req, res) => {
   const result = [];
   let samples = "";
   const prompt = `Generate: ${courseOutcomes}`;
+  const user = await Account.findOne({ email: req.user.email });
 
   for (let i = 0; i < number; i++) {
     const response = await axios.post("http://127.0.0.1:8000/generate", {
@@ -118,6 +124,7 @@ const GenerateAll = async (req, res) => {
   const traffic = { origin, requestName };
   const courseOutcomes = [];
   const learningOutcomes = [];
+  const user = await Account.findOne({ email: req.user.email });
   let samples = "";
   const prompt = `Generate course description: ${capitalizeWords(courseName)}`;
 

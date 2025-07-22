@@ -90,3 +90,22 @@
 .chart {
   height: 100%;
 }
+.heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: white;
+}
+.heading > button {
+  background-color: rgba(255, 255, 255, 0.095);
+  outline: none;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px;
+  transition: all 100ms;
+  cursor: pointer;
+  border: 1px solid rgba(255, 255, 255, 0.119);
+  border-radius: 3px;
+}

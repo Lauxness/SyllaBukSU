@@ -39,6 +39,10 @@ export const GenerateAll = (body) =>
   api.post("/generate/generate_allinone", body);
 export const ChatBot = (body) => api.post("/chat/chatbot", body);
 export const GetDashboard = () => api.get("/admin/dashboard");
+export const DownloadReport = (data) =>
+  api.post("/admin/download_report", data, {
+    responseType: "blob",
+  });
 export const SavePrompt = (body) => api.post("/prompts/save", body);
 export const GetPrompts = () => api.get("/prompts/save");
 export const GetPrompt = (id) => api.get(`/prompts/save/${id}`);

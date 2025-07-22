@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Traffic from "./charts/Traffic";
 import styles from "./style.module.css";
-import { GetDashboard } from "../../api";
+import { DownloadReport, GetDashboard } from "../../api";
 import UserTable from "./tables/UsersTable";
 import PieChart from "./Charts/PieChart";
 import BarChart from "./Charts/BarChart";
@@ -11,9 +11,11 @@ import Folder from "../../assets/folder1.webp";
 import ActiveUsers from "./Modals/ActiveUsers/ActiveUsers";
 import PieChartProgram from "./Charts/PieChartProgram";
 import UsersPerCollege from "./Modals/UsersPerCollege/UsersPerCollege";
+import { MdDownload } from "react-icons/md";
 import Users from "./Modals/Users/Users";
 import LoginFrequency from "./Charts/LoginFrequency";
 import LoginFrequencyPerCollege from "./Modals/LoginFrequencyPerCollege/LoginFrequencyPerCollege";
+import generateCourseOutcomesTable from "../../Handler/SaveDocxsHandler";
 function Dashboard() {
   const [descriptionYearlyData, setDescriptionYearlyData] = useState([]);
   const [descriptionMonthlyData, seteDecriptionMonthlyData] = useState([]);
@@ -51,6 +53,33 @@ function Dashboard() {
   const [isTriggeredActiveLoginFrequency, setIsTriggeredActiveLoginFrequency] =
     useState();
   const today = new Date();
+  const handleDownloadReport = async (e) => {
+    e.stopPropagation();
+    const data = [
+      ["College", "Total Users"],
+      ["College of Bussiness Users", totalCOB],
+      ["College of Arts and Science Users", totalCAS],
+      ["College of Technology Users", totalCOT],
+      ["College of Education Users", totalCOE],
+      ["College of Nursing Users", totalCON],
+      ["College of Public Administration and Governance Users", totalCPAG],
+    ];
+    try {
+      const response = await DownloadReport(data);
+
+      const blob = new Blob([response.data], { type: "application/pdf" });
+      const url = window.URL.createObjectURL(blob);
+
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", "report.pdf");
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+    } catch (err) {
+      console.error("Failed to download report:", err);
+    }
+  };
 
   const columns = [
     {
@@ -238,6 +267,7 @@ function Dashboard() {
           <div
             style={{ width: "100%", height: "100px", padding: "20px" }}
             className={styles.summaryContainer}
+            onClick={() => generateCourseOutcomesTable()}
           >
             <div className={styles.imageContainer}>
               <img src={Folder} alt="" />
@@ -270,7 +300,12 @@ function Dashboard() {
             className={styles.chartContainer}
             onClick={handleTriggerUsersPerCollege}
           >
-            <p>Total User per College</p>
+            <div className={styles.heading}>
+              <p>Total User per College</p>
+              <button onClick={(e) => handleDownloadReport(e)}>
+                <MdDownload size={15} color="white" />
+              </button>
+            </div>
             {isLoading ? (
               ""
             ) : (
@@ -291,7 +326,12 @@ function Dashboard() {
             className={styles.chartContainer}
             onClick={handleTriggerActiveLoginFrequency}
           >
-            <p>Daily Login Frequency</p>
+            <div className={styles.heading}>
+              <p>Daily Login Frequency</p>
+              <button>
+                <MdDownload size={15} color="white" />
+              </button>
+            </div>
             {isLoading ? (
               ""
             ) : (

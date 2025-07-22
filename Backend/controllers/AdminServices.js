@@ -5,6 +5,7 @@ const UserActivities = require("../model/userActivityModel");
 const { GetTraffic } = require("../utils/GetTraffic");
 const { GetLoginFrequency } = require("../utils/GetLoginFrequency");
 const { GetCourse } = require("../utils/Courses");
+const DownloadReport = require("../utils/DownloadReportPdf");
 
 const GetDashboard = async (req, res) => {
   const colleges = [
@@ -78,4 +79,23 @@ const GetDashboard = async (req, res) => {
   }
 };
 
-module.exports = { GetDashboard };
+const DonwloadReport = async (req, res) => {
+  const data = req.body;
+  const pdf = new DownloadReport();
+  const date = new Date().toLocaleDateString();
+  try {
+    pdf.addHeader(date, data);
+    res.setHeader("Content-Type", "application/pdf");
+    res.setHeader("Content-Disposition", "attachment; filename=report.pdf");
+
+    pdf.doc.pipe(res);
+    pdf.doc.end();
+  } catch (error) {
+    console.log(error);
+    if (!res.headersSent) {
+      res.status(500).json({ message: "Internal Server Error" });
+    }
+  }
+};
+
+module.exports = { GetDashboard, DonwloadReport };

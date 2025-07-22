@@ -39,9 +39,9 @@
   width: 100%;
 }
 .chartContainer {
-  width: "100%";
-  height: "600px";
-  padding: "10px";
+  width: 100%;
+  height: 600px;
+  padding: 5px;
   background-color: rgba(45, 86, 251, 0.04);
   border-radius: 5px;
   border: 1px solid rgba(45, 86, 251, 0.311);
@@ -50,7 +50,28 @@
   width: 8px;
   height: 8px;
 }
-
+.heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.twoCharts > div:hover > .heading > button {
+  opacity: 1;
+}
+.heading > button {
+  background-color: rgba(255, 255, 255, 0.095);
+  outline: none;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px;
+  opacity: 0;
+  transition: all 100ms;
+  cursor: pointer;
+  border: 1px solid rgba(255, 255, 255, 0.119);
+  border-radius: 3px;
+}
 ::-webkit-scrollbar-track {
   background: transparent;
 }

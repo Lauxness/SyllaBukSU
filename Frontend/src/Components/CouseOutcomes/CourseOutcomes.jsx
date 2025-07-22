@@ -11,6 +11,7 @@ import { TypingEffect } from "../../../Utilities/TypingEffect";
 import Loader from "../Modals/Loading/Loader";
 import { useNavigate, useParams } from "react-router-dom";
 import { MdArrowForward, MdSettings, MdCopyAll, MdCheck } from "react-icons/md";
+import generateCourseOutcomesTable from "../../Handler/SaveDocxsHandler";
 function CourseOutcomes() {
   const [courseDescription, setCourseDescription] = useState("");
   const [number, setNumber] = useState("");
@@ -260,6 +261,9 @@ function CourseOutcomes() {
         ))}
         {result && (
           <div className={styles.buttonContainer}>
+            <button onClick={() => generateCourseOutcomesTable(currentResult)}>
+              Export as Docx
+            </button>
             <button onClick={() => HandleSavePrompt()}>Save</button>
           </div>
         )}

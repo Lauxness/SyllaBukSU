@@ -7,6 +7,8 @@ import Loader from "../Modals/Loading/Loader";
 import { MdArrowForward, MdSettings, MdCopyAll, MdCheck } from "react-icons/md";
 import { useNavigate, useParams } from "react-router-dom";
 import { SavePrompt } from "../../api";
+import generateCourseOutcomesTable from "../../Handler/SaveDocxsHandler";
+import SaveCourseDescriptionDocxsHandler from "../../Handler/SaveCourseDescriptionDocxsHandler";
 function CourseDescription() {
   const [courseName, setCourseName] = useState("");
   const [result, setResult] = useState("");
@@ -235,6 +237,11 @@ function CourseDescription() {
         ))}
         {result && (
           <div className={styles.buttonContainer}>
+            <button
+              onClick={() => SaveCourseDescriptionDocxsHandler(currentResult)}
+            >
+              Export as Docxs
+            </button>
             <button onClick={() => HandleSavePrompt()}>Save</button>
           </div>
         )}

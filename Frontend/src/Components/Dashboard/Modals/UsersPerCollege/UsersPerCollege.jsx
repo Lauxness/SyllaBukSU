@@ -1,10 +1,11 @@
 import { useState } from "react";
 import Swal from "sweetalert2";
 import styles from "./style.module.css";
-import { MdOutlineClose } from "react-icons/md";
+import { MdDownload, MdOutlineClose } from "react-icons/md";
 import BarChart from "./Charts/BarChart";
-import { GetCourse } from "../../../../Values/Courses";
+import { DownloadReport } from "../../../../api";
 function UsersPerCollege(props) {
+  const [data, setData] = useState();
   const CAS = [
     "BA-ECO",
     "BA-ENG",
@@ -25,6 +26,68 @@ function UsersPerCollege(props) {
 
   const CPAG = ["BPA"];
   const CON = ["BSN"];
+
+  const handleDownloadReport = async (college) => {
+    switch (college) {
+      case "CAS":
+        setData([
+          ["College", "Total Users"],
+          ...CAS.map((course, i) => [course, props.userCountsPerCollege[0][i]]),
+        ]);
+
+        break;
+      case "COB":
+        setData([
+          ["Course", "Total Users"],
+          ...COB.map((course, i) => [course, props.userCountsPerCollege[1][i]]),
+        ]);
+        break;
+      case "COE":
+        setData([
+          ["Course", "Total Users"],
+          ...COE.map((course, i) => [course, props.userCountsPerCollege[2][i]]),
+        ]);
+        break;
+      case "CON":
+        setData([
+          ["Course", "Total Users"],
+          ...CON.map((course, i) => [course, props.userCountsPerCollege[3][i]]),
+        ]);
+        break;
+      case "COT":
+        setData([
+          ["Course", "Total Users"],
+          ...COT.map((course, i) => [course, props.userCountsPerCollege[4][i]]),
+        ]);
+        break;
+      case "CPAG":
+        setData([
+          ["Course", "Total Users"],
+          ...CPAG.map((course, i) => [
+            course,
+            props.userCountsPerCollege[5][i],
+          ]),
+        ]);
+        break;
+    }
+
+    try {
+      const response = await DownloadReport(data);
+      console.log;
+      const blob = new Blob([response.data], { type: "application/pdf" });
+      const url = window.URL.createObjectURL(blob);
+
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", "report.pdf");
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+    } catch (err) {
+      console.error("Failed to download report:", err);
+    }
+  };
+
   return (
     <div className={styles.mainContainer}>
       <div className={styles.container}>
@@ -38,7 +101,12 @@ function UsersPerCollege(props) {
         </div>
         <div className={styles.chartsContainer}>
           <div className={styles.chartCanvas}>
-            <p>COB users</p>
+            <div className={styles.heading}>
+              <p>COB users</p>
+              <button onClick={() => handleDownloadReport("COB")}>
+                <MdDownload size={15} color="white" />
+              </button>
+            </div>
             <div className={styles.chart}>
               <BarChart
                 savedPrompts={props.savedPrompts}
@@ -48,7 +116,12 @@ function UsersPerCollege(props) {
             </div>
           </div>
           <div className={styles.chartCanvas}>
-            <p>COT users</p>
+            <div className={styles.heading}>
+              <p>COT users</p>
+              <button onClick={() => handleDownloadReport("COT")}>
+                <MdDownload size={15} color="white" />
+              </button>
+            </div>
             <div className={styles.chart}>
               <BarChart
                 savedPrompts={props.savedPrompts}
@@ -58,7 +131,12 @@ function UsersPerCollege(props) {
             </div>
           </div>
           <div className={styles.chartCanvas}>
-            <p>COE users</p>{" "}
+            <div className={styles.heading}>
+              <p>COE users</p>
+              <button onClick={() => handleDownloadReport("COE")}>
+                <MdDownload size={15} color="white" />
+              </button>
+            </div>
             <div className={styles.chart}>
               <BarChart
                 savedPrompts={props.savedPrompts}
@@ -68,7 +146,12 @@ function UsersPerCollege(props) {
             </div>
           </div>
           <div className={styles.chartCanvas}>
-            <p>CPAG users</p>
+            <div className={styles.heading}>
+              <p>CPAG users</p>
+              <button onClick={() => handleDownloadReport("CPAG")}>
+                <MdDownload size={15} color="white" />
+              </button>
+            </div>
             <div className={styles.chart}>
               <BarChart
                 savedPrompts={props.savedPrompts}
@@ -78,7 +161,12 @@ function UsersPerCollege(props) {
             </div>
           </div>
           <div className={styles.chartCanvas}>
-            <p>CON users</p>
+            <div className={styles.heading}>
+              <p>CON users</p>
+              <button onClick={() => handleDownloadReport("CON")}>
+                <MdDownload size={15} color="white" />
+              </button>
+            </div>
             <div className={styles.chart}>
               <BarChart
                 savedPrompts={props.savedPrompts}
@@ -88,7 +176,12 @@ function UsersPerCollege(props) {
             </div>
           </div>
           <div className={styles.chartCanvas}>
-            <p>CAS users</p>
+            <div className={styles.heading}>
+              <p>CAS users</p>
+              <button onClick={() => handleDownloadReport("CAS")}>
+                <MdDownload size={15} color="white" />
+              </button>
+            </div>
             <div className={styles.chart}>
               <BarChart
                 savedPrompts={props.savedPrompts}
