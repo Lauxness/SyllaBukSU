@@ -15,7 +15,6 @@ import { MdDownload } from "react-icons/md";
 import Users from "./Modals/Users/Users";
 import LoginFrequency from "./Charts/LoginFrequency";
 import LoginFrequencyPerCollege from "./Modals/LoginFrequencyPerCollege/LoginFrequencyPerCollege";
-import generateCourseOutcomesTable from "../../Handler/SaveDocxsHandler";
 function Dashboard() {
   const [descriptionYearlyData, setDescriptionYearlyData] = useState([]);
   const [descriptionMonthlyData, seteDecriptionMonthlyData] = useState([]);
@@ -267,7 +266,6 @@ function Dashboard() {
           <div
             style={{ width: "100%", height: "100px", padding: "20px" }}
             className={styles.summaryContainer}
-            onClick={() => generateCourseOutcomesTable()}
           >
             <div className={styles.imageContainer}>
               <img src={Folder} alt="" />

@@ -12,7 +12,7 @@ const SaveCourseDescriptionDocxsHandler = (text = "") => {
       new TextRun({
         text: "Course Description:",
         bold: true,
-        size: 24, // 12pt (size is half-points in docx)
+        size: 24,
         font: "Book Antiqua",
       }),
       new TextRun({

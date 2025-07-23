@@ -5,6 +5,7 @@ import Swal from "sweetalert2";
 import { useNavigate, useParams } from "react-router-dom";
 import { GenerateAll, GetPrompt, SavePrompt } from "../../api";
 import { MdArrowForward, MdSettings, MdCopyAll, MdCheck } from "react-icons/md";
+import SaveAllInOneDocxs from "../../Handler/SaveAllInOneDocxsHandler";
 import Loader from "../Modals/Loading/Loader";
 
 function AllInOne() {
@@ -265,6 +266,9 @@ function AllInOne() {
           )}
           {result && (
             <div className={styles.buttonContainer}>
+              <button onClick={() => SaveAllInOneDocxs(result)}>
+                Export as Docxs
+              </button>
               <button onClick={() => HandleSavePrompt()}>Save</button>
             </div>
           )}

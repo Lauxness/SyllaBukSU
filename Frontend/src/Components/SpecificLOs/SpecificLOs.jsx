@@ -11,6 +11,7 @@ import { TypingEffect } from "../../../Utilities/TypingEffect";
 import Loader from "../Modals/Loading/Loader";
 import { useNavigate, useParams } from "react-router-dom";
 import { MdArrowForward, MdSettings, MdCopyAll, MdCheck } from "react-icons/md";
+import GenerateSpecificLearningOutcomesTable from "../../Handler/SaveSpecificLearningOutcomesDocxsHandler";
 function SpecificLOs() {
   const [courseOutcomes, setCourseOutcomes] = useState("");
   const [number, setNumber] = useState("");
@@ -219,7 +220,7 @@ function SpecificLOs() {
           ) : null}
           {result && (
             <>
-              <p>❖ Course Outcomes</p>
+              <p>❖ Specific Learning Outcomes</p>
               <div className={styles.resultContainer}>
                 <div
                   className={styles.copyToClipBoard}
@@ -261,6 +262,13 @@ function SpecificLOs() {
         ))}
         {result && (
           <div className={styles.buttonContainer}>
+            <button
+              onClick={() =>
+                GenerateSpecificLearningOutcomesTable(currentResult)
+              }
+            >
+              Export as Docx
+            </button>
             <button onClick={() => HandleSavePrompt()}>Save</button>
           </div>
         )}

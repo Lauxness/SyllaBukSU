@@ -11,7 +11,7 @@ import { TypingEffect } from "../../../Utilities/TypingEffect";
 import Loader from "../Modals/Loading/Loader";
 import { useNavigate, useParams } from "react-router-dom";
 import { MdArrowForward, MdSettings, MdCopyAll, MdCheck } from "react-icons/md";
-import generateCourseOutcomesTable from "../../Handler/SaveDocxsHandler";
+import generateCourseOutcomesTable from "../../Handler/SaveCourseOutcomesDocxsHandler";
 function CourseOutcomes() {
   const [courseDescription, setCourseDescription] = useState("");
   const [number, setNumber] = useState("");
@@ -177,7 +177,7 @@ function CourseOutcomes() {
     }
   };
   const splitByNumbers = (text) => {
-    return text.split(/(?=\d+\.\s)/g); // Looks ahead for number + period + space
+    return text.split(/(?=\d+\.\s)/g);
   };
 
   return (
