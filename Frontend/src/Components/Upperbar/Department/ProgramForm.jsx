@@ -20,7 +20,7 @@ function ProgramForm() {
     const data = localStorage.getItem("user-info");
     const userInfo = JSON.parse(data);
     const email = userInfo.email;
-    if (program === "" || department === "" || college == "") {
+    if (program === "" || college == "") {
       return Swal.fire({
         title: "Error",
         text: "Please fill out the form.",
@@ -81,18 +81,6 @@ function ProgramForm() {
             <option value="College of Arts and Sciences">
               College of Arts and Sciences
             </option>
-          </select>
-        </div>
-
-        <div className={styles.inputGroup}>
-          <label htmlFor="department">Department</label>
-          <select
-            name="department"
-            onChange={(e) => setDepartment(e.target.value)}
-          >
-            <option value="">-</option>
-            <option value="IT Department">IT Department</option>
-            <option value="">BSEMC</option>
           </select>
         </div>
         <div className={styles.inputGroup}>

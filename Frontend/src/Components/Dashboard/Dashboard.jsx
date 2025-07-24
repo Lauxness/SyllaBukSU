@@ -198,7 +198,6 @@ function Dashboard() {
       setLoginFrequency(data.loginFrequency);
       setUserCountsPerCollege(data.userPerCourse);
       setActivities(data.activities);
-      console.log(data.activities);
       setTotalRequest(
         calculateTotal(data.traffic.description) +
           calculateTotal(data.traffic.course_outcomes) +

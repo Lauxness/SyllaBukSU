@@ -15,12 +15,27 @@ import AnnouncementPage from "./Pages/AnnouncementPage";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(true);
+  const [role, setRole] = useState("admin");
+  const ProtectedPrivateRoute = ({ element }) => {
+    if (!isAuthenticated) {
+      return <Navigate to="/login" />;
+    }
+    if (role !== "admin") {
+      console.log(role);
+      return <Navigate to="/generate_description" />;
+    }
+    return element;
+  };
+
   const PrivateRoute = ({ element }) => {
     return isAuthenticated ? element : <Navigate to="/login" />;
   };
   return (
     <BrowserRouter>
-      <RefreshHandler setIsAuthenticated={setIsAuthenticated} />
+      <RefreshHandler
+        setIsAuthenticated={setIsAuthenticated}
+        setRole={setRole}
+      />
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route
@@ -63,7 +78,7 @@ function App() {
         />
         <Route
           path="/dashboard"
-          element={<PrivateRoute element={<DashboardPage />} />}
+          element={<ProtectedPrivateRoute element={<DashboardPage />} />}
         />
         <Route
           path="/announcements"

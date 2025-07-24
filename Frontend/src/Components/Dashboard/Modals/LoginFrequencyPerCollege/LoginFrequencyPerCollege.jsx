@@ -50,13 +50,12 @@ function LoginFrequencyPerCollege(props) {
         .length || 0
     );
   };
+  const today = moment().format("YYYY-MM-DD");
 
-  useEffect(() => {
-    const today = moment().format("YYYY-MM-DD");
-
+  const handleDefault = (date) => {
     const todayUsers = props.activities.filter((activity) => {
       const activityDate = moment(activity.createdAt).format("YYYY-MM-DD");
-      return activity.component === "Login" && activityDate === today;
+      return activity.component === "Login" && activityDate === date;
     });
     const uniqueUsersMap = new Map();
     todayUsers.forEach((a) => {
@@ -69,6 +68,10 @@ function LoginFrequencyPerCollege(props) {
     handleTotalPerCollege(Array.from(uniqueUsersMap.values()));
     setUsers(Array.from(uniqueUsersMap.values()));
     setTotal(Array.from(uniqueUsersMap.values()).length);
+  };
+
+  useEffect(() => {
+    handleDefault(today);
   }, [props.activities]);
 
   const columns = [
@@ -105,6 +108,7 @@ function LoginFrequencyPerCollege(props) {
     console.log(currentUsers.length);
     setMonth("");
     setQuarter("");
+    setDay("");
     handleTotalPerCollege(currentUsers);
     setYear(value);
     setTotal(currentUsers.length);
@@ -113,6 +117,15 @@ function LoginFrequencyPerCollege(props) {
   const handleMonthChange = (value) => {
     let currentUsers;
     console.log(year);
+
+    if (day) {
+      const input = `${year}-${value}-${day}`;
+      const date = new Date(input);
+      const formatted = date.toISOString().split("T")[0];
+      handleDefault(formatted);
+      setMonth(value);
+      return;
+    }
     if (!year) {
       currentUsers = grouped.monthly[`${value} 2025`] || [];
     } else {
@@ -125,17 +138,19 @@ function LoginFrequencyPerCollege(props) {
     setUsers(currentUsers);
   };
   const handleDayChange = (value) => {
-    let currentUsers;
-    console.log(year);
     if (!year) {
-      currentUsers = grouped.monthly[`${value} 2025`] || [];
-    } else {
-      currentUsers = grouped.monthly[`${value} ${year}`] || [];
+      setYear(new Date().getFullYear());
     }
-    setMonth(value);
-    console.log(currentUsers.length);
-    setTotal(currentUsers.length);
-    setUsers(currentUsers);
+    if (!month) {
+      const today = new Date();
+      setMonth(String(today.getMonth() + 1).padStart(2, "0"));
+    }
+    const input = `${year}-${month}-${value}`;
+    const date = new Date(input);
+    const formatted = date.toISOString().split("T")[0];
+    console.log(formatted);
+    setDay(value);
+    handleDefault(formatted);
   };
   const handleQuarterChange = (value) => {
     let currentUsers;
@@ -144,6 +159,8 @@ function LoginFrequencyPerCollege(props) {
     } else {
       currentUsers = grouped.quarterly[`${value} ${year}`] || [];
     }
+    setDay("");
+    setMonth("");
     setTotal(currentUsers.length);
     handleTotalPerCollege(currentUsers);
     setUsers(currentUsers);

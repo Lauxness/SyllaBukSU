@@ -17,7 +17,6 @@ import Swal from "sweetalert2";
 function SidebarComponent(props) {
   const data = localStorage.getItem("user-info");
   const userInfo = JSON.parse(data);
-  console.log(userInfo);
   const navigate = useNavigate();
   const showSwal = () => {
     Swal.fire({

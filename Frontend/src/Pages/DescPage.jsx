@@ -24,7 +24,6 @@ function DescPage() {
 
       if (response.status === 200) {
         setAnnouncements(response.data);
-        console.log(response.data);
       }
     } catch (err) {
       Swal.fire({

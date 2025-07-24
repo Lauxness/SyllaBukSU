@@ -12,12 +12,39 @@ import { saveAs } from "file-saver";
 
 const generateCourseOutcomesTable = (texts) => {
   const cleanedTexts = texts.map((str) => {
-    // Remove leading number and dot (e.g., "1. ")
     const noNumber = str.replace(/^\d+\.\s*/, "");
-
-    // Capitalize first letter
     return noNumber.charAt(0).toUpperCase() + noNumber.slice(1);
   });
+
+  const cleanedCourseOutcomes2 = cleanedTexts.map((str, index, array) => {
+    const noNumber = str.replace(/^\d+\.\s*/, "").trim();
+    const capitalized = noNumber.charAt(0).toLowerCase() + noNumber.slice(1);
+
+    let ending = ";";
+    if (index === array.length - 2) {
+      ending = "; and";
+    } else if (index === array.length - 1) {
+      ending = ".";
+    }
+
+    return `CO${index + 1}: ${capitalized}${ending}`;
+  });
+
+  const createParagraph = (text) =>
+    new Paragraph({
+      children: [
+        new TextRun({
+          text: text,
+          bold: false,
+          size: 22,
+          font: "Book Antiqua",
+        }),
+      ],
+    });
+  const COParagraphs = cleanedCourseOutcomes2.map((text) =>
+    createParagraph(text)
+  );
+
   const createTextCell = (text, opts = {}) =>
     new TableCell({
       margins: {
@@ -50,6 +77,8 @@ const generateCourseOutcomesTable = (texts) => {
     sections: [
       {
         children: [
+          ...COParagraphs,
+          new Paragraph({ spacing: { after: 200 } }),
           new Table({
             width: {
               size: 100,
