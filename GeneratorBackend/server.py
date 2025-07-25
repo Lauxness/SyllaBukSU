@@ -71,7 +71,7 @@ async def generate_text(request: TextRequest):
 async def testing(request: TextRequest):
     url = "https://openrouter.ai/api/v1/chat/completions"
     headers = {
-        "Authorization": "Bearer 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",
+        "Authorization": "Bearer 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",
         "Content-Type": "application/json",
     }
     data = {
