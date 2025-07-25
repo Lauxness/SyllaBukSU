@@ -15,6 +15,7 @@ import { MdDownload } from "react-icons/md";
 import Users from "./Modals/Users/Users";
 import LoginFrequency from "./Charts/LoginFrequency";
 import LoginFrequencyPerCollege from "./Modals/LoginFrequencyPerCollege/LoginFrequencyPerCollege";
+import Swal from "sweetalert2";
 function Dashboard() {
   const [descriptionYearlyData, setDescriptionYearlyData] = useState([]);
   const [descriptionMonthlyData, seteDecriptionMonthlyData] = useState([]);
@@ -207,9 +208,25 @@ function Dashboard() {
       setSavedPrompts(data.savedPrompts);
     } catch (error) {
       console.log(error);
+      if (error.response.status === 401) {
+        handleLogout();
+      }
     } finally {
       setIsLoading(false);
     }
+  };
+  const handleLogout = () => {
+    Swal.fire({
+      text: "Token expired, Login Again!",
+      title: "Error",
+      icon: "error",
+      background: "#202020",
+      color: "white",
+    }).then(() => {
+      localStorage.removeItem("user-info");
+
+      window.location.reload();
+    });
   };
   useEffect(() => {
     handleGetDashboardData();

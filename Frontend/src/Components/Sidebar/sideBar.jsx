@@ -72,7 +72,7 @@ function SidebarComponent(props) {
           },
         }}
       >
-        {userInfo.role === "admin" ? (
+        {userInfo?.role === "admin" ? (
           <MenuItem
             active={props.currentPage === "dashboard"}
             component={<Link to="/dashboard" />}
