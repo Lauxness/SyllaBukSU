@@ -59,3 +59,9 @@ export const UpdateAnnouncement = (id, body) =>
 export const AddDepartment = (email, body) =>
   api.patch(`/account/program/${email}`, body);
 export const GetUser = (id) => api.get(`/users/user/${id}`);
+export const GetCheckList = () => api.get("/checklist/");
+export const AddCheckList = (data) => api.post("/checklist/", data);
+export const UpdateChecklist = (id, data) =>
+  api.patch(`/checklist/${id}`, data);
+export const DeleteCheckList = (id) => api.delete(`/checklist/${id}`);
+export const GetOneCheckList = (id) => api.get(`/checklist/${id}`);

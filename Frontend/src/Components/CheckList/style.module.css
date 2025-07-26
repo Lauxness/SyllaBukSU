@@ -11,34 +11,34 @@
   border: 1px solid rgba(13, 40, 158, 0.307);
   margin: 10px 0;
   width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   padding: 15px;
   background-color: rgba(13, 40, 158, 0.215);
   transition: all 100ms ease-in-out;
   cursor: pointer;
+  color: white;
 }
 .card > p:nth-child(1) {
   color: white;
-  font-size: 1.1em;
+  font-size: 1em;
   text-transform: capitalize;
   font-weight: 500;
 }
-.card > div > p:nth-child(2) {
-  color: white;
-}
-.card > div {
-  display: flex;
-  color: rgba(255, 255, 255, 0.74);
+.card > p:nth-child(2) {
+  color: rgba(255, 255, 255, 0.618);
   font-size: 0.8em;
-  align-items: center;
-  justify-content: space-between;
+  font-weight: 500;
 }
+
 .card:hover {
   opacity: 0.7;
 }
 
 .button {
   outline: none;
-  width: 200px;
+  width: 150px;
   background-color: var(--secondary-color);
   border: none;
   border-radius: 2px;
@@ -53,5 +53,5 @@
   font-weight: 500;
   margin-bottom: 10px;
   margin-left: 10px;
-  font-size: 1em;
+  font-size: 0.9em;
 }

@@ -12,6 +12,7 @@ import SLOPage from "./Pages/SLOPage";
 import RefreshHandler from "./Handler/RefreshHandler";
 import DashboardPage from "./Pages/DashboardPage";
 import AnnouncementPage from "./Pages/AnnouncementPage";
+import CheckiListPage from "./Pages/CheckListPage";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(true);
@@ -83,6 +84,10 @@ function App() {
         <Route
           path="/announcements"
           element={<PrivateRoute element={<AnnouncementPage />} />}
+        />
+        <Route
+          path="/checklist"
+          element={<PrivateRoute element={<CheckiListPage />} />}
         />
       </Routes>
     </BrowserRouter>

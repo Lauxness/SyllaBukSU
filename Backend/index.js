@@ -11,6 +11,7 @@ const DocxsRoute = require("./routes/DownloadDocxs");
 const SavePromptRoute = require("./routes/SavePrompts");
 const Announcement = require("./routes/Announcement");
 const { Middleware } = require("./utils/Middleware");
+const CheckListRoute = require("./routes/checkList");
 const UserRoute = require("./routes/User");
 const cors = require("cors");
 dotenv.config();
@@ -23,9 +24,11 @@ app.use("/generate", Middleware, GenerateRoute);
 app.use("/chat", Middleware, ChatBotRoute);
 app.use("/admin", Middleware, AdminRoute);
 app.use("/prompts", Middleware, SavePromptRoute);
-app.use("/docx", DocxsRoute);
-app.use("/announcement", Announcement);
-app.use("/users", UserRoute);
+app.use("/docx", Middleware, DocxsRoute);
+app.use("/announcement", Middleware, Announcement);
+app.use("/checklist", Middleware, CheckListRoute);
+app.use("/checklist", Middleware, CheckListRoute);
+app.use("/users", Middleware, UserRoute);
 
 const PORT = process.env.PORT;
 
