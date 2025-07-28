@@ -32,6 +32,12 @@ function SLOPage() {
         background: "#202020",
         icon: "error",
         color: "white",
+      }).then(() => {
+        if (err.response.status === 401) {
+          localStorage.removeItem("user-info");
+
+          window.location.reload();
+        }
       });
       console.log(err);
     }

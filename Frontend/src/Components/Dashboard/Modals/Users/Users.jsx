@@ -50,6 +50,7 @@ function Users(props) {
           ? "Active"
           : "Inactive",
       sortable: true,
+      button: true,
     },
     {
       name: "Action",

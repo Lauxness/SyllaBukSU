@@ -181,12 +181,7 @@ function CourseOutcomes() {
   };
 
   return (
-    <div
-      className={styles.container}
-      data-aos="fade-up"
-      data-aos-anchor-placement="top-center"
-      data-aos-duration="500"
-    >
+    <div className={styles.container}>
       <div className={styles.contentContainer}>
         <div className={styles.inputGroup}>
           <label htmlFor="">❖ Enter the course description below.</label>

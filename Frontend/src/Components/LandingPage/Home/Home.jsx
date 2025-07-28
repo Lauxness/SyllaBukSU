@@ -34,12 +34,7 @@ function Home() {
             <a href="/login">Login</a>
           </div>
         </div>
-        <div
-          className={styles.contentContainer}
-          data-aos="fade-up"
-          data-aos-anchor-placement="top-center"
-          data-aos-duration="500"
-        >
+        <div className={styles.contentContainer}>
           <div className={styles.content}>
             <p>Effortless Syllabus Content Creation</p>
             <div className={styles.imageContainer}>

@@ -1,10 +1,12 @@
-import Announcements from "../Components/Announcements/Announcement";
 import SidebarComponent from "../Components/Sidebar/sideBar";
 import Proflle from "../Components/Profile/Proflle";
 
 import Upperbar from "../Components/Upperbar/Upperbar";
 import { useEffect, useState } from "react";
-function AnnouncementPage() {
+import Aos from "aos";
+import "aos/dist/aos.css";
+import Guides from "../Components/Guides/Guides";
+function GuidePage() {
   const savedState = localStorage.getItem("sidebarCollapsed");
   const [triggerProfile, setTriggerProfile] = useState(false);
 
@@ -18,12 +20,13 @@ function AnnouncementPage() {
     } else {
       setIsSidebarCollapsed(false);
     }
+    Aos.init();
   }, []);
   return (
     <>
       {triggerProfile && <Proflle setTriggerProfile={setTriggerProfile} />}
       <Upperbar
-        currentPage="Announcements"
+        currentPage="Guides"
         setIsSidebarCollapsed={setIsSidebarCollapsed}
         setTriggerProfile={setTriggerProfile}
       />
@@ -76,14 +79,11 @@ function AnnouncementPage() {
             }}
           ></div>
         </div>
-        <SidebarComponent
-          currentPage="announcements"
-          collapsed={isSidebarCollapsed}
-        />
-        <Announcements />
+        <SidebarComponent currentPage="guides" collapsed={isSidebarCollapsed} />
+        <Guides />
       </div>
     </>
   );
 }
 
-export default AnnouncementPage;
+export default GuidePage;

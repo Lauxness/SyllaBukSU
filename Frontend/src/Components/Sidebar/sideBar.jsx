@@ -139,8 +139,8 @@ function SidebarComponent(props) {
         </MenuItem>
         <MenuItem
           style={{ color: "var(--text-color)" }}
-          active={props.currentPage === "allinone"}
-          component={<Link to="/generate_all" />}
+          active={props.currentPage === "guides"}
+          component={<Link to="/guides" />}
           icon={<MdHelp color="var(--text-color)" fontSize="20px" />}
         >
           Guides

@@ -1,0 +1,43 @@
+.container {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: start;
+  justify-content: center;
+  overflow-y: scroll;
+  padding: 10px 20px;
+  gap: 20px;
+}
+.bloomGuideContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 100%;
+}
+.heading > p {
+  font-size: 1.7em;
+  color: white;
+  font-weight: 500;
+}
+.guideContainer {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.guideContainer > div {
+  color: white;
+
+  border: 1px solid rgba(45, 86, 251, 0.311);
+  flex: 1;
+  border-radius: 3px;
+  padding: 10px;
+}
+.guideContainer > div > p {
+  margin-bottom: 10px;
+  font-weight: 500;
+}
+.guideContainer > div > div {
+  font-size: 0.9em;
+}

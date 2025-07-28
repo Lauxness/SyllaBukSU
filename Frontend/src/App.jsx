@@ -13,6 +13,7 @@ import RefreshHandler from "./Handler/RefreshHandler";
 import DashboardPage from "./Pages/DashboardPage";
 import AnnouncementPage from "./Pages/AnnouncementPage";
 import CheckiListPage from "./Pages/CheckListPage";
+import GuidePage from "./Pages/GuidePage";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(true);
@@ -84,6 +85,10 @@ function App() {
         <Route
           path="/announcements"
           element={<PrivateRoute element={<AnnouncementPage />} />}
+        />
+        <Route
+          path="/guides"
+          element={<PrivateRoute element={<GuidePage />} />}
         />
         <Route
           path="/checklist"
