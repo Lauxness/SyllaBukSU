@@ -114,7 +114,7 @@ function CheckList() {
               </div>
             ))
           ) : (
-            <p style={{ color: "gray" }}>No announcements available.</p>
+            <p style={{ color: "gray" }}>No checklist available.</p>
           )}
         </div>
       </div>
