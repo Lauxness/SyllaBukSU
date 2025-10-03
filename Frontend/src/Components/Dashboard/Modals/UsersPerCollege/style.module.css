@@ -8,6 +8,7 @@
   align-items: start;
   justify-content: center;
   animation-name: easeIn;
+  backdrop-filter: blur(2px);
   animation-duration: 150ms;
 }
 @keyframes easeIn {

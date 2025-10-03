@@ -9,6 +9,7 @@
   justify-content: center;
   animation-name: easeIn;
   animation-duration: 150ms;
+  backdrop-filter: blur(2px);
 }
 @keyframes easeIn {
   from {
