@@ -27,7 +27,6 @@ function SidebarComponent(props) {
       background: "#202020",
       color: "white",
       showCancelButton: true,
-      showCloseButton: true,
     }).then((result) => {
       if (result.isConfirmed) {
         handleLogout();
