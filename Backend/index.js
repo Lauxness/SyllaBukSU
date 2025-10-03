@@ -17,7 +17,14 @@ const cors = require("cors");
 dotenv.config();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.use(cors());
+
+app.use(
+  cors({
+    origin: "https://syllabuksu-r88j.onrender.com",
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
+);
 
 app.use("/account", AuthenticationRoute);
 app.use("/generate", Middleware, GenerateRoute);
