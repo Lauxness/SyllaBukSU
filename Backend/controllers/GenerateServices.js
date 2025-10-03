@@ -125,9 +125,12 @@ const GenerateAll = async (req, res) => {
   let samples = "";
   const prompt = `Generate course description: ${capitalizeWords(courseName)}`;
 
-  const response1 = await axios.post(`${base_url}/course_description`, {
-    prompt: prompt,
-  });
+  const response1 = await axios.post(
+    `${base_url}/generate/course_description`,
+    {
+      prompt: prompt,
+    }
+  );
   const course_description = response1.data.generated_text;
   const prompt4 = `data: ${course_description},
   prompt: Enhance the sentence structure,
