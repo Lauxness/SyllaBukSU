@@ -4,6 +4,7 @@ const Account = require("../model/accountsModel");
 const TrafficModel = require("../model/trafficModel");
 
 const Activity = require("../model/userActivityModel");
+const base_url = process.env.GENERATOR_BASE_URL;
 const GenerateDescription = async (req, res) => {
   const origin = req.path;
   const requestName = "description";
@@ -21,7 +22,7 @@ const GenerateDescription = async (req, res) => {
     )}`;
 
     const response = await axios.post(
-      "http://127.0.0.1:8000/generate/course_description",
+      `${base_url}/generate/course_description`,
       { prompt }
     );
 
@@ -33,10 +34,9 @@ const GenerateDescription = async (req, res) => {
     prompt: Enhance the sentence structure,
     Rules: [1 paragraph only, no bold text, no extra message, keep the meaning intact]`;
 
-    const response1 = await axios.post(
-      "http://127.0.0.1:8000/chat/request/chatbot",
-      { prompt: prompt1 }
-    );
+    const response1 = await axios.post(`${base_url}/chat/request/chatbot`, {
+      prompt: prompt1,
+    });
 
     const generatedText = response1.data?.choices?.[0]?.message?.content || "";
 
@@ -73,12 +73,9 @@ const GenerateCourseOutcomes = async (req, res) => {
   let prompt1 = "";
   const prompt = `Generate course outcomes: ${courseDescription}`;
   for (let i = 0; i < number; i++) {
-    const response = await axios.post(
-      "http://127.0.0.1:8000/generate/course_outcomes",
-      {
-        prompt: prompt,
-      }
-    );
+    const response = await axios.post(`${base_url}/generate/course_outcomes`, {
+      prompt: prompt,
+    });
     samples = response.data.generated_text;
 
     result.push(`${i + 1}.  ${samples}`);
@@ -103,7 +100,7 @@ const GenerateLearningOutcomes = async (req, res) => {
   const user = await Account.findOne({ email: req.user.email });
 
   for (let i = 0; i < number; i++) {
-    const response = await axios.post("http://127.0.0.1:8000/generate", {
+    const response = await axios.post(`${base_url}/generate`, {
       prompt: prompt,
     });
     samples = response.data.generated_text;
@@ -128,29 +125,24 @@ const GenerateAll = async (req, res) => {
   let samples = "";
   const prompt = `Generate course description: ${capitalizeWords(courseName)}`;
 
-  const response1 = await axios.post(
-    "http://127.0.0.1:8000/generate/course_description",
-    { prompt: prompt }
-  );
+  const response1 = await axios.post(`${base_url}/course_description`, {
+    prompt: prompt,
+  });
   const course_description = response1.data.generated_text;
   const prompt4 = `data: ${course_description},
   prompt: Enhance the sentence structure,
   Rules: [1 paragraph only, no bold text, no extra message, keep the meaning intact]`;
-  const response2 = await axios.post(
-    "http://127.0.0.1:8000/chat/request/chatbot",
-    { prompt: prompt4 }
-  );
+  const response2 = await axios.post(`${base_url}/chat/request/chatbot`, {
+    prompt: prompt4,
+  });
   const courseDescription =
     response2.data?.choices?.[0]?.message?.content || "";
 
   const prompt1 = `Generate course outcomes: ${courseDescription}`;
   for (let i = 0; i < coNumber; i++) {
-    const response = await axios.post(
-      "http://127.0.0.1:8000/generate/course_outcomes",
-      {
-        prompt: prompt1,
-      }
-    );
+    const response = await axios.post(`${base_url}/generate/course_outcomes`, {
+      prompt: prompt1,
+    });
     samples = response.data.generated_text;
 
     courseOutcomes.push(`${i + 1}.  ${samples}`);
@@ -159,7 +151,7 @@ const GenerateAll = async (req, res) => {
     learningOutcomes.push(`- ${courseOutcomes[i]}`);
     const prompt2 = `Generate: ${courseOutcomes[i]}`;
     for (let j = 0; j < sloNumber; j++) {
-      const response = await axios.post("http://127.0.0.1:8000/generate", {
+      const response = await axios.post(`${base_url}/generate`, {
         prompt: prompt2,
       });
       samples = response.data.generated_text;
