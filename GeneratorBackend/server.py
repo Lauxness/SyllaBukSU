@@ -3,15 +3,17 @@ from pydantic import BaseModel
 from transformers import T5Tokenizer, T5ForConditionalGeneration
 from openai import OpenAI
 import httpx
+from dotenv import load_dotenv
+import os
 
 app = FastAPI()
 
 class TextRequest(BaseModel):
     prompt: str
 
-model_path = "./model" 
-tokenizer = T5Tokenizer.from_pretrained(model_path)
-model = T5ForConditionalGeneration.from_pretrained(model_path)
+model_name = "LauxDevs/my-model-slo" 
+tokenizer = T5Tokenizer.from_pretrained(model_name)
+model = T5ForConditionalGeneration.from_pretrained(model_name)
 
 @app.post("/generate")
 async def generate_text(request: TextRequest):
@@ -27,7 +29,7 @@ async def generate_text(request: TextRequest):
     generated_text = tokenizer.decode(output[0], skip_special_tokens=True)
     return {"generated_text": generated_text}
 
-model_path1 = "./model1" 
+model_path1 = "LauxDevs/my-model-desc" 
 tokenizer1 = T5Tokenizer.from_pretrained(model_path1)
 model1 = T5ForConditionalGeneration.from_pretrained(model_path1)
 @app.post("/generate/course_description")
@@ -46,7 +48,7 @@ async def generate_text(request: TextRequest):
     print(generated_text)
     return {"generated_text": generated_text}
 
-model_path2 = "./ModelCO" 
+model_path2 = "LauxDevs/model-co" 
 tokenizer2 = T5Tokenizer.from_pretrained(model_path2)
 model2 = T5ForConditionalGeneration.from_pretrained(model_path2)
 
@@ -69,9 +71,10 @@ async def generate_text(request: TextRequest):
 
 @app.post("/chat/request/chatbot")
 async def testing(request: TextRequest):
+    CHAT_BOT_KEY = os.getenv("CHAT_BOT_API_KEY")
     url = "https://openrouter.ai/api/v1/chat/completions"
     headers = {
-        "Authorization": "Bearer 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",
+        "Authorization": CHAT_BOT_KEY,
         "Content-Type": "application/json",
     }
     data = {
@@ -81,4 +84,3 @@ async def testing(request: TextRequest):
     async with httpx.AsyncClient() as client:
         response = await client.post(url, headers=headers, json=data)
     return response.json()
-#"This is an introductory course in programming that cultivates skills and notions vital to good programming practice and problem-solving using a C program. It covers fundamental programming notions such as algorithms and flowcharts, basic data types, simple I/O, conditional statements, and functions. It also includes the use of testing and debugging methods. Key to software development practice remains the capacity to develop programs that employ fitting constructs aside from attainment into solving computing problems. This course serves as supplemental material for intermediate programming. By the end of the course, students are expected, i want to change the languge to Java, Ps. direct answer, 1 paragraph only, dont put bold text,no extra message"
