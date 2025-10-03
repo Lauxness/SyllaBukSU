@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Traffic from "./charts/Traffic";
+import Traffic from "./Charts/Traffic";
 import styles from "./style.module.css";
 import { DownloadReport, GetDashboard } from "../../api";
 import UserTable from "./tables/UsersTable";
