@@ -23,6 +23,7 @@ function AllInOne() {
         icon: "error",
         title: "Invalid input",
         background: "#202020",
+
         color: "white",
         text: "Please make sure the input is valid.",
       });
@@ -158,6 +159,8 @@ function AllInOne() {
             <option value="1">1</option>
             <option value="2">2</option>
             <option value="3">3</option>
+            <option value="4">3</option>
+            <option value="5">5</option>
           </select>
         </div>
         <div className={styles.inputGroup}>
@@ -169,6 +172,8 @@ function AllInOne() {
             <option value="1">1</option>
             <option value="2">2</option>
             <option value="3">3</option>
+            <option value="4">3</option>
+            <option value="5">5</option>
           </select>
         </div>
         <button className={styles.generateButton} onClick={handleGenerate}>
