@@ -11,7 +11,7 @@ app = FastAPI()
 class TextRequest(BaseModel):
     prompt: str
 
-model_name = "LauxDevs/my-model-slo" 
+model_name = "./model" 
 tokenizer = T5Tokenizer.from_pretrained(model_name)
 model = T5ForConditionalGeneration.from_pretrained(model_name)
 
@@ -29,7 +29,7 @@ async def generate_text(request: TextRequest):
     generated_text = tokenizer.decode(output[0], skip_special_tokens=True)
     return {"generated_text": generated_text}
 
-model_path1 = "LauxDevs/my-model-desc" 
+model_path1 = "./model1" 
 tokenizer1 = T5Tokenizer.from_pretrained(model_path1)
 model1 = T5ForConditionalGeneration.from_pretrained(model_path1)
 @app.post("/generate/course_description")
@@ -48,7 +48,7 @@ async def generate_text(request: TextRequest):
     print(generated_text)
     return {"generated_text": generated_text}
 
-model_path2 = "LauxDevs/model-co" 
+model_path2 = "./modelCO" 
 tokenizer2 = T5Tokenizer.from_pretrained(model_path2)
 model2 = T5ForConditionalGeneration.from_pretrained(model_path2)
 
@@ -74,7 +74,7 @@ async def testing(request: TextRequest):
     CHAT_BOT_KEY = os.getenv("CHAT_BOT_API_KEY")
     url = "https://openrouter.ai/api/v1/chat/completions"
     headers = {
-        "Authorization": CHAT_BOT_KEY,
+        "Authorization": "Bearer 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" ,
         "Content-Type": "application/json",
     }
     data = {
@@ -83,4 +83,5 @@ async def testing(request: TextRequest):
     }
     async with httpx.AsyncClient() as client:
         response = await client.post(url, headers=headers, json=data)
+    print(response.json())
     return response.json()
