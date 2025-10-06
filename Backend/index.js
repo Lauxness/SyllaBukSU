@@ -21,7 +21,7 @@ app.use(bodyParser.json());
 app.use(
   cors({
     origin: "https://syllabuksu-r88j.onrender.com",
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
     allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
