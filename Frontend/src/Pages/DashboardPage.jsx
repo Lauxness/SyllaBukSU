@@ -24,7 +24,7 @@ function DashboardPage() {
     <>
       {triggerProfile && <Proflle setTriggerProfile={setTriggerProfile} />}
       <Upperbar
-        currentPage="Generate course outcomes"
+        currentPage="Dashboard"
         setIsSidebarCollapsed={setIsSidebarCollapsed}
         setTriggerProfile={setTriggerProfile}
       />
