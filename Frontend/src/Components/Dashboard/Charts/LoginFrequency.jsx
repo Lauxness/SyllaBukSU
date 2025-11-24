@@ -22,8 +22,8 @@ function LoginFrequency(props) {
               ? props.loginFrequency.map((item) => item.count)
               : new Array(10).fill(0),
 
-            borderColor: "rgb(138, 43, 63)",
-            backgroundColor: "rgb(138, 43, 63)",
+            borderColor: "rgba(67, 43, 138, 1)",
+            backgroundColor: "rgba(43, 59, 138, 1)",
             borderWidth: 2,
             tension: 0.2,
             fill: false,

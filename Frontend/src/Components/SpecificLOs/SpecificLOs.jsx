@@ -130,9 +130,10 @@ function SpecificLOs() {
       });
   };
   const splitByNumbers = (text) => {
-    return text.split(/(?=\d+\.\s)/g); // Looks ahead for number + period + space
+    return text.split(/(?=\d+\.\s)/g);
   };
   const handleChat = async () => {
+    if (!currentResult) return;
     if (!userPrompt) return;
     try {
       setChatLoading(true);

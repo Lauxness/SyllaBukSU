@@ -96,6 +96,7 @@ function Dashboard() {
       name: "Program",
       selector: (row) => row.program || "N/A",
       sortable: true,
+      width: "300px",
     },
     {
       name: "Status",
@@ -342,9 +343,6 @@ function Dashboard() {
           >
             <div className={styles.heading}>
               <p>Daily Login Frequency</p>
-              <button>
-                <MdDownload size={15} color="white" />
-              </button>
             </div>
             {isLoading ? (
               ""
@@ -453,7 +451,7 @@ function Dashboard() {
           )}
         </div>
 
-        <div className={styles.chartContainer}>
+        <div className={styles.tableContainer}>
           <UserTable users={users} title="User List" columns={columns} />
         </div>
       </div>
