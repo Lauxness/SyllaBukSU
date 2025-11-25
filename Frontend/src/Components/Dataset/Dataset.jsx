@@ -35,7 +35,8 @@ function Dataset() {
   const HandleWarning = (id) => {
     Swal.fire({
       icon: "warning",
-      text: "Are you sure you want to Logout?",
+      title: "Confirm",
+      text: "Are you sure you want remove this dataset?",
       confirmButtonText: "Confirm",
       cancelButtonText: "Cancel",
       background: "#202020",

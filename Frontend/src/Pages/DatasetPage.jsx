@@ -25,7 +25,7 @@ function DatasetPage() {
     <>
       {triggerProfile && <Proflle setTriggerProfile={setTriggerProfile} />}
       <Upperbar
-        currentPage="Guides"
+        currentPage="Dataset management"
         setIsSidebarCollapsed={setIsSidebarCollapsed}
         setTriggerProfile={setTriggerProfile}
       />

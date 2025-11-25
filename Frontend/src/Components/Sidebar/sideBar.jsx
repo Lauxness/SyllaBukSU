@@ -120,7 +120,7 @@ function SidebarComponent(props) {
           component={<Link to="/generate_all" />}
           icon={<MdGridView color="var(--text-color)" fontSize="20px" />}
         >
-          Generate all in one
+          Generate All In One
         </MenuItem>
         <MenuItem
           style={{ color: "var(--text-color)" }}
