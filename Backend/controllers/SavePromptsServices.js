@@ -42,7 +42,9 @@ const GetPrompts = async (req, res) => {
   const { email } = req.user;
   try {
     const user = await Accounts.findOne({ email });
-    const prompts = await SavedPrompts.find({ userId: user._id });
+    const prompts = await SavedPrompts.find({ userId: user._id }).sort({
+      createdAt: -1,
+    });
     res.status(200).json(prompts);
   } catch (err) {
     console.log(err);

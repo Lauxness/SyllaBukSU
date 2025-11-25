@@ -7,6 +7,7 @@ const mongoose = require("mongoose");
 const GenerateRoute = require("./routes/Generate");
 const AdminRoute = require("./routes/Admin");
 const ChatBotRoute = require("./routes/ChatBot");
+const DatasetRoute = require("./routes/Datasets");
 const DocxsRoute = require("./routes/DownloadDocxs");
 const SavePromptRoute = require("./routes/SavePrompts");
 const Announcement = require("./routes/Announcement");
@@ -30,6 +31,7 @@ app.use("/announcement", Middleware, Announcement);
 app.use("/checklist", Middleware, CheckListRoute);
 app.use("/checklist", Middleware, CheckListRoute);
 app.use("/users", Middleware, UserRoute);
+app.use("/dataset", Middleware, DatasetRoute);
 
 const PORT = process.env.PORT;
 
