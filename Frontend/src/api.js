@@ -65,3 +65,8 @@ export const UpdateChecklist = (id, data) =>
   api.patch(`/checklist/${id}`, data);
 export const DeleteCheckList = (id) => api.delete(`/checklist/${id}`);
 export const GetOneCheckList = (id) => api.get(`/checklist/${id}`);
+
+export const GetDatasets = () => api.get(`/dataset/`);
+export const AddDataset = (body) => api.post(`/dataset/`, body);
+export const UpdateDataset = (body, id) => api.patch(`/dataset/${id}`, body);
+export const DeleteDataset = (id) => api.delete(`/dataset/${id}`);

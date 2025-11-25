@@ -30,7 +30,7 @@ function PieChart(props) {
         labels: labels,
         datasets: [
           {
-            label: "Sample Data",
+            label: "Total",
             data: data,
             backgroundColor: [
               "rgb(138, 43, 63)",
