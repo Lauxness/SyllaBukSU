@@ -14,6 +14,7 @@ import DashboardPage from "./Pages/DashboardPage";
 import AnnouncementPage from "./Pages/AnnouncementPage";
 import CheckiListPage from "./Pages/CheckListPage";
 import GuidePage from "./Pages/GuidePage";
+import DatasetPage from "./Pages/DatasetPage";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(true);
@@ -73,6 +74,10 @@ function App() {
         <Route
           path="/generate_all"
           element={<PrivateRoute element={<AllInOnePage />} />}
+        />
+        <Route
+          path="/datasets"
+          element={<PrivateRoute element={<DatasetPage />} />}
         />
         <Route
           path="/generate_all/:id"

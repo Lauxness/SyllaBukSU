@@ -27,14 +27,14 @@ function PieChartProgram(props) {
         labels: labels,
         datasets: [
           {
-            label: "Sample Data",
+            label: "Total",
             data: data,
             backgroundColor: [
               "rgba(211, 162, 2, 1)",
               "rgba(7, 168, 122, 0.61)",
               "rgba(8, 109, 204, 0.61)",
               "rgba(255, 43, 32, 0.61)",
-              "rgba(7, 168, 122, 0.61)",
+              "rgba(10, 93, 69, 0.61)",
               "rgba(188, 76, 76, 0.61)",
             ],
             borderWidth: 0,
