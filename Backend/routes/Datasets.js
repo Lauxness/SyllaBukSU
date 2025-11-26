@@ -12,6 +12,6 @@ router.post("/", AddDataset);
 router.get("/", GetDatasets);
 router.patch("/:id", UpdateDataset);
 router.delete("/:id", DeleteDataset);
-router.get("/", DownloadDataset);
+router.get("/download", DownloadDataset);
 
 module.exports = router;

@@ -81,7 +81,19 @@ const DeleteDataset = async (req, res) => {
     return res.status(500).json({ message: "Internal server error!" });
   }
 };
-const DownloadDataset = () => {};
+const DownloadDataset = async (req, res) => {
+  try {
+    const datasets = await Datasets.find().select("input output -_id").lean();
+    const jsonData = JSON.stringify(datasets, null, 2);
+    res.setHeader("Content-Disposition", "attachment; filename=datasets.json");
+    res.setHeader("Content-Type", "application/json");
+
+    return res.status(200).send(jsonData);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+};
 
 module.exports = {
   GetDatasets,

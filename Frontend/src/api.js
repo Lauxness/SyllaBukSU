@@ -70,3 +70,7 @@ export const GetDatasets = () => api.get(`/dataset/`);
 export const AddDataset = (body) => api.post(`/dataset/`, body);
 export const UpdateDataset = (body, id) => api.patch(`/dataset/${id}`, body);
 export const DeleteDataset = (id) => api.delete(`/dataset/${id}`);
+export const DownloadDataset = () =>
+  api.get("/dataset/download", {
+    responseType: "blob",
+  });
