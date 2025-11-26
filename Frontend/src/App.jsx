@@ -80,7 +80,7 @@ function App() {
         <Route
           path="/generate_description/:id"
           element={
-            <RequireAuth allowedRoles={["college-admin", "user"]}>
+            <RequireAuth allowedRoles={["admin", "college-admin", "user"]}>
               <DescPage />
             </RequireAuth>
           }
