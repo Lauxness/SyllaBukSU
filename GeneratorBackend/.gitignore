@@ -25,4 +25,5 @@ dist-ssr
 model/
 model1/
 ModelCO/
+__pycache__/
 .env
