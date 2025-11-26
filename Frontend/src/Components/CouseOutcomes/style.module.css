@@ -22,7 +22,7 @@
   gap: 20px;
   overflow: scroll;
 
-  border-radius: 10px;
+  border-radius: 5px;
 }
 .inputGroup {
   display: flex;
@@ -42,7 +42,7 @@
   padding: 10px;
   font-size: 1em;
   font-weight: 400;
-  border-radius: 5px;
+  border-radius: 3px;
 }
 .inputGroup > select {
   height: 40px;
@@ -53,7 +53,7 @@
   font-size: 1em;
   font-weight: 400;
   font-family: poppins;
-  border-radius: 5px;
+  border-radius: 3px;
 }
 .generateButton {
   max-width: 300px;
@@ -66,7 +66,7 @@
   font-weight: 500;
   color: white;
   cursor: pointer;
-  border-radius: 5px;
+  border-radius: 3px;
 }
 .generatedContent {
   width: 100%;
@@ -106,7 +106,7 @@
   height: 100%;
   gap: 10px;
   flex-direction: column;
-  border-radius: 10px;
+  border-radius: 5px;
 }
 .chats {
   flex: 1;
@@ -117,7 +117,7 @@
 }
 .chats div {
   padding: 10px;
-  border-radius: 5px;
+  border-radius: 3px;
   border: 1px solid var(--secondary-color);
   text-wrap: wrap;
   display: flex;
@@ -127,7 +127,7 @@
   color: var(--text-color);
   flex-direction: column;
   position: relative;
-  border-radius: 5px;
+  border-radius: 3px;
   overflow: hidden;
 }
 .chatInputGroup > span {
@@ -183,7 +183,7 @@
   color: var(--text-color);
   outline: none;
   border: none;
-  border-radius: 5px;
+  border-radius: 3px;
   cursor: pointer;
   padding: 0 15px;
   font-family: poppins;

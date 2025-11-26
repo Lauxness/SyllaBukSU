@@ -11,7 +11,9 @@ const GetCheckList = async (req, res) => {
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
-    const checkList = await CheckList.find({ userId: user._id });
+    const checkList = await CheckList.find({ userId: user._id }).sort({
+      createdAt: -1,
+    });
     return res.status(200).json(checkList);
   } catch (err) {
     console.log(err);

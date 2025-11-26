@@ -11,7 +11,7 @@
 .innerContainer {
   width: 35%;
   background-color: white;
-  border-radius: 5px;
+  border-radius: 3px;
   animation-name: popup;
   animation-duration: 0.2s;
   animation-timing-function: ease-in-out;

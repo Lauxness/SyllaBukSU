@@ -22,7 +22,7 @@
 .summaryContainer {
   width: "100%";
   padding: "10px";
-  border-radius: 5px;
+  border-radius: 3px;
   display: flex;
   gap: 20px;
   background-color: rgba(45, 86, 251, 0.04);
@@ -43,7 +43,7 @@
   height: 600px;
   padding: 5px;
   background-color: rgba(45, 86, 251, 0.04);
-  border-radius: 5px;
+  border-radius: 3px;
   border: 1px solid rgba(45, 86, 251, 0.311);
 }
 ::-webkit-scrollbar {
@@ -84,7 +84,7 @@
   height: 600px;
   padding: 5px;
   background-color: rgba(45, 86, 251, 0.04);
-  border-radius: 5px;
+  border-radius: 3px;
   border: 1px solid rgba(45, 86, 251, 0.311);
 }
 .headlines {

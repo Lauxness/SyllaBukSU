@@ -1,5 +1,6 @@
 const Datasets = require("../model/DataSetModel");
 const Account = require("../model/accountsModel");
+const JSZip = require("jszip");
 const GetDatasets = async (req, res) => {
   const user = req.user;
   console.log(user);
@@ -83,12 +84,33 @@ const DeleteDataset = async (req, res) => {
 };
 const DownloadDataset = async (req, res) => {
   try {
-    const datasets = await Datasets.find().select("input output -_id").lean();
-    const jsonData = JSON.stringify(datasets, null, 2);
-    res.setHeader("Content-Disposition", "attachment; filename=datasets.json");
-    res.setHeader("Content-Type", "application/json");
+    const datasets = await Datasets.find()
+      .select("component input output -_id")
+      .lean();
 
-    return res.status(200).send(jsonData);
+    const zip = new JSZip();
+
+    // Group datasets by component
+    const grouped = datasets.reduce((acc, dataset) => {
+      if (!acc[dataset.component]) acc[dataset.component] = [];
+      acc[dataset.component].push({
+        input: dataset.input,
+        output: dataset.output,
+      });
+      return acc;
+    }, {});
+
+    // Add each group as a separate JSON file in zip
+    for (const [component, data] of Object.entries(grouped)) {
+      zip.file(`${component}_datasets.json`, JSON.stringify(data, null, 2));
+    }
+
+    const zipContent = await zip.generateAsync({ type: "nodebuffer" });
+
+    res.setHeader("Content-Disposition", "attachment; filename=datasets.zip");
+    res.setHeader("Content-Type", "application/zip");
+
+    return res.status(200).send(zipContent);
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: "Internal server error" });

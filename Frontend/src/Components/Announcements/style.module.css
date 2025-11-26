@@ -1,10 +1,12 @@
 .container {
   width: 100%;
   padding: 15px 10px;
+  height: calc(100vh - 50px);
+  display: flex;
+  flex-direction: column;
 }
 .cardContainer {
   overflow-x: scroll;
-  height: calc(100vh - 130px);
   padding: 0 10px;
 }
 .card {

@@ -3,7 +3,9 @@ const Account = require("../model/accountsModel");
 const { SendEmail } = require("../utils/EmailSender");
 const getAnnouncements = async (req, res) => {
   try {
-    const announcements = await Announcement.find();
+    const announcements = await Announcement.find().sort({
+      createdAt: -1,
+    });
 
     return res.status(200).json(announcements);
   } catch (err) {

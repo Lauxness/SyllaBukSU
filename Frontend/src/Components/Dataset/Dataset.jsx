@@ -89,7 +89,7 @@ function Dataset() {
 
       const link = document.createElement("a");
       link.href = url;
-      link.setAttribute("download", "datasets.json");
+      link.setAttribute("download", "datasets.zip");
 
       document.body.appendChild(link);
       link.click();
