@@ -51,7 +51,7 @@
   background-color: var(--secondary-color);
   padding: 8px;
   font-style: poppins;
-  font-size: 1.1em;
+  font-size: 0.9em;
   font-weight: 500;
   color: white;
   cursor: pointer;
@@ -144,7 +144,7 @@
   padding: 10px;
   width: 100%;
   padding-right: 60px;
-  font-size: 1em;
+  font-size: 0.9em;
   font-family: poppins;
   font-weight: 400;
 }
