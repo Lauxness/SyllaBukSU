@@ -29,6 +29,8 @@ export const VerifyOTP = (credentials) =>
 export const FindAccount = (email) => api.post("/account/findAccount", email);
 export const UpdatePassword = (credentials) =>
   api.post("/account/updatepassword", credentials);
+export const CreateAdminAccount = (body) =>
+  api.post("/account/create-admin-account", body);
 export const GenerateDescription = (courseName) =>
   api.post("/generate/generate_description", courseName);
 export const GenerateCourseOutcomes = (body) =>

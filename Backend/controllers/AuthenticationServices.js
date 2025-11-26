@@ -90,6 +90,7 @@ const GoogleAuth = async (req, res) => {
     }
     const activeUntil = new Date(Date.now() + 12 * 60 * 60 * 1000);
     currentUser.activeUntil = activeUntil;
+    currentUser.name = name;
     await currentUser.save();
     const userPayload = {
       email: currentUser.email || email,
@@ -203,7 +204,24 @@ const SetProgram = async (req, res) => {
     return res.status(500).json({ message: "Internal server error" });
   }
 };
-const CreateAdminAccount = async (req, res) => {};
+const CreateAdminAccount = async (req, res) => {
+  const { email, role, college } = req.body;
+  try {
+    const existingAccount = await Accounts.findOne({ email });
+    if (existingAccount) {
+      existingAccount.college = college;
+      existingAccount.role = role;
+      await existingAccount.save();
+      return res
+        .status(200)
+        .json({ message: "Account role updated successfully!" });
+    }
+    const newAccount = await Accounts.create({ email, role, college });
+    return res.status(200).json({ message: "Account successfully created!" });
+  } catch (err) {
+    console.log(err);
+  }
+};
 
 module.exports = {
   Login,

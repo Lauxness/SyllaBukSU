@@ -16,7 +16,6 @@ function encrypt(text) {
 }
 
 function decrypt(encryptedText) {
-  console.log(encryptedText);
   if (!encryptedText) return "";
   const [iv, encrypted] = encryptedText.split(":");
   if (!iv || !encrypted) {

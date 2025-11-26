@@ -85,51 +85,57 @@ function SidebarComponent(props) {
         ) : (
           ""
         )}
-        <MenuItem
-          active={props.currentPage === "desc"}
-          component={<Link to="/generate_description" />}
-          style={{ color: "var(--text-color)" }}
-          icon={<MdDescription color="var(--text-color)" fontSize="20px" />}
-        >
-          Course Description
-        </MenuItem>
-        <MenuItem
-          style={{ color: "var(--text-color)" }}
-          active={props.currentPage === "cos"}
-          component={<Link to="/generate_cos" />}
-          icon={
-            <MdSettingsInputComponent
-              color="var(--text-color)"
-              fontSize="20px"
-            />
-          }
-        >
-          Course Outcomes
-        </MenuItem>
-        <MenuItem
-          style={{ color: "var(--text-color)" }}
-          active={props.currentPage === "slos"}
-          component={<Link to="/generate_slos" />}
-          icon={<MdPsychology color="var(--text-color)" fontSize="20px" />}
-        >
-          Specific LOs
-        </MenuItem>
-        <MenuItem
-          style={{ color: "var(--text-color)" }}
-          active={props.currentPage === "allinone"}
-          component={<Link to="/generate_all" />}
-          icon={<MdGridView color="var(--text-color)" fontSize="20px" />}
-        >
-          Generate All In One
-        </MenuItem>
-        <MenuItem
-          style={{ color: "var(--text-color)" }}
-          active={props.currentPage === "datasets"}
-          component={<Link to="/datasets" />}
-          icon={<MdDataArray color="var(--text-color)" fontSize="20px" />}
-        >
-          Datasets
-        </MenuItem>
+        {userInfo.role !== "admin" && (
+          <>
+            <MenuItem
+              active={props.currentPage === "desc"}
+              component={<Link to="/generate_description" />}
+              style={{ color: "var(--text-color)" }}
+              icon={<MdDescription color="var(--text-color)" fontSize="20px" />}
+            >
+              Course Description
+            </MenuItem>
+            <MenuItem
+              style={{ color: "var(--text-color)" }}
+              active={props.currentPage === "cos"}
+              component={<Link to="/generate_cos" />}
+              icon={
+                <MdSettingsInputComponent
+                  color="var(--text-color)"
+                  fontSize="20px"
+                />
+              }
+            >
+              Course Outcomes
+            </MenuItem>
+            <MenuItem
+              style={{ color: "var(--text-color)" }}
+              active={props.currentPage === "slos"}
+              component={<Link to="/generate_slos" />}
+              icon={<MdPsychology color="var(--text-color)" fontSize="20px" />}
+            >
+              Specific LOs
+            </MenuItem>
+            <MenuItem
+              style={{ color: "var(--text-color)" }}
+              active={props.currentPage === "allinone"}
+              component={<Link to="/generate_all" />}
+              icon={<MdGridView color="var(--text-color)" fontSize="20px" />}
+            >
+              Generate All In One
+            </MenuItem>
+          </>
+        )}
+        {userInfo.role !== "user" && (
+          <MenuItem
+            style={{ color: "var(--text-color)" }}
+            active={props.currentPage === "datasets"}
+            component={<Link to="/datasets" />}
+            icon={<MdDataArray color="var(--text-color)" fontSize="20px" />}
+          >
+            Datasets
+          </MenuItem>
+        )}
         <MenuItem
           style={{ color: "var(--text-color)" }}
           active={props.currentPage === "announcements"}

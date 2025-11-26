@@ -36,7 +36,6 @@ const UserTable = ({ users, title, columns }) => (
     columns={columns}
     data={users}
     theme="customTheme"
-    selectableRows
     pagination
     fixedHeaderScrollHeight="500px"
   />

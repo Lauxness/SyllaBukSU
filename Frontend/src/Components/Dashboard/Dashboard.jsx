@@ -11,11 +11,12 @@ import Folder from "../../assets/folder1.webp";
 import ActiveUsers from "./Modals/ActiveUsers/ActiveUsers";
 import PieChartProgram from "./Charts/PieChartProgram";
 import UsersPerCollege from "./Modals/UsersPerCollege/UsersPerCollege";
-import { MdDownload } from "react-icons/md";
+import { MdAdd, MdDownload } from "react-icons/md";
 import Users from "./Modals/Users/Users";
 import LoginFrequency from "./Charts/LoginFrequency";
 import LoginFrequencyPerCollege from "./Modals/LoginFrequencyPerCollege/LoginFrequencyPerCollege";
 import Swal from "sweetalert2";
+import AddAdminAccountModal from "./Modals/AddAdminAccountModal/AddAdminAccountModal";
 function Dashboard() {
   const [descriptionYearlyData, setDescriptionYearlyData] = useState([]);
   const [descriptionMonthlyData, seteDecriptionMonthlyData] = useState([]);
@@ -52,6 +53,7 @@ function Dashboard() {
   const [userCountsPerCollege, setUserCountsPerCollege] = useState([]);
   const [isTriggeredActiveLoginFrequency, setIsTriggeredActiveLoginFrequency] =
     useState();
+  const [triggerAddAccountModal, setTriggerAddAccountModal] = useState(false);
   const today = new Date();
   const handleDownloadReport = async (e) => {
     e.stopPropagation();
@@ -84,7 +86,7 @@ function Dashboard() {
   const columns = [
     {
       name: "Name",
-      selector: (row) => row.name,
+      selector: (row) => row.name || "( Unavailable )",
       sortable: true,
     },
     {
@@ -93,8 +95,8 @@ function Dashboard() {
       sortable: true,
     },
     {
-      name: "Program",
-      selector: (row) => row.program || "N/A",
+      name: "Role",
+      selector: (row) => row.role,
       sortable: true,
       width: "300px",
     },
@@ -452,7 +454,15 @@ function Dashboard() {
         </div>
 
         <div className={styles.tableContainer}>
-          <UserTable users={users} title="User List" columns={columns} />
+          <div className={styles.headlines}>
+            <p>List of accounts</p>
+            <div>
+              <button onClick={() => setTriggerAddAccountModal(true)}>
+                <MdAdd /> Add admin account
+              </button>
+            </div>
+          </div>
+          <UserTable users={users} columns={columns} />
         </div>
       </div>
 
@@ -482,6 +492,11 @@ function Dashboard() {
             }
           />
         ))}
+      {triggerAddAccountModal && (
+        <AddAdminAccountModal
+          setTriggerAddAccountModal={setTriggerAddAccountModal}
+        />
+      )}
     </>
   );
 }

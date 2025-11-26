@@ -45,7 +45,6 @@ const GetDashboard = async (req, res) => {
     const activities = await UserActivities.find({
       component: "Login",
     }).populate("userId");
-    console.log(activities);
     const userPerCourse = [];
     colleges.forEach((college) => {
       const courses = GetCourse(college);

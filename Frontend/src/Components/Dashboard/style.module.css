@@ -87,3 +87,33 @@
   border-radius: 5px;
   border: 1px solid rgba(45, 86, 251, 0.311);
 }
+.headlines {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  align-items: center;
+  padding: 10px 20px;
+}
+.headlines > p {
+  font-size: 1.3em;
+  font-weight: 500;
+  color: white;
+}
+.headlines > div {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.headlines > div > button {
+  padding: 10px;
+  border: none;
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+  color: white;
+  align-items: center;
+
+  background-color: rgb(2, 87, 160);
+}
