@@ -2,13 +2,15 @@ import { MdAdd, MdDownload } from "react-icons/md";
 import styles from "./style.module.css";
 import Table from "./Table";
 import AddModal from "./Modals/AddModal/AddModal";
-import { DeleteDataset, GetDatasets } from "../../api";
+import { DeleteDataset, DownloadDataset, GetDatasets } from "../../api";
 import { useState, useEffect } from "react";
 import Swal from "sweetalert2";
+import ViewModal from "./Modals/ViewModal/ViewModal";
 
 function Dataset() {
   const [datasets, setDatasets] = useState();
   const [triggerAddModal, setTriggerAddModal] = useState(false);
+  const [triggerViewModal, setTriggerViewModal] = useState(false);
   const [currentData, setCurrentData] = useState();
   const HandleGetDatasets = async () => {
     try {
@@ -49,6 +51,15 @@ function Dataset() {
     });
   };
 
+  const HandleViewDataset = (row) => {
+    if (triggerViewModal) {
+      setCurrentData("");
+      setTriggerViewModal(false);
+    } else {
+      setCurrentData(row);
+      setTriggerViewModal(true);
+    }
+  };
   const HandleDeleteDataset = async (id) => {
     try {
       const res = await DeleteDataset(id);
@@ -68,7 +79,23 @@ function Dataset() {
       console.error(err);
     }
   };
+  const HandleDownloadDataset = async () => {
+    try {
+      const res = await DownloadDataset();
+      const blob = new Blob([res.data], { type: "application/json" });
+      const url = window.URL.createObjectURL(blob);
 
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", "datasets.json");
+
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } catch (err) {
+      console.log(err);
+    }
+  };
   useEffect(() => {
     HandleGetDatasets();
   }, []);
@@ -82,6 +109,9 @@ function Dataset() {
           currentData={currentData}
         />
       )}
+      {triggerViewModal && (
+        <ViewModal data={currentData} HandleViewDataset={HandleViewDataset} />
+      )}
       <div className={styles.container}>
         <div className={styles.headlines}>
           <p>List of datasets</p>
@@ -89,7 +119,7 @@ function Dataset() {
             <button onClick={() => setTriggerAddModal(true)}>
               <MdAdd /> Add dataset
             </button>
-            <button>
+            <button onClick={HandleDownloadDataset}>
               <MdDownload /> Download datasets
             </button>
           </div>
@@ -97,6 +127,7 @@ function Dataset() {
         <div className={styles.tableContainer}>
           <Table
             data={datasets}
+            HandleViewDataset={HandleViewDataset}
             HandleTriggerAddModal={HandleTriggerAddModal}
             HandleWarning={HandleWarning}
           />

@@ -203,6 +203,7 @@ const SetProgram = async (req, res) => {
     return res.status(500).json({ message: "Internal server error" });
   }
 };
+const CreateAdminAccount = async (req, res) => {};
 
 module.exports = {
   Login,
@@ -213,4 +214,5 @@ module.exports = {
   OTPVerification,
   UpdatePassword,
   SetProgram,
+  CreateAdminAccount,
 };

@@ -31,7 +31,12 @@ createTheme(
   "dark"
 );
 
-const Table = ({ data, HandleTriggerAddModal, HandleWarning }) => {
+const Table = ({
+  data,
+  HandleTriggerAddModal,
+  HandleWarning,
+  HandleViewDataset,
+}) => {
   const columns = [
     {
       name: "No.",
@@ -112,6 +117,7 @@ const Table = ({ data, HandleTriggerAddModal, HandleWarning }) => {
       data={data}
       theme="customTheme"
       highlightOnHover
+      onRowClicked={HandleViewDataset}
       pointerOnHover
       pagination
       fixedHeader
