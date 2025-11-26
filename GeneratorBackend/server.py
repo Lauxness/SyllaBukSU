@@ -71,10 +71,10 @@ async def generate_text(request: TextRequest):
 
 @app.post("/chat/request/chatbot")
 async def testing(request: TextRequest):
-    CHAT_BOT_KEY = os.getenv("CHAT_BOT_API_KEY")
+    CHAT_BOT_KEY = os.getenv("CHATBOT_API_KEY")
     url = "https://openrouter.ai/api/v1/chat/completions"
     headers = {
-        "Authorization": "Bearer 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",
+        "Authorization": f"Bearer {CHAT_BOT_KEY}",
         "Content-Type": "application/json",
     }
     data = {
