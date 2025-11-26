@@ -121,7 +121,7 @@ module.exports = class ReportPDF {
       .font("Helvetica-Bold")
       .fillColor("black")
       .fontSize(17)
-      .text("Student Information Report Summary", 50, 150)
+      .text("Syllabuksu users report summary", 50, 150)
       .font("Helvetica")
       .fontSize(10)
       .text(`Date: ${date}`, 350, 125)

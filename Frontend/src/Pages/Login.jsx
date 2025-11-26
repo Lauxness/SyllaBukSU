@@ -98,7 +98,10 @@ function LoginPage(props) {
           }}
         ></div>
       </div>
-      <LoginCard setIsAuthenticated={props.setIsAuthenticated} />
+      <LoginCard
+        setIsAuthenticated={props.setIsAuthenticated}
+        setRole={props.setRole}
+      />
     </div>
   );
 }

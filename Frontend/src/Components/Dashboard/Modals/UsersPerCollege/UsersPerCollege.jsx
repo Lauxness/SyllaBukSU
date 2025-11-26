@@ -72,8 +72,9 @@ function UsersPerCollege(props) {
     }
 
     try {
+      console.log(data);
       const response = await DownloadReport(data);
-      console.log;
+
       const blob = new Blob([response.data], { type: "application/pdf" });
       const url = window.URL.createObjectURL(blob);
 

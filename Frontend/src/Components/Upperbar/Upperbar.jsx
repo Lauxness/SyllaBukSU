@@ -93,7 +93,7 @@ function Upperbar(props) {
           </div>
         </div>
       </div>
-      {!userInfo?.program && <ProgramForm />}
+      {!userInfo?.program && userInfo.role === "user" && <ProgramForm />}
     </>
   );
 }

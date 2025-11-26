@@ -130,9 +130,10 @@ function SpecificLOs() {
       });
   };
   const splitByNumbers = (text) => {
-    return text.split(/(?=\d+\.\s)/g); // Looks ahead for number + period + space
+    return text.split(/(?=\d+\.\s)/g);
   };
   const handleChat = async () => {
+    if (!currentResult) return;
     if (!userPrompt) return;
     try {
       setChatLoading(true);
@@ -202,7 +203,7 @@ function SpecificLOs() {
             <option value="1">1</option>
             <option value="2">2</option>
             <option value="3">3</option>
-            <option value="4">3</option>
+            <option value="4">4</option>
             <option value="5">5</option>
           </select>
         </div>

@@ -1,17 +1,18 @@
 import SidebarComponent from "../Components/Sidebar/sideBar";
+import Proflle from "../Components/Profile/Proflle";
+
 import Upperbar from "../Components/Upperbar/Upperbar";
-import Dashboard from "../Components/Dashboard/Dashboard";
 import { useEffect, useState } from "react";
 import Aos from "aos";
 import "aos/dist/aos.css";
-import Proflle from "../Components/Profile/Proflle";
-function DashboardPage() {
+import Dataset from "../Components/Dataset/Dataset";
+function DatasetPage() {
   const savedState = localStorage.getItem("sidebarCollapsed");
   const [triggerProfile, setTriggerProfile] = useState(false);
+
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(
     JSON.parse(savedState) || false
   );
-
   useEffect(() => {
     if (savedState !== null) {
       setIsSidebarCollapsed(JSON.parse(savedState));
@@ -24,7 +25,7 @@ function DashboardPage() {
     <>
       {triggerProfile && <Proflle setTriggerProfile={setTriggerProfile} />}
       <Upperbar
-        currentPage="Dashboard"
+        currentPage="Dataset management"
         setIsSidebarCollapsed={setIsSidebarCollapsed}
         setTriggerProfile={setTriggerProfile}
       />
@@ -78,12 +79,13 @@ function DashboardPage() {
           ></div>
         </div>
         <SidebarComponent
-          currentPage="dashboard"
+          currentPage="datasets"
           collapsed={isSidebarCollapsed}
         />
-        <Dashboard />
+        <Dataset />
       </div>
     </>
   );
 }
-export default DashboardPage;
+
+export default DatasetPage;

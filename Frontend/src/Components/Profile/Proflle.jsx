@@ -119,9 +119,6 @@ function Proflle({ setTriggerProfile }) {
             <div className={styles.background}></div>
             <div className={styles.profileOverView}>
               <div className={styles.imageContainer}>
-                <div className={styles.iconContainer}>
-                  <MdCameraAlt />
-                </div>
                 <img src={ProfilePic} alt="" />
               </div>
               <div>

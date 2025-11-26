@@ -156,6 +156,8 @@ function CourseOutcomes() {
     }
   };
   const handleChat = async () => {
+    if (!currentResult) return;
+
     if (!userPrompt) return;
     try {
       setChatLoading(true);

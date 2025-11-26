@@ -7,6 +7,7 @@ const {
   OTPVerification,
   UpdatePassword,
   SetProgram,
+  CreateAdminAccount,
 } = require("../controllers/AuthenticationServices");
 
 const express = require("express");
@@ -19,6 +20,7 @@ router.post("/otp", OneTimePinSender);
 router.post("/findAccount", FindAccount);
 router.post("/verify", OTPVerification);
 router.post("/updatepassword", UpdatePassword);
+router.post("/create-admin-account", CreateAdminAccount);
 router.patch("/program/:email", SetProgram);
 
 module.exports = router;

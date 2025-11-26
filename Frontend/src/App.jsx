@@ -14,85 +14,176 @@ import DashboardPage from "./Pages/DashboardPage";
 import AnnouncementPage from "./Pages/AnnouncementPage";
 import CheckiListPage from "./Pages/CheckListPage";
 import GuidePage from "./Pages/GuidePage";
+import DatasetPage from "./Pages/DatasetPage";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(true);
-  const [role, setRole] = useState("admin");
-  const ProtectedPrivateRoute = ({ element }) => {
+  const data = localStorage.getItem("user-info");
+  const userInfo = JSON.parse(data);
+  const [role, setRole] = useState(userInfo?.role);
+  const RequireAuth = ({ children, allowedRoles }) => {
     if (!isAuthenticated) {
-      return <Navigate to="/login" />;
+      return <Navigate to="/login" replace />;
     }
-    if (role !== "admin") {
-      console.log(role);
-      return <Navigate to="/generate_description" />;
+
+    if (!allowedRoles.includes(role)) {
+      if (role !== "admin") {
+        return <Navigate to="/generate_description" replace />;
+      } else {
+        return <Navigate to="/dashboard" replace />;
+      }
     }
-    return element;
+
+    return children;
   };
 
-  const PrivateRoute = ({ element }) => {
-    return isAuthenticated ? element : <Navigate to="/login" />;
-  };
   return (
     <BrowserRouter>
       <RefreshHandler
         setIsAuthenticated={setIsAuthenticated}
         setRole={setRole}
       />
+
       <Routes>
+        {/* Public Routes */}
         <Route path="/" element={<LandingPage />} />
         <Route
           path="/login"
-          element={<LoginPage setIsAuthenticated={setIsAuthenticated} />}
+          element={
+            <LoginPage
+              setIsAuthenticated={setIsAuthenticated}
+              setRole={setRole}
+            />
+          }
         />
         <Route path="/register" element={<Register />} />
-        <Route path="/home" element={<PrivateRoute element={<Home />} />} />
+
+        {/* Shared Routes (Admin + User) */}
+        <Route
+          path="/home"
+          element={
+            <RequireAuth allowedRoles={["admin", "college-admin", "user"]}>
+              <Home />
+            </RequireAuth>
+          }
+        />
+
         <Route
           path="/generate_description"
-          element={<PrivateRoute element={<DescPage />} />}
+          element={
+            <RequireAuth allowedRoles={["college-admin", "user"]}>
+              <DescPage />
+            </RequireAuth>
+          }
         />
+
         <Route
           path="/generate_description/:id"
-          element={<PrivateRoute element={<DescPage />} />}
+          element={
+            <RequireAuth allowedRoles={["college-admin", "user"]}>
+              <DescPage />
+            </RequireAuth>
+          }
         />
+
         <Route
           path="/generate_cos"
-          element={<PrivateRoute element={<COPage />} />}
+          element={
+            <RequireAuth allowedRoles={["college-admin", "user"]}>
+              <COPage />
+            </RequireAuth>
+          }
         />
+
         <Route
           path="/generate_cos/:id"
-          element={<PrivateRoute element={<COPage />} />}
+          element={
+            <RequireAuth allowedRoles={["college-admin", "user"]}>
+              <COPage />
+            </RequireAuth>
+          }
         />
+
         <Route
           path="/generate_slos"
-          element={<PrivateRoute element={<SLOPage />} />}
+          element={
+            <RequireAuth allowedRoles={["college-admin", "user"]}>
+              <SLOPage />
+            </RequireAuth>
+          }
         />
+
         <Route
           path="/generate_slos/:id"
-          element={<PrivateRoute element={<SLOPage />} />}
+          element={
+            <RequireAuth allowedRoles={["college-admin", "user"]}>
+              <SLOPage />
+            </RequireAuth>
+          }
         />
+
         <Route
           path="/generate_all"
-          element={<PrivateRoute element={<AllInOnePage />} />}
+          element={
+            <RequireAuth allowedRoles={["college-admin", "user"]}>
+              <AllInOnePage />
+            </RequireAuth>
+          }
         />
+
         <Route
           path="/generate_all/:id"
-          element={<PrivateRoute element={<AllInOnePage />} />}
+          element={
+            <RequireAuth allowedRoles={["college-admin", "user"]}>
+              <AllInOnePage />
+            </RequireAuth>
+          }
         />
-        <Route
-          path="/dashboard"
-          element={<ProtectedPrivateRoute element={<DashboardPage />} />}
-        />
+
         <Route
           path="/announcements"
-          element={<PrivateRoute element={<AnnouncementPage />} />}
+          element={
+            <RequireAuth allowedRoles={["college-admin", "admin", "user"]}>
+              <AnnouncementPage />
+            </RequireAuth>
+          }
         />
+
         <Route
           path="/guides"
-          element={<PrivateRoute element={<GuidePage />} />}
+          element={
+            <RequireAuth allowedRoles={["college-admin", "user"]}>
+              <GuidePage />
+            </RequireAuth>
+          }
         />
+
         <Route
           path="/checklist"
-          element={<PrivateRoute element={<CheckiListPage />} />}
+          element={
+            <RequireAuth allowedRoles={["college-admin", "user"]}>
+              <CheckiListPage />
+            </RequireAuth>
+          }
+        />
+
+        {/* Admin Only Routes */}
+        <Route
+          path="/dashboard"
+          element={
+            <RequireAuth allowedRoles={["admin"]}>
+              <DashboardPage />
+            </RequireAuth>
+          }
+        />
+
+        <Route
+          path="/datasets"
+          element={
+            <RequireAuth allowedRoles={["admin", "college-admin"]}>
+              <DatasetPage />
+            </RequireAuth>
+          }
         />
       </Routes>
     </BrowserRouter>

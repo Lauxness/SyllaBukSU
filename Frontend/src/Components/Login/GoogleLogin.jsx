@@ -23,12 +23,14 @@ function GoogleLogin(props) {
       };
       localStorage.setItem("user-info", JSON.stringify(userInfo));
       props.setIsAuthenticated(true);
-      if (response.data.userPayload.role === "admin") {
+      props.setRole(response.data.userPayload.role);
+      if (userInfo.role === "admin") {
         navigate("/dashboard");
       } else {
         navigate("/generate_description");
       }
     } catch (error) {
+      console.log(error);
       Swal.fire({
         icon: "error",
         background: "#202020",

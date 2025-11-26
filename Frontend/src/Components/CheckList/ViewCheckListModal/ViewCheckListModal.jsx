@@ -301,7 +301,7 @@ function ViewCheckListModal({ checkList, handleTriggerView }) {
                         onChange={() => {
                           const updated = [...institutionalFormsPart];
                           updated[index] = updated[index] === 1 ? 0 : 1;
-                          setInstitutionalFormsPart(updated);
+                          setinstitutionalFormsPart(updated);
                         }}
                       />
                       <label htmlFor={`checkbox-${index}`}>{item}</label>

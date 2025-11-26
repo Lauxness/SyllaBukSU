@@ -122,7 +122,10 @@ function LoginCard(props) {
               <p>or</p>
             </div>
             <GoogleOAuthProvider clientId="405000156933-unqq4gvbb5efen3bagbnq57d2q2r6l68.apps.googleusercontent.com">
-              <GoogleLogin setIsAuthenticated={props.setIsAuthenticated} />
+              <GoogleLogin
+                setIsAuthenticated={props.setIsAuthenticated}
+                setRole={props.setRole}
+              />
             </GoogleOAuthProvider>
           </form>
         </div>

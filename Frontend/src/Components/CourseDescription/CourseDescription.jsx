@@ -110,6 +110,9 @@ function CourseDescription() {
     }
   };
   const handleChat = async () => {
+    if (!currentResult) {
+      return;
+    }
     setUseTypingEffect(true);
     setSpeed(10);
     if (!userPrompt) return;

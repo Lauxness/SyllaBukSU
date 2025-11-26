@@ -1,6 +1,6 @@
 import axios from "axios";
 const api = axios.create({
-  baseURL: "https://syllabuksu.onrender.com",
+  baseURL: "http://localhost:3000",
   headers: {
     "Content-Type": "application/json",
   },
@@ -29,6 +29,8 @@ export const VerifyOTP = (credentials) =>
 export const FindAccount = (email) => api.post("/account/findAccount", email);
 export const UpdatePassword = (credentials) =>
   api.post("/account/updatepassword", credentials);
+export const CreateAdminAccount = (body) =>
+  api.post("/account/create-admin-account", body);
 export const GenerateDescription = (courseName) =>
   api.post("/generate/generate_description", courseName);
 export const GenerateCourseOutcomes = (body) =>
@@ -65,3 +67,12 @@ export const UpdateChecklist = (id, data) =>
   api.patch(`/checklist/${id}`, data);
 export const DeleteCheckList = (id) => api.delete(`/checklist/${id}`);
 export const GetOneCheckList = (id) => api.get(`/checklist/${id}`);
+
+export const GetDatasets = () => api.get(`/dataset/`);
+export const AddDataset = (body) => api.post(`/dataset/`, body);
+export const UpdateDataset = (body, id) => api.patch(`/dataset/${id}`, body);
+export const DeleteDataset = (id) => api.delete(`/dataset/${id}`);
+export const DownloadDataset = () =>
+  api.get("/dataset/download", {
+    responseType: "blob",
+  });
