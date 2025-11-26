@@ -125,9 +125,7 @@ function DescPage() {
                 direction="left"
                 style={{ color: "white", width: "100%" }}
               >
-                {`${annoucements[annoucements.length - 1].title}: ${
-                  annoucements[annoucements.length - 1].body
-                }`}
+                {`${annoucements[0].title}: ${annoucements[0].body}`}
               </marquee>
             </div>
           )}
