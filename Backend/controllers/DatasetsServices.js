@@ -89,8 +89,6 @@ const DownloadDataset = async (req, res) => {
       .lean();
 
     const zip = new JSZip();
-
-    // Group datasets by component
     const grouped = datasets.reduce((acc, dataset) => {
       if (!acc[dataset.component]) acc[dataset.component] = [];
       acc[dataset.component].push({
@@ -99,8 +97,6 @@ const DownloadDataset = async (req, res) => {
       });
       return acc;
     }, {});
-
-    // Add each group as a separate JSON file in zip
     for (const [component, data] of Object.entries(grouped)) {
       zip.file(`${component}_datasets.json`, JSON.stringify(data, null, 2));
     }
