@@ -144,23 +144,26 @@ function SidebarComponent(props) {
         >
           Annoucements
         </MenuItem>
-        <MenuItem
-          style={{ color: "var(--text-color)" }}
-          active={props.currentPage === "checklist"}
-          component={<Link to="/checklist" />}
-          icon={<MdChecklist color="var(--text-color)" fontSize="20px" />}
-        >
-          Checklist
-        </MenuItem>
-        <MenuItem
-          style={{ color: "var(--text-color)" }}
-          active={props.currentPage === "guides"}
-          component={<Link to="/guides" />}
-          icon={<MdHelp color="var(--text-color)" fontSize="20px" />}
-        >
-          Guides
-        </MenuItem>
-
+        {userInfo.role !== "admin" && (
+          <>
+            <MenuItem
+              style={{ color: "var(--text-color)" }}
+              active={props.currentPage === "checklist"}
+              component={<Link to="/checklist" />}
+              icon={<MdChecklist color="var(--text-color)" fontSize="20px" />}
+            >
+              Checklist
+            </MenuItem>
+            <MenuItem
+              style={{ color: "var(--text-color)" }}
+              active={props.currentPage === "guides"}
+              component={<Link to="/guides" />}
+              icon={<MdHelp color="var(--text-color)" fontSize="20px" />}
+            >
+              Blooms Guides
+            </MenuItem>
+          </>
+        )}
         <MenuItem
           style={{ color: "var(--text-color)" }}
           onClick={showSwal}

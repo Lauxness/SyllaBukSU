@@ -5,7 +5,7 @@ from openai import OpenAI
 import httpx
 from dotenv import load_dotenv
 import os
-
+load_dotenv()
 app = FastAPI()
 
 class TextRequest(BaseModel):
@@ -72,13 +72,14 @@ async def generate_text(request: TextRequest):
 @app.post("/chat/request/chatbot")
 async def testing(request: TextRequest):
     CHAT_BOT_KEY = os.getenv("CHATBOT_API_KEY")
+    print(CHAT_BOT_KEY)
     url = "https://openrouter.ai/api/v1/chat/completions"
     headers = {
         "Authorization": f"Bearer {CHAT_BOT_KEY}",
         "Content-Type": "application/json",
     }
     data = {
-        "model": "deepseek/deepseek-r1-0528-qwen3-8b:free",
+        "model": "deepseek/deepseek-r1:free",
         "messages": [{"role": "user", "content": request.prompt}]
     }
     async with httpx.AsyncClient(timeout=httpx.Timeout(60.0)) as client:
