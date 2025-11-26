@@ -250,7 +250,12 @@ function LoginFrequencyPerCollege(props) {
               </div>
             </div>
             <div className={styles.tableContainer}>
-              <UserTable users={users} title="" columns={columns} />
+              <UserTable
+                users={users}
+                title=""
+                columns={columns}
+                height="200px"
+              />
             </div>
           </div>
         </div>

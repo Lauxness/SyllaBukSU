@@ -1,5 +1,6 @@
 import React from "react";
 import DataTable, { createTheme } from "react-data-table-component";
+import { MdDelete, MdEdit } from "react-icons/md";
 
 createTheme(
   "customTheme",
@@ -78,13 +79,19 @@ const Table = ({
             style={{
               backgroundColor: "#027928ca",
               width: "90px",
-              padding: "5px",
+              padding: "7px",
               borderRadius: "2px",
               color: "white",
               cursor: "pointer",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              fontFamily: "poppins",
+              gap: "5px",
               border: "none",
             }}
           >
+            <MdEdit size={15} />
             Edit
           </button>
 
@@ -93,13 +100,19 @@ const Table = ({
             style={{
               backgroundColor: "#d21919ca",
               width: "90px",
-              padding: "5px",
+              padding: "7px",
               borderRadius: "2px",
               color: "white",
+              display: "flex",
+              fontFamily: "poppins",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: "5px",
               cursor: "pointer",
               border: "none",
             }}
           >
+            <MdDelete size={15} />
             Delete
           </button>
         </div>

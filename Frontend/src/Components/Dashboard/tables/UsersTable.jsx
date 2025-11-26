@@ -30,14 +30,14 @@ createTheme(
   "dark"
 );
 
-const UserTable = ({ users, title, columns }) => (
+const UserTable = ({ users, title, columns, height }) => (
   <DataTable
     title={title}
     columns={columns}
     data={users}
     theme="customTheme"
     pagination
-    fixedHeaderScrollHeight="500px"
+    fixedHeaderScrollHeight={height || "500px"}
   />
 );
 

@@ -462,7 +462,9 @@ function Dashboard() {
               </button>
             </div>
           </div>
-          <UserTable users={users} columns={columns} />
+          <div className={styles.table}>
+            <UserTable users={users} columns={columns} />
+          </div>
         </div>
       </div>
 

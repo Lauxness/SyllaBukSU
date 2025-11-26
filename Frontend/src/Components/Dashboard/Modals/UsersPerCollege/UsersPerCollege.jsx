@@ -5,7 +5,7 @@ import { MdDownload, MdOutlineClose } from "react-icons/md";
 import BarChart from "./Charts/BarChart";
 import { DownloadReport } from "../../../../api";
 function UsersPerCollege(props) {
-  const [data, setData] = useState();
+  const [data, setData] = useState([]);
   const CAS = [
     "BA-ECO",
     "BA-ENG",
@@ -31,7 +31,7 @@ function UsersPerCollege(props) {
     switch (college) {
       case "CAS":
         setData([
-          ["College", "Total Users"],
+          ["Course", "Total Users"],
           ...CAS.map((course, i) => [course, props.userCountsPerCollege[0][i]]),
         ]);
 

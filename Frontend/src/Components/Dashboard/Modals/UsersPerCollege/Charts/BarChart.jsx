@@ -26,6 +26,7 @@ function BarChart(props) {
               "rgb(7, 104, 168)",
               "rgb(178, 145, 61)",
               "rgb(26, 105, 105)",
+              "rgb(7, 104, 168)",
             ],
             borderWidth: 0,
             borderRadius: 5,

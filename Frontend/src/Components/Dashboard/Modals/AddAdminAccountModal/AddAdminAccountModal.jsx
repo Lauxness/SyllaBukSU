@@ -9,8 +9,9 @@ function AddAdminAccountModal(props) {
   const [college, setCollege] = useState("");
   const [email, setEmail] = useState();
 
-  const HandleSubmitAccount = async () => {
-    const body = { role, college, email };
+  const HandleSubmitAccount = async (e) => {
+    e.preventDefault();
+    const body = { email, role, college };
 
     try {
       const res = await CreateAdminAccount(body);
@@ -30,7 +31,7 @@ function AddAdminAccountModal(props) {
 
   return (
     <div className={styles.mainContainer}>
-      <div className={styles.container}>
+      <form className={styles.container} onSubmit={HandleSubmitAccount}>
         <div className={styles.header}>
           <p>Add new admin account</p>
           <MdOutlineClose
@@ -44,8 +45,15 @@ function AddAdminAccountModal(props) {
           <select
             name=""
             id=""
+            required
+            value={role}
             className={styles.select}
-            onChange={(e) => setRole(e.target.value)}
+            onChange={(e) => {
+              setRole(e.target.value);
+              if (e.target.value === "admin") {
+                setCollege("");
+              }
+            }}
           >
             <option value="">Select a role</option>
             <option value="admin">Admin</option>
@@ -57,6 +65,9 @@ function AddAdminAccountModal(props) {
           <select
             name=""
             id=""
+            required={role !== "admin"}
+            disabled={role === "admin"}
+            value={college}
             className={styles.select}
             onChange={(e) => setCollege(e.target.value)}
           >
@@ -74,7 +85,8 @@ function AddAdminAccountModal(props) {
         <div className={styles.inputGroup}>
           <label htmlFor="input">Email address</label>
           <input
-            type="text"
+            type="email"
+            required
             onChange={(e) => setEmail(e.target.value)}
             placeholder="example@buksu.edu.ph"
             className={styles.textarea}
@@ -82,14 +94,11 @@ function AddAdminAccountModal(props) {
         </div>
 
         <div className={styles.buttonContainer}>
-          <button
-            style={{ backgroundColor: "#2663ff" }}
-            onClick={HandleSubmitAccount}
-          >
+          <button type="submit" style={{ backgroundColor: "#2663ff" }}>
             <TiPlus fontSize={15} /> Submit account
           </button>
         </div>
-      </div>
+      </form>
     </div>
   );
 }

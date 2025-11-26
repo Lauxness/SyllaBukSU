@@ -41,7 +41,7 @@
 .button {
   outline: none;
   width: 200px;
-  background-color: var(--secondary-color);
+  background-color: rgb(2, 87, 160);
   border: none;
   border-radius: 2px;
   color: white;
