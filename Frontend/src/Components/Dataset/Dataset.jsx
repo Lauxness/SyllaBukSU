@@ -11,6 +11,8 @@ function Dataset() {
   const [datasets, setDatasets] = useState();
   const [triggerAddModal, setTriggerAddModal] = useState(false);
   const [triggerViewModal, setTriggerViewModal] = useState(false);
+  const data = localStorage.getItem("user-info");
+  const userInfo = JSON.parse(data);
   const [currentData, setCurrentData] = useState();
   const HandleGetDatasets = async () => {
     try {
@@ -119,9 +121,11 @@ function Dataset() {
             <button onClick={() => setTriggerAddModal(true)}>
               <MdAdd /> Add dataset
             </button>
-            <button onClick={HandleDownloadDataset}>
-              <MdDownload /> Download datasets
-            </button>
+            {userInfo.role === "admin" && (
+              <button onClick={HandleDownloadDataset}>
+                <MdDownload /> Download datasets
+              </button>
+            )}
           </div>
         </div>
         <div className={styles.tableContainer}>

@@ -74,14 +74,14 @@ async def testing(request: TextRequest):
     CHAT_BOT_KEY = os.getenv("CHAT_BOT_API_KEY")
     url = "https://openrouter.ai/api/v1/chat/completions"
     headers = {
-        "Authorization": "Bearer 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" ,
+        "Authorization": "Bearer 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",
         "Content-Type": "application/json",
     }
     data = {
-        "model": "deepseek/deepseek-r1:free",
-        "messages": [{"role": "user", "content":request.prompt }]
+        "model": "deepseek/deepseek-r1-0528-qwen3-8b:free",
+        "messages": [{"role": "user", "content": request.prompt}]
     }
-    async with httpx.AsyncClient() as client:
+    async with httpx.AsyncClient(timeout=httpx.Timeout(60.0)) as client:
         response = await client.post(url, headers=headers, json=data)
     print(response.json())
     return response.json()
